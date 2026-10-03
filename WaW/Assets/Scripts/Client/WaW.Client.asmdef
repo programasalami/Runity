@@ -1,0 +1,20 @@
+{
+    "name": "WaW.Client",
+    "rootNamespace": "WaW.Client",
+    "references": [
+        "WaW.Protocol",
+        "WaW.Net",
+        "WaW.Domain"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

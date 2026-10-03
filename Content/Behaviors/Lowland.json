@@ -1,0 +1,2562 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.Lowland.cs",
+ "behaviors": {
+  "Hobbit Mage": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Weapon",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Armor",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ring",
+       "chance": 0.11,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ability",
+       "chance": 0.39,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "speed": 4.91,
+      "distFromTarget": 6
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Hobbit Archer",
+      "maxSpawnsPerReset": 4,
+      "cooldownMs": 12000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Hobbit Rogue",
+      "maxSpawnsPerReset": 3,
+      "cooldownMs": 6000
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "ring1",
+        "radius": 12
+       }
+      ]
+     },
+     {
+      "name": "ring1",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Dark Blue Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 340
+        },
+        "maxRadius": 1,
+        "targeted": false,
+        "fixedAngle": 0,
+        "count": 15,
+        "shootAngle": 24,
+        "cooldownMs": 1200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "ring2",
+        "time": 400
+       }
+      ]
+     },
+     {
+      "name": "ring2",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 340
+        },
+        "maxRadius": 1,
+        "targeted": false,
+        "fixedAngle": 8,
+        "count": 15,
+        "shootAngle": 24,
+        "cooldownMs": 1200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "ring3",
+        "time": 400
+       }
+      ]
+     },
+     {
+      "name": "ring3",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Cyan Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 340
+        },
+        "maxRadius": 1,
+        "targeted": false,
+        "fixedAngle": 16,
+        "count": 15,
+        "shootAngle": 24,
+        "cooldownMs": 1200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 400
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Hobbit Archer": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Arrow",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 8,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "cooldownMs": 1000
+     }
+    ],
+    "states": [
+     {
+      "name": "run1",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 6.85,
+        "protectee": "Hobbit Mage",
+        "acquireRange": 12,
+        "protectionRange": 10
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run2",
+        "time": 400
+       }
+      ]
+     },
+     {
+      "name": "run2",
+      "scripts": [
+       {
+        "type": "StayAwayFrom",
+        "speed": 5.14,
+        "distFromTarget": 4
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run3",
+        "time": 600
+       }
+      ]
+     },
+     {
+      "name": "run3",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 6.29,
+        "protectee": "Hobbit Archer",
+        "acquireRange": 16,
+        "protectionRange": 2,
+        "reprotectRange": 2
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run1",
+        "time": 400
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Hobbit Rogue": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 13,
+       "lifetimeMs": 800
+      },
+      "maxRadius": 3,
+      "targeted": true,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Protect",
+      "speed": 7.38,
+      "protectee": "Hobbit Mage",
+      "acquireRange": 15,
+      "protectionRange": 9,
+      "reprotectRange": 2.5
+     },
+     {
+      "type": "Follow",
+      "speed": 5.46,
+      "distFromTarget": 1
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Undead Hobbit Mage": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Weapon",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Armor",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ring",
+       "chance": 0.12,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ability",
+       "chance": 0.39,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Salmon Missile",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 20,
+       "lifetimeMs": 1100
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 4.91,
+      "distFromTarget": 6
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Undead Hobbit Archer",
+      "maxSpawnsPerReset": 4,
+      "cooldownMs": 12000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Undead Hobbit Rogue",
+      "maxSpawnsPerReset": 3,
+      "cooldownMs": 6000
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "ring1",
+        "radius": 12
+       }
+      ]
+     },
+     {
+      "name": "ring1",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Yellow Missile",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 13,
+         "lifetimeMs": 340
+        },
+        "maxRadius": 1,
+        "targeted": false,
+        "fixedAngle": 0,
+        "count": 15,
+        "shootAngle": 24,
+        "cooldownMs": 1200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "ring2",
+        "time": 400
+       }
+      ]
+     },
+     {
+      "name": "ring2",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Fire Missile",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 13,
+         "lifetimeMs": 340
+        },
+        "maxRadius": 1,
+        "targeted": false,
+        "fixedAngle": 8,
+        "count": 15,
+        "shootAngle": 24,
+        "cooldownMs": 1200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "ring3",
+        "time": 400
+       }
+      ]
+     },
+     {
+      "name": "ring3",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Violet Missile",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 13,
+         "lifetimeMs": 340
+        },
+        "maxRadius": 1,
+        "targeted": false,
+        "fixedAngle": 16,
+        "count": 15,
+        "shootAngle": 24,
+        "cooldownMs": 1200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 400
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Undead Hobbit Archer": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Arrow",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 12,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "cooldownMs": 1000
+     }
+    ],
+    "states": [
+     {
+      "name": "run1",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 6.85,
+        "protectee": "Undead Hobbit Mage",
+        "acquireRange": 12,
+        "protectionRange": 10
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run2",
+        "time": 400
+       }
+      ]
+     },
+     {
+      "name": "run2",
+      "scripts": [
+       {
+        "type": "StayAwayFrom",
+        "speed": 5.14,
+        "distFromTarget": 4
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run3",
+        "time": 600
+       }
+      ]
+     },
+     {
+      "name": "run3",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 6.29,
+        "protectee": "Undead Hobbit Archer",
+        "acquireRange": 16,
+        "protectionRange": 2,
+        "reprotectRange": 2
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run1",
+        "time": 400
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Undead Hobbit Rogue": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 16,
+       "lifetimeMs": 800
+      },
+      "maxRadius": 3,
+      "targeted": true,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Protect",
+      "speed": 7.38,
+      "protectee": "Undead Hobbit Mage",
+      "acquireRange": 15,
+      "protectionRange": 9,
+      "reprotectRange": 2.5
+     },
+     {
+      "type": "Follow",
+      "speed": 5.46,
+      "distFromTarget": 1
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Sumo Master": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.05,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "states": [
+     {
+      "name": "sleeping1",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 0
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "sleeping2",
+        "time": 1000
+       },
+       {
+        "type": "HpLess",
+        "to": "hurt",
+        "threshold": 0.99
+       }
+      ]
+     },
+     {
+      "name": "sleeping2",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 3
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "sleeping1",
+        "time": 1000
+       },
+       {
+        "type": "HpLess",
+        "to": "hurt",
+        "threshold": 0.99
+       }
+      ]
+     },
+     {
+      "name": "hurt",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 2
+       },
+       {
+        "type": "Spawn",
+        "entityName": "Lil Sumo",
+        "x": 0,
+        "y": 0,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "awake",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "awake",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 1
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Red BigBullet",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 15,
+         "lifetimeMs": 500,
+         "size": 120
+        },
+        "maxRadius": 3,
+        "targeted": true,
+        "cooldownMs": 250
+       },
+       {
+        "type": "Follow",
+        "speed": 1.015,
+        "distFromTarget": 1
+       },
+       {
+        "type": "Wander",
+        "speed": 1.015
+       }
+      ],
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "rage",
+        "threshold": 0.5
+       }
+      ]
+     },
+     {
+      "name": "rage",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 4
+       },
+       {
+        "type": "Taunt",
+        "text": "Engaging Super-Mode!!!"
+       },
+       {
+        "type": "Follow",
+        "speed": 4.07,
+        "distFromTarget": 1
+       },
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "states": [
+       {
+        "name": "shoot",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Gold Bullet",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 10
+            }
+           ],
+           "damage": 25,
+           "lifetimeMs": 1000,
+           "size": 150,
+           "multiHit": true,
+           "passesCover": true
+          },
+          "maxRadius": 8,
+          "targeted": true,
+          "cooldownMs": 150
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "rest",
+          "time": 700
+         }
+        ]
+       },
+       {
+        "name": "rest",
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "shoot",
+          "time": 400
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Lil Sumo": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Red Bullet",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 5
+        }
+       ],
+       "damage": 10,
+       "lifetimeMs": 3000,
+       "size": 50
+      },
+      "maxRadius": 8,
+      "targeted": true,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Orbit",
+      "speed": 2.94,
+      "radius": 2,
+      "target": "Sumo Master"
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Elf Wizard": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Weapon",
+       "chance": 0.36,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Armor",
+       "chance": 0.36,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ring",
+       "chance": 0.11,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ability",
+       "chance": 0.39,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Elf Archer",
+      "maxSpawnsPerReset": 2,
+      "cooldownMs": 15000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Elf Swordsman",
+      "maxSpawnsPerReset": 4,
+      "cooldownMs": 7000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Elf Mage",
+      "maxSpawnsPerReset": 1,
+      "cooldownMs": 8000
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "move1",
+        "radius": 11
+       }
+      ]
+     },
+     {
+      "name": "move1",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 5,
+         "lifetimeMs": 2000,
+         "size": 90
+        },
+        "maxRadius": 10,
+        "targeted": true,
+        "count": 3,
+        "shootAngle": 14,
+        "predictive": 0.3,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "BackAndForth",
+        "speed": 5.18
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "move2",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "move2",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 5,
+         "lifetimeMs": 2000,
+         "size": 90
+        },
+        "maxRadius": 10,
+        "targeted": true,
+        "count": 3,
+        "shootAngle": 10,
+        "predictive": 0.5,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Follow",
+        "speed": 4.07,
+        "acquireRange": 10.5,
+        "distFromTarget": 3
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "move3",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "move3",
+      "scripts": [
+       {
+        "type": "StayAwayFrom",
+        "speed": 4.07,
+        "distFromTarget": 5
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 2000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Elf Archer": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Arrow",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6.5
+        }
+       ],
+       "damage": 9,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Orbit",
+      "speed": 3.47,
+      "radius": 3,
+      "speedVariance": 0.1,
+      "radiusVariance": 0.5
+     },
+     {
+      "type": "Protect",
+      "speed": 7.38,
+      "protectee": "Elf Wizard",
+      "acquireRange": 30,
+      "protectionRange": 10
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Elf Swordsman": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 10
+        }
+       ],
+       "damage": 13,
+       "lifetimeMs": 400
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Protect",
+      "speed": 7.38,
+      "protectee": "Elf Wizard",
+      "acquireRange": 15,
+      "protectionRange": 10,
+      "reprotectRange": 5
+     },
+     {
+      "type": "Buzz",
+      "speed": 6.29,
+      "distance": 1
+     },
+     {
+      "type": "Orbit",
+      "speed": 4.07,
+      "radius": 3,
+      "speedVariance": 0.1,
+      "radiusVariance": 0.5
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Elf Mage": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Cyan Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6.5
+        }
+       ],
+       "damage": 4,
+       "lifetimeMs": 1500
+      },
+      "maxRadius": 8,
+      "targeted": true,
+      "cooldownMs": 300
+     },
+     {
+      "type": "Orbit",
+      "speed": 3.47,
+      "radius": 3
+     },
+     {
+      "type": "Protect",
+      "speed": 7.38,
+      "protectee": "Elf Wizard",
+      "acquireRange": 30,
+      "protectionRange": 10
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Goblin Rogue": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 10,
+       "lifetimeMs": 800
+      },
+      "maxRadius": 3,
+      "targeted": true,
+      "cooldownMs": 1000
+     }
+    ],
+    "states": [
+     {
+      "name": "protect",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 5.18,
+        "protectee": "Goblin Mage",
+        "acquireRange": 12,
+        "protectionRange": 1.5,
+        "reprotectRange": 1.5
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "scatter",
+        "time": 1200
+       }
+      ]
+     },
+     {
+      "name": "scatter",
+      "scripts": [
+       {
+        "type": "Orbit",
+        "speed": 5.18,
+        "radius": 7,
+        "target": "Goblin Mage",
+        "radiusVariance": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "protect",
+        "time": 2400
+       }
+      ]
+     },
+     {
+      "name": "help",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 5.18,
+        "protectee": "Goblin Mage",
+        "acquireRange": 12,
+        "protectionRange": 6,
+        "reprotectRange": 3
+       },
+       {
+        "type": "Follow",
+        "speed": 5.18,
+        "acquireRange": 10.5,
+        "distFromTarget": 1.5
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "protect",
+        "target": "Goblin Mage",
+        "radius": 15
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Goblin Warrior": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 12,
+       "lifetimeMs": 600
+      },
+      "maxRadius": 3,
+      "targeted": true,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Pirate Cave Portal",
+      "probability": 0.01
+     }
+    ],
+    "states": [
+     {
+      "name": "protect",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 5.18,
+        "protectee": "Goblin Mage",
+        "acquireRange": 12,
+        "protectionRange": 1.5,
+        "reprotectRange": 1.5
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "scatter",
+        "time": 1200
+       }
+      ]
+     },
+     {
+      "name": "scatter",
+      "scripts": [
+       {
+        "type": "Orbit",
+        "speed": 5.18,
+        "radius": 7,
+        "target": "Goblin Mage",
+        "radiusVariance": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "protect",
+        "time": 2400
+       }
+      ]
+     },
+     {
+      "name": "help",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 5.18,
+        "protectee": "Goblin Mage",
+        "acquireRange": 12,
+        "protectionRange": 6,
+        "reprotectRange": 3
+       },
+       {
+        "type": "Follow",
+        "speed": 5.18,
+        "acquireRange": 10.5,
+        "distFromTarget": 1.5
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "protect",
+        "target": "Goblin Mage",
+        "radius": 15
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Goblin Mage": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Weapon",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Armor",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ring",
+       "chance": 0.09,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ability",
+       "chance": 0.38,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Goblin Rogue",
+      "maxSpawnsPerReset": 7,
+      "cooldownMs": 12000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Goblin Warrior",
+      "maxSpawnsPerReset": 7,
+      "cooldownMs": 12000
+     }
+    ],
+    "states": [
+     {
+      "name": "unharmed",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Cyan Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 3.5
+          }
+         ],
+         "damage": 14,
+         "lifetimeMs": 3000,
+         "size": 90
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "predictive": 0.35,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Dark Blue Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7.5
+          }
+         ],
+         "damage": 16,
+         "lifetimeMs": 1600,
+         "size": 130
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "predictive": 0.35,
+        "cooldownMs": 1300
+       },
+       {
+        "type": "Follow",
+        "speed": 3.47,
+        "acquireRange": 10.5,
+        "distFromTarget": 4
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "activate_horde",
+        "threshold": 0.65
+       }
+      ]
+     },
+     {
+      "name": "activate_horde",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Cyan Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 3.5
+          }
+         ],
+         "damage": 14,
+         "lifetimeMs": 3000,
+         "size": 90
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "predictive": 0.25,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Dark Blue Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7.5
+          }
+         ],
+         "damage": 16,
+         "lifetimeMs": 1600,
+         "size": 130
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "predictive": 0.25,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Flash",
+        "color": 4737096,
+        "flashPeriod": 0.6,
+        "flashRepeats": 5000
+       },
+       {
+        "type": "Order",
+        "range": 12,
+        "children": "Goblin Rogue",
+        "targetState": "help"
+       },
+       {
+        "type": "Order",
+        "range": 12,
+        "children": "Goblin Warrior",
+        "targetState": "help"
+       },
+       {
+        "type": "StayAwayFrom",
+        "speed": 3.47,
+        "distFromTarget": 6
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Easily Enraged Bunny": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "speed": 4.635,
+      "acquireRange": 9.5,
+      "distFromTarget": 1
+     },
+     {
+      "type": "TransformOnDeath",
+      "target": "Enraged Bunny"
+     }
+    ]
+   }
+  },
+  "Enraged Bunny": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.01,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Fire Missile",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 12,
+       "lifetimeMs": 1600,
+       "size": 90
+      },
+      "maxRadius": 9,
+      "targeted": true,
+      "predictive": 0.5,
+      "cooldownMs": 400
+     },
+     {
+      "type": "Follow",
+      "speed": 5.435,
+      "acquireRange": 9,
+      "distFromTarget": 2.5
+     },
+     {
+      "type": "Wander",
+      "speed": 5.435
+     }
+    ],
+    "states": [
+     {
+      "name": "red",
+      "scripts": [
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 1.5,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "yellow",
+        "time": 1600
+       }
+      ]
+     },
+     {
+      "name": "yellow",
+      "scripts": [
+       {
+        "type": "Flash",
+        "color": 16777011,
+        "flashPeriod": 1.5,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "orange",
+        "time": 1600
+       }
+      ]
+     },
+     {
+      "name": "orange",
+      "scripts": [
+       {
+        "type": "Flash",
+        "color": 16750848,
+        "flashPeriod": 1.5,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "red",
+        "time": 1600
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Forest Nymph": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Pirate Cave Portal",
+      "probability": 0.01
+     }
+    ],
+    "states": [
+     {
+      "name": "circle",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Purple Boomerang",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5.5
+          }
+         ],
+         "damage": 14,
+         "lifetimeMs": 2900,
+         "size": 70
+        },
+        "maxRadius": 4,
+        "targeted": true,
+        "count": 1,
+        "predictive": 0.1,
+        "cooldownMs": 900
+       },
+       {
+        "type": "Follow",
+        "speed": 5.735,
+        "acquireRange": 11,
+        "distFromTarget": 3.5,
+        "cooldownOffsetMs": 1000,
+        "cooldownMs": 5000
+       },
+       {
+        "type": "Orbit",
+        "speed": 7.965,
+        "radius": 3.5,
+        "acquireRange": 12
+       },
+       {
+        "type": "Wander",
+        "speed": 4.585
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "dart_away",
+        "time": 4000
+       }
+      ]
+     },
+     {
+      "name": "dart_away",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Boomerang",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 2900,
+         "size": 70
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "count": 6,
+        "fixedAngle": 20,
+        "shootAngle": 60,
+        "cooldownMs": 1400
+       },
+       {
+        "type": "Wander",
+        "speed": 2.94
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "circle",
+        "time": 3600
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Sandsman King": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Weapon",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Armor",
+       "chance": 0.3,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ring",
+       "chance": 0.11,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ability",
+       "chance": 0.39,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 15,
+       "lifetimeMs": 1200
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "cooldownMs": 10000
+     },
+     {
+      "type": "Follow",
+      "speed": 4.07,
+      "distFromTarget": 4
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Sandsman Archer",
+      "maxSpawnsPerReset": 2,
+      "cooldownMs": 10000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Sandsman Sorcerer",
+      "maxSpawnsPerReset": 3,
+      "cooldownMs": 8000
+     }
+    ]
+   }
+  },
+  "Sandsman Sorcerer": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Purple Mystic Shot",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 0.8
+        }
+       ],
+       "damage": 13,
+       "lifetimeMs": 10000
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "cooldownMs": 5000
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Dark Blue Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 8
+        }
+       ],
+       "damage": 17,
+       "lifetimeMs": 300
+      },
+      "maxRadius": 5,
+      "targeted": true,
+      "cooldownMs": 400
+     },
+     {
+      "type": "Protect",
+      "speed": 7.38,
+      "protectee": "Sandsman King",
+      "acquireRange": 15,
+      "protectionRange": 6,
+      "reprotectRange": 5
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Sandsman Archer": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Arrow",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 8.5
+        }
+       ],
+       "damage": 8,
+       "lifetimeMs": 1400
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "predictive": 0.5,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Orbit",
+      "speed": 4.15,
+      "radius": 3.25,
+      "acquireRange": 15,
+      "target": "Sandsman King",
+      "radiusVariance": 0.5
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Giant Crab": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Weapon",
+       "chance": 0.14,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Armor",
+       "chance": 0.19,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ring",
+       "chance": 0.05,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Ability",
+       "chance": 0.28,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Pirate Cave Portal",
+      "probability": 0.01
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "scuttle",
+        "radius": 11
+       }
+      ]
+     },
+     {
+      "name": "scuttle",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Beam",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 2
+          }
+         ],
+         "damage": 1,
+         "lifetimeMs": 200,
+         "size": 60
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Beam",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 4
+          }
+         ],
+         "damage": 4,
+         "lifetimeMs": 400
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Beam",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 6
+          }
+         ],
+         "damage": 7,
+         "lifetimeMs": 600,
+         "size": 140
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Beam",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 8
+          }
+         ],
+         "damage": 11,
+         "lifetimeMs": 800,
+         "size": 180
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "cooldownMs": 1000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "tri-spit",
+        "time": 4700
+       }
+      ],
+      "states": [
+       {
+        "name": "move1",
+        "scripts": [
+         {
+          "type": "Follow",
+          "speed": 6.29,
+          "acquireRange": 10.6,
+          "distFromTarget": 2
+         },
+         {
+          "type": "Wander",
+          "speed": 4.07
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "pause1",
+          "time": 400
+         }
+        ]
+       },
+       {
+        "name": "pause1",
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "move1",
+          "time": 200
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "tri-spit",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 1800,
+         "size": 90
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "predictive": 0.5,
+        "cooldownOffsetMs": 1200,
+        "cooldownMs": 90000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 1800,
+         "size": 90
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "predictive": 0.5,
+        "cooldownOffsetMs": 1800,
+        "cooldownMs": 90000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 1800,
+         "size": 90
+        },
+        "maxRadius": 9,
+        "targeted": true,
+        "predictive": 0.5,
+        "cooldownOffsetMs": 2400,
+        "cooldownMs": 90000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 3200
+       }
+      ],
+      "states": [
+       {
+        "name": "move2",
+        "scripts": [
+         {
+          "type": "Follow",
+          "speed": 6.29,
+          "acquireRange": 10.6,
+          "distFromTarget": 2
+         },
+         {
+          "type": "Wander",
+          "speed": 4.07
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "pause2",
+          "time": 400
+         }
+        ]
+       },
+       {
+        "name": "pause2",
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "move2",
+          "time": 200
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Sand Devil": {
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Pirate Cave Portal",
+      "probability": 0.01
+     }
+    ],
+    "states": [
+     {
+      "name": "wander",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Dark Gray Spinner",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 6.5
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 1500,
+         "size": 68,
+         "effects": [
+          {
+           "effect": "Confused",
+           "durationMs": 1000
+          }
+         ]
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "predictive": 0.3,
+        "cooldownMs": 700
+       },
+       {
+        "type": "Follow",
+        "speed": 4.63,
+        "acquireRange": 10,
+        "distFromTarget": 2.2
+       },
+       {
+        "type": "Wander",
+        "speed": 4.63
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "circle",
+        "time": 3000
+       }
+      ]
+     },
+     {
+      "name": "circle",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Dark Gray Spinner",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 6.5
+          }
+         ],
+         "damage": 10,
+         "lifetimeMs": 1500,
+         "size": 68,
+         "effects": [
+          {
+           "effect": "Confused",
+           "durationMs": 1000
+          }
+         ]
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "predictive": 0.3,
+        "cooldownOffsetMs": 1000,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Orbit",
+        "speed": 4.63,
+        "radius": 2,
+        "acquireRange": 9
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "wander",
+        "time": 3100
+       }
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

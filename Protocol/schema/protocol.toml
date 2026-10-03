@@ -1,0 +1,331 @@
+# Warriors & Wizards game protocol - the single source of truth for the Unity client (C#) and the C++ GameServer.
+# Generated code: python Protocol/generator/gen.py   (never edit generated files by hand)
+#
+# Wire: frame = [u32 LE payload length][u16 LE message id][payload]. Length counts the payload only (not the 6 header bytes).
+# Primitives: little-endian fixed width; f32/f64 IEEE-754; bool = u8 0/1 (anything else is a decode error);
+# string = u16 LE byte length + UTF-8 bytes; list<T> = u16 LE count + elements; enum = its underlying integer (unknown value = error).
+# A struct/message with optional fields (type ends in '?') starts with a u32 LE presence mask: bit n = the n-th optional field.
+# Decoding is strict: trailing bytes after a message are an error.
+#
+# Rules: message ids and enum values are APPEND-ONLY. Never renumber or reuse; retire with a comment.
+# Any change to this file that changes the wire bumps protocol_version - from the first public release on. Until then the
+# protocol is pre-release and stays at version 1 (MigrationStatus.md records the release).
+
+[meta]
+protocol_version = 1
+max_payload_bytes = 262144
+
+# ---------------------------------------------------------------- enums
+
+[[enum]]
+name = "FailureCode"
+type = "u16"
+values = [
+  ["None", 0],
+  ["ProtocolMismatch", 1],
+  ["InvalidToken", 2],
+  ["AccountInUse", 3],
+  ["CharacterNotFound", 4],
+  ["CharacterLoadFailed", 5],
+  ["ServerFull", 6],
+  ["ServerShutdown", 7],
+  ["Kicked", 8],
+  ["InvalidRequest", 9],
+  ["WorldNotFound", 10],
+  ["EntryDenied", 11],
+  ["Timeout", 12],
+  ["InternalError", 13],
+  ["ServiceUnavailable", 14],
+  ["CharacterCreateFailed", 15],
+]
+
+[[enum]]
+name = "EntityKind"
+type = "u8"
+values = [
+  ["Other", 0],
+  ["Player", 1],
+  ["Enemy", 2],
+  ["Container", 3],
+  ["Portal", 4],
+  ["StaticObject", 5],
+  ["Npc", 6],
+]
+
+[[enum]]
+name = "PathKind"
+type = "u8"
+values = [
+  ["Line", 0],
+  ["Amplitude", 1],
+  ["Wavy", 2],
+  ["Boomerang", 3],
+]
+
+[[enum]]
+name = "ChatChannel"
+type = "u8"
+values = [
+  ["Say", 0],
+  ["System", 1],
+  ["Whisper", 2],
+  ["Guild", 3],
+  ["Error", 4],
+]
+
+# ---------------------------------------------------------------- structs
+
+[[struct]]
+name = "Vec2"
+fields = [["x", "f32"], ["y", "f32"]]
+
+[[struct]]
+name = "TileUpdate"
+doc = "One tile entering the client's view. objectType = the static object standing on it (wall, tree, ...), 0 = none."
+fields = [["x", "u16"], ["y", "u16"], ["groundType", "u16"], ["objectType", "u16"]]
+
+[[struct]]
+name = "MoveStep"
+doc = "One fixed client simulation step. dir components are quantized to [-127, 127]; dtMs is the step length."
+fields = [["seq", "u32"], ["dtMs", "u8"], ["dirX", "i8"], ["dirY", "i8"]]
+
+[[struct]]
+name = "EntityFull"
+doc = "Everything a client needs to create the view of an entity that entered its interest set. items: a container's slots (loot bags), empty otherwise."
+fields = [
+  ["id", "u32"],
+  ["objectType", "u16"],
+  ["kind", "EntityKind"],
+  ["position", "Vec2"],
+  ["name", "string"],
+  ["hp", "i32"],
+  ["maxHp", "i32"],
+  ["level", "u16"],
+  ["skinType", "u16"],
+  ["conditions", "u64"],
+  ["items", "list<i32>"],
+]
+
+[[struct]]
+name = "EntityDelta"
+doc = "Only the fields that changed this tick are present."
+fields = [
+  ["id", "u32"],
+  ["position", "Vec2?"],
+  ["hp", "i32?"],
+  ["maxHp", "i32?"],
+  ["level", "u16?"],
+  ["skinType", "u16?"],
+  ["conditions", "u64?"],
+  ["name", "string?"],
+  ["items", "list<i32>?"],
+]
+
+[[struct]]
+name = "ProjectileSpec"
+doc = "How a projectile flies (reference ProjectilePaths; Movement.md section 5). speed in tiles per second."
+fields = [
+  ["projectileType", "u16"],
+  ["path", "PathKind"],
+  ["speed", "f32"],
+  ["lifetimeMs", "u16"],
+  ["amplitude", "f32"],
+  ["frequency", "f32"],
+  ["size", "u8"],
+]
+
+# ---------------------------------------------------------------- client -> server
+
+[[message]]
+name = "Hello"
+id = 1
+dir = "c2s"
+doc = "First message on a connection. token = single-use join ticket from the Account/API service (POST /api/v1/game/join); never a password."
+fields = [["protocolVersion", "u32"], ["buildVersion", "string"], ["token", "string"]]
+
+[[message]]
+name = "Ping"
+id = 2
+dir = "c2s"
+fields = [["clientTimeMs", "u32"]]
+
+[[message]]
+name = "LoadCharacter"
+id = 3
+dir = "c2s"
+fields = [["characterId", "i32"]]
+
+[[message]]
+name = "CreateCharacter"
+id = 4
+dir = "c2s"
+fields = [["classType", "u16"], ["skinType", "u16"]]
+
+[[message]]
+name = "MoveInput"
+id = 5
+dir = "c2s"
+fields = [["steps", "list<MoveStep>"]]
+
+[[message]]
+name = "Shoot"
+id = 6
+dir = "c2s"
+doc = "One attack with the weapon in slot 0 (all of its projectiles). angle in radians, world space (y south)."
+fields = [["shotId", "u16"], ["clientTimeMs", "u32"], ["angle", "f32"]]
+
+[[message]]
+name = "ChatSend"
+id = 7
+dir = "c2s"
+fields = [["text", "string"]]
+
+[[message]]
+name = "Escape"
+id = 8
+dir = "c2s"
+fields = []
+
+[[message]]
+name = "UsePortal"
+id = 9
+dir = "c2s"
+fields = [["entityId", "u32"]]
+
+[[message]]
+name = "UseItem"
+id = 10
+dir = "c2s"
+doc = "Use the item in one of the player's own slots (potions: drink)."
+fields = [["slot", "u8"]]
+
+[[message]]
+name = "InvSwap"
+id = 11
+dir = "c2s"
+doc = "Move an item between two slots; each side is the player's own entity or a container (loot bag) next to them. Swaps if both hold items."
+fields = [["fromEntity", "u32"], ["fromSlot", "u8"], ["toEntity", "u32"], ["toSlot", "u8"]]
+
+[[message]]
+name = "InvDrop"
+id = 12
+dir = "c2s"
+doc = "Drop the item in one of the player's slots into a bag at their feet."
+fields = [["slot", "u8"]]
+
+# ---------------------------------------------------------------- server -> client
+
+[[message]]
+name = "HelloAck"
+id = 101
+dir = "s2c"
+doc = "serverTimeMs = milliseconds since the server started (wraps after ~49 days)."
+fields = [["protocolVersion", "u32"], ["sessionId", "u32"], ["accountId", "i64"], ["accountName", "string"], ["serverTimeMs", "u32"]]
+
+[[message]]
+name = "Failure"
+id = 102
+dir = "s2c"
+doc = "fatal = the server closes the connection after sending this."
+fields = [["code", "FailureCode"], ["fatal", "bool"], ["message", "string"]]
+
+[[message]]
+name = "Pong"
+id = 103
+dir = "s2c"
+fields = [["clientTimeMs", "u32"], ["serverTimeMs", "u32"]]
+
+[[message]]
+name = "WorldInfo"
+id = 104
+dir = "s2c"
+fields = [
+  ["worldId", "i32"],
+  ["name", "string"],
+  ["displayName", "string"],
+  ["width", "u16"],
+  ["height", "u16"],
+  ["seed", "u32"],
+  ["music", "string"],
+  ["allowPlayerTeleport", "bool"],
+]
+
+[[message]]
+name = "TileData"
+id = 105
+dir = "s2c"
+fields = [["tiles", "list<TileUpdate>"]]
+
+[[message]]
+name = "PlayerSpawned"
+id = 106
+dir = "s2c"
+doc = "The local player's entity. speed = the Speed stat the server moves this player with (the client predicts with the same value)."
+fields = [["entityId", "u32"], ["characterId", "i32"], ["position", "Vec2"], ["speed", "i32"]]
+
+[[message]]
+name = "Snapshot"
+id = 107
+dir = "s2c"
+doc = "Sent every server tick. ackInputSeq = last MoveStep.seq the server applied for this client."
+fields = [
+  ["serverTick", "u32"],
+  ["ackInputSeq", "u32"],
+  ["entered", "list<EntityFull>"],
+  ["left", "list<u32>"],
+  ["changed", "list<EntityDelta>"],
+]
+
+[[message]]
+name = "ChatMessage"
+id = 108
+dir = "s2c"
+fields = [["channel", "ChatChannel"], ["senderId", "u32"], ["senderName", "string"], ["text", "string"]]
+
+[[message]]
+name = "Notification"
+id = 109
+dir = "s2c"
+doc = "Floating text over an entity. color = 0xRRGGBBAA."
+fields = [["entityId", "u32"], ["text", "string"], ["color", "u32"], ["isDamage", "bool"]]
+
+[[message]]
+name = "PlayerStats"
+id = 110
+dir = "s2c"
+doc = "The local player's own numbers (only sent to that player, whenever one changes)."
+fields = [
+  ["hp", "i32"], ["maxHp", "i32"], ["mp", "i32"], ["maxMp", "i32"],
+  ["attack", "i32"], ["defense", "i32"], ["speed", "i32"], ["dexterity", "i32"], ["vitality", "i32"], ["wisdom", "i32"],
+  ["level", "u16"], ["xp", "i64"], ["xpGoal", "i64"], ["fame", "i64"],
+]
+
+[[message]]
+name = "Inventory"
+id = 111
+dir = "s2c"
+doc = "The local player's item slots (item types, -1 = empty)."
+fields = [["items", "list<i32>"]]
+
+[[message]]
+name = "ProjectileVolley"
+id = 112
+dir = "s2c"
+doc = "count projectiles fired together from position, the first at angle (radians), each next one angleStep further. Drawn by clients; hits are decided by the server alone."
+fields = [
+  ["ownerId", "u32"],
+  ["ownerIsEnemy", "bool"],
+  ["firstBulletId", "u16"],
+  ["position", "Vec2"],
+  ["angle", "f32"],
+  ["angleStep", "f32"],
+  ["count", "u8"],
+  ["spec", "ProjectileSpec"],
+]
+
+[[message]]
+name = "PlayerDied"
+id = 113
+dir = "s2c"
+doc = "The local player's character died (permadeath). The server closes the session shortly after."
+fields = [["killedBy", "string"], ["level", "u16"], ["fame", "i64"]]

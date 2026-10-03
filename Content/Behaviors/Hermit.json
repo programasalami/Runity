@@ -1,0 +1,539 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.Hermit.cs",
+ "behaviors": {
+  "Hermit God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Vitality",
+       "chance": 1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Potion of Dexterity",
+       "chance": 1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Helm of the Juggernaut",
+       "chance": 0.004,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "SpawnSetpieceOnDeath",
+      "setpiece": "HermitDeath",
+      "useSpawnPoint": true
+     },
+     {
+      "type": "OrderOnDeath",
+      "range": 20,
+      "children": "Hermit God Tentacle Spawner",
+      "targetState": "Die"
+     },
+     {
+      "type": "OrderOnDeath",
+      "range": 20,
+      "children": "Hermit God Drop",
+      "targetState": "Die"
+     }
+    ],
+    "states": [
+     {
+      "name": "Idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Spawn Tentacle",
+        "radius": 20
+       }
+      ]
+     },
+     {
+      "name": "Spawn Tentacle",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "SetAltTexture",
+        "minValue": 2
+       },
+       {
+        "type": "Order",
+        "range": 20,
+        "children": "Hermit God Tentacle Spawner",
+        "targetState": "Tentacle"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Sleep",
+        "target": "Hermit God Tentacle",
+        "radius": 20
+       }
+      ]
+     },
+     {
+      "name": "Sleep",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "Order",
+        "range": 20,
+        "children": "Hermit God Tentacle Spawner",
+        "targetState": "Minions"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Waiting",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "Waiting",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 3
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Wake",
+        "target": "Hermit God Tentacle",
+        "radius": 20
+       }
+      ]
+     },
+     {
+      "name": "Wake",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 2
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10,
+        "angle": 45
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10,
+        "angle": 90
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10,
+        "angle": 135
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10,
+        "angle": 180
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10,
+        "angle": 225
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10,
+        "angle": 270
+       },
+       {
+        "type": "TossObject",
+        "child": "Hermit Minion",
+        "range": 10,
+        "angle": 315
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Spawn Whirlpool",
+        "time": 100
+       }
+      ]
+     },
+     {
+      "name": "Spawn Whirlpool",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "Order",
+        "range": 20,
+        "children": "Hermit God Tentacle Spawner",
+        "targetState": "Whirlpool"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Attack1",
+        "target": "Whirlpool",
+        "radius": 20
+       }
+      ]
+     },
+     {
+      "name": "Attack1",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 0
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 20,
+        "count": 3,
+        "shootAngle": 5,
+        "cooldownMs": 300,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack2",
+        "time": 6000
+       }
+      ]
+     },
+     {
+      "name": "Attack2",
+      "scripts": [
+       {
+        "type": "Order",
+        "range": 20,
+        "children": "Whirlpool",
+        "targetState": "Die"
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 20,
+        "count": 1,
+        "fixedAngle": 0,
+        "rotateAngle": 45,
+        "cooldownMs": 1000,
+        "targeted": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 20,
+        "count": 1,
+        "fixedAngle": 180,
+        "rotateAngle": 45,
+        "cooldownMs": 1000,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Spawn Tentacle",
+        "time": 6000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Hermit Minion": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.1,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "speed": 4.069999999999999,
+      "acquireRange": 4,
+      "distFromTarget": 1
+     },
+     {
+      "type": "Orbit",
+      "speed": 2.405,
+      "radius": 10,
+      "target": "Hermit God",
+      "speedVariance": 0.2,
+      "radiusVariance": 1.5
+     },
+     {
+      "type": "Wander",
+      "speed": 4.069999999999999
+     },
+     {
+      "type": "Shoot",
+      "projectileIndex": 0,
+      "maxRadius": 6,
+      "count": 3,
+      "shootAngle": 10,
+      "cooldownMs": 1000,
+      "targeted": true
+     },
+     {
+      "type": "Shoot",
+      "projectileIndex": 1,
+      "maxRadius": 6,
+      "count": 2,
+      "shootAngle": 20,
+      "predictive": 0.8,
+      "cooldownMs": 2600,
+      "targeted": true
+     }
+    ]
+   }
+  },
+  "Whirlpool": {
+   "root": {
+    "states": [
+     {
+      "name": "Attack",
+      "scripts": [
+       {
+        "type": "Orbit",
+        "speed": 4.069999999999999,
+        "radius": 5.5,
+        "target": "Hermit God"
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 0,
+        "count": 1,
+        "fixedAngle": 0,
+        "rotateAngle": 30,
+        "cooldownMs": 400,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Die",
+        "target": "Hermit God",
+        "radius": 100
+       }
+      ]
+     },
+     {
+      "name": "Die",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 0,
+        "count": 8,
+        "shootAngle": 45,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Hermit God Tentacle": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Orbit",
+      "speed": 6.29,
+      "radius": 5.5,
+      "target": "Hermit God"
+     },
+     {
+      "type": "Shoot",
+      "projectileIndex": 0,
+      "maxRadius": 3,
+      "count": 8,
+      "shootAngle": 45,
+      "cooldownMs": 500,
+      "targeted": true
+     }
+    ]
+   }
+  },
+  "Hermit God Tentacle Spawner": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invincible",
+      "persist": true
+     }
+    ],
+    "states": [
+     {
+      "name": "Waiting Order"
+     },
+     {
+      "name": "Tentacle",
+      "scripts": [
+       {
+        "type": "Spawn",
+        "entityName": "Hermit God Tentacle",
+        "maxSpawnsPerReset": 1,
+        "cooldownMs": 2000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Waiting Order",
+        "target": "Hermit God Tentacle",
+        "radius": 1
+       }
+      ]
+     },
+     {
+      "name": "Whirlpool",
+      "scripts": [
+       {
+        "type": "Spawn",
+        "entityName": "Whirlpool",
+        "maxSpawnsPerReset": 1,
+        "cooldownMs": 2000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Waiting Order",
+        "target": "Whirlpool",
+        "radius": 1
+       }
+      ]
+     },
+     {
+      "name": "Minions",
+      "scripts": [
+       {
+        "type": "Spawn",
+        "entityName": "Hermit Minion",
+        "maxSpawnsPerReset": 1,
+        "cooldownMs": 2000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Waiting Order",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "Die",
+      "scripts": [
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Hermit portal maker": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invincible",
+      "persist": true
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Ocean Trench Portal"
+     }
+    ],
+    "states": [
+     {
+      "name": "Wait",
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Transform",
+        "target": "Hermit God",
+        "radius": 50
+       }
+      ]
+     },
+     {
+      "name": "Transform",
+      "scripts": [
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

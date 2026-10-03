@@ -1,0 +1,3721 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.Highland.cs",
+ "behaviors": {
+  "Minotaur": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Weapon",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Weapon",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Armor",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Armor",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Armor",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ring",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ability",
+       "chance": 0.2,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "states": [
+     {
+      "name": "idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "charge",
+        "radius": 10
+       }
+      ]
+     },
+     {
+      "name": "charge",
+      "scripts": [
+       {
+        "type": "Follow",
+        "speed": 6,
+        "acquireRange": 11,
+        "distFromTarget": 1.6
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "spam_blades",
+        "time": 200
+       }
+      ]
+     },
+     {
+      "name": "spam_blades",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 52,
+         "lifetimeMs": 1200,
+         "multiHit": true,
+         "passesCover": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 1,
+        "cooldownMs": 100000,
+        "cooldownOffsetMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 52,
+         "lifetimeMs": 1200,
+         "multiHit": true,
+         "passesCover": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 2,
+        "shootAngle": 16,
+        "cooldownMs": 100000,
+        "cooldownOffsetMs": 1200
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 52,
+         "lifetimeMs": 1200,
+         "multiHit": true,
+         "passesCover": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 3,
+        "predictive": 0.2,
+        "cooldownMs": 100000,
+        "cooldownOffsetMs": 1600
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 52,
+         "lifetimeMs": 1200,
+         "multiHit": true,
+         "passesCover": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 1,
+        "shootAngle": 24,
+        "cooldownMs": 100000,
+        "cooldownOffsetMs": 2200
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 52,
+         "lifetimeMs": 1200,
+         "multiHit": true,
+         "passesCover": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 2,
+        "predictive": 0.2,
+        "cooldownMs": 100000,
+        "cooldownOffsetMs": 2800
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 52,
+         "lifetimeMs": 1200
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 3,
+        "shootAngle": 16,
+        "cooldownMs": 100000,
+        "cooldownOffsetMs": 3200
+       },
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "blade_ring",
+        "time": 4400
+       }
+      ]
+     },
+     {
+      "name": "blade_ring",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 9
+          }
+         ],
+         "damage": 28,
+         "lifetimeMs": 430,
+         "multiHit": true,
+         "passesCover": true
+        },
+        "targeted": false,
+        "maxRadius": 7,
+        "fixedAngle": 0,
+        "count": 12,
+        "shootAngle": 30,
+        "cooldownMs": 800,
+        "cooldownOffsetMs": 600
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 9
+          }
+         ],
+         "damage": 28,
+         "lifetimeMs": 430,
+         "multiHit": true,
+         "passesCover": true
+        },
+        "targeted": false,
+        "maxRadius": 7,
+        "fixedAngle": 15,
+        "count": 6,
+        "shootAngle": 60,
+        "cooldownMs": 800,
+        "cooldownOffsetMs": 1000
+       },
+       {
+        "type": "Follow",
+        "speed": 4.07,
+        "acquireRange": 10,
+        "distFromTarget": 1
+       },
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "pause",
+        "time": 3500
+       }
+      ]
+     },
+     {
+      "name": "pause",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 1000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Ogre King": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 4,
+       "itemType": "Weapon",
+       "chance": 0.2,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 4,
+       "itemType": "Armor",
+       "chance": 0.2,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Armor",
+       "chance": 0.15,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Armor",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Ring",
+       "chance": 0.15,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Ability",
+       "chance": 0.18,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Ogre Warrior",
+      "maxSpawnsPerReset": 4,
+      "cooldownMs": 12000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Ogre Mage",
+      "maxSpawnsPerReset": 2,
+      "cooldownMs": 16000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Ogre Wizard",
+      "maxSpawnsPerReset": 2,
+      "cooldownMs": 20000
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 2.4
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "grenade_blade_combo",
+        "radius": 10
+       }
+      ]
+     },
+     {
+      "name": "grenade_blade_combo",
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "furious",
+        "threshold": 0.45
+       }
+      ],
+      "states": [
+       {
+        "name": "grenade1",
+        "scripts": [
+         {
+          "type": "AOE",
+          "radius": 3,
+          "damage": 60,
+          "cooldownMs": 100000,
+          "effects": []
+         },
+         {
+          "type": "Wander",
+          "speed": 2.4
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "grenade2",
+          "time": 2000
+         }
+        ]
+       },
+       {
+        "name": "grenade2",
+        "scripts": [
+         {
+          "type": "AOE",
+          "radius": 3,
+          "damage": 60,
+          "cooldownMs": 100000,
+          "effects": []
+         },
+         {
+          "type": "Wander",
+          "speed": 3.51
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "slow_follow",
+          "time": 3000
+         }
+        ]
+       },
+       {
+        "name": "slow_follow",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Blade",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 10
+            }
+           ],
+           "damage": 50,
+           "lifetimeMs": 400
+          },
+          "targeted": true,
+          "maxRadius": 13,
+          "cooldownMs": 1000
+         },
+         {
+          "type": "Follow",
+          "speed": 2.96,
+          "acquireRange": 9,
+          "distFromTarget": 3.5
+         },
+         {
+          "type": "Wander",
+          "speed": 2.96
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "grenade1",
+          "time": 4000
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "furious",
+      "scripts": [
+       {
+        "type": "AOE",
+        "radius": 2.4,
+        "damage": 55,
+        "effects": [],
+        "range": 9,
+        "cooldownMs": 1500
+       },
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 12000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Ogre Warrior": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 10
+        }
+       ],
+       "damage": 45,
+       "lifetimeMs": 400
+      },
+      "targeted": true,
+      "maxRadius": 3,
+      "predictive": 0.5,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Protect",
+      "speed": 1.2,
+      "protectee": "Ogre King",
+      "acquireRange": 15,
+      "protectionRange": 10,
+      "reprotectRange": 5
+     },
+     {
+      "type": "Follow",
+      "speed": 1.4,
+      "acquireRange": 10.5,
+      "distFromTarget": 1.6,
+      "cooldownOffsetMs": 2600,
+      "cooldownMs": 2200
+     },
+     {
+      "type": "Orbit",
+      "speed": 4.07,
+      "radius": 6
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Ogre Mage": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6.7
+        }
+       ],
+       "damage": 38,
+       "lifetimeMs": 1500
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 0.3,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Protect",
+      "speed": 1.2,
+      "protectee": "Ogre King",
+      "acquireRange": 30,
+      "protectionRange": 10
+     },
+     {
+      "type": "Orbit",
+      "speed": 3.5,
+      "radius": 6
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Ogre Wizard": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 5
+        }
+       ],
+       "damage": 40,
+       "lifetimeMs": 2200
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "cooldownMs": 300
+     },
+     {
+      "type": "Protect",
+      "speed": 1.2,
+      "protectee": "Ogre King",
+      "acquireRange": 30,
+      "protectionRange": 10
+     },
+     {
+      "type": "Orbit",
+      "speed": 3.5,
+      "radius": 6
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Lizard God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.28,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Weapon",
+       "chance": 0.2,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Weapon",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Armor",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Armor",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Armor",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ring",
+       "chance": 0.15,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ability",
+       "chance": 0.15,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Night Elf Archer",
+      "maxSpawnsPerReset": 4
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Night Elf Warrior",
+      "maxSpawnsPerReset": 3
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Night Elf Mage",
+      "maxSpawnsPerReset": 2
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Night Elf Veteran",
+      "maxSpawnsPerReset": 2
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Night Elf King",
+      "maxSpawnsPerReset": 1
+     },
+     {
+      "type": "Follow",
+      "speed": 6.4,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "normal_attack",
+        "radius": 10.2
+       }
+      ]
+     },
+     {
+      "name": "normal_attack",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Green Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 30,
+         "lifetimeMs": 1600
+        },
+        "targeted": true,
+        "maxRadius": 10,
+        "count": 3,
+        "shootAngle": 3,
+        "predictive": 0.5,
+        "cooldownMs": 1000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "if_cloaked",
+        "time": 4000
+       }
+      ]
+     },
+     {
+      "name": "if_cloaked",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Green Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 30,
+         "lifetimeMs": 1600
+        },
+        "targeted": true,
+        "maxRadius": 10,
+        "count": 8,
+        "shootAngle": 45,
+        "fixedAngle": 20,
+        "cooldownMs": 1600,
+        "cooldownOffsetMs": 400
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Green Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 30,
+         "lifetimeMs": 1600
+        },
+        "targeted": true,
+        "maxRadius": 10,
+        "count": 8,
+        "shootAngle": 45,
+        "fixedAngle": 42,
+        "cooldownMs": 1600,
+        "cooldownOffsetMs": 1200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "normal_attack",
+        "radius": 10
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Night Elf Archer": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blue Arrow",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7.5
+        }
+       ],
+       "damage": 36,
+       "lifetimeMs": 2000
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 9,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Night Elf Warrior": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 10
+        }
+       ],
+       "damage": 36,
+       "lifetimeMs": 800
+      },
+      "targeted": true,
+      "maxRadius": 3,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 9,
+      "distFromTarget": 1
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Night Elf Mage": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blue Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 40,
+       "lifetimeMs": 2000,
+       "multiHit": true
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 9,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Night Elf Veteran": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Gold Arrow",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 8
+        }
+       ],
+       "damage": 45,
+       "lifetimeMs": 2000,
+       "size": 120,
+       "multiHit": true
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 9,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Night Elf King": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 55,
+       "lifetimeMs": 1200
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 9,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Undead Dwarf God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Weapon",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Weapon",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Armor",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Armor",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Armor",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ring",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ability",
+       "chance": 0.2,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Undead Dwarf Warrior",
+      "maxSpawnsPerReset": 3
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Undead Dwarf Axebearer",
+      "maxSpawnsPerReset": 3
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Undead Dwarf Mage",
+      "maxSpawnsPerReset": 3
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Undead Dwarf King",
+      "maxSpawnsPerReset": 2
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Soulless Dwarf",
+      "maxSpawnsPerReset": 1
+     },
+     {
+      "type": "Follow",
+      "speed": 6.3,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Pink Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 30,
+       "lifetimeMs": 1700
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "count": 3,
+      "shootAngle": 15,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blue Star",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 0,
+       "lifetimeMs": 2200,
+       "effects": [
+        {
+         "effect": "Confused",
+         "durationMs": 3000
+        }
+       ]
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 0.5,
+      "cooldownMs": 1200
+     }
+    ]
+   }
+  },
+  "Undead Dwarf Warrior": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 40,
+       "lifetimeMs": 1200
+      },
+      "targeted": true,
+      "maxRadius": 3,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 6.3,
+      "distFromTarget": 1
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Undead Dwarf Axebearer": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 12
+        }
+       ],
+       "damage": 46,
+       "lifetimeMs": 400
+      },
+      "targeted": true,
+      "maxRadius": 3,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 6.3,
+      "distFromTarget": 1
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Undead Dwarf Mage": {
+   "root": {
+    "states": [
+     {
+      "name": "circle_player",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 32,
+         "lifetimeMs": 2400,
+         "multiHit": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "predictive": 0.3,
+        "cooldownMs": 1000,
+        "cooldownOffsetMs": 500
+       },
+       {
+        "type": "Protect",
+        "speed": 4.62,
+        "protectee": "Undead Dwarf King",
+        "acquireRange": 11,
+        "protectionRange": 10,
+        "reprotectRange": 3
+       },
+       {
+        "type": "Orbit",
+        "speed": 4.62,
+        "radius": 3.5,
+        "acquireRange": 11
+       },
+       {
+        "type": "Wander",
+        "speed": 4.62
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "circle_king",
+        "time": 3500
+       }
+      ]
+     },
+     {
+      "name": "circle_king",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 32,
+         "lifetimeMs": 2400,
+         "multiHit": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 5,
+        "shootAngle": 72,
+        "fixedAngle": 20,
+        "predictive": 0.3,
+        "cooldownMs": 1600,
+        "cooldownOffsetMs": 500
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Bolt",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5
+          }
+         ],
+         "damage": 32,
+         "lifetimeMs": 2400,
+         "multiHit": true
+        },
+        "targeted": true,
+        "maxRadius": 8,
+        "count": 5,
+        "shootAngle": 72,
+        "fixedAngle": 33,
+        "predictive": 0.3,
+        "cooldownMs": 1600,
+        "cooldownOffsetMs": 1300
+       },
+       {
+        "type": "Orbit",
+        "speed": 7.4,
+        "radius": 2.5,
+        "target": "Undead Dwarf King",
+        "acquireRange": 12,
+        "radiusVariance": 0.1,
+        "speedVariance": 0.1
+       },
+       {
+        "type": "Wander",
+        "speed": 4.62
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "circle_player",
+        "time": 3500
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Undead Dwarf King": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 10
+        }
+       ],
+       "damage": 52,
+       "lifetimeMs": 600
+      },
+      "targeted": true,
+      "maxRadius": 3,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 5.1,
+      "distFromTarget": 1.4
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Soulless Dwarf": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blue Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 55,
+       "lifetimeMs": 1700
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "cooldownMs": 1000
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": [],
+        "target": "run1",
+        "radius": 10.5
+       }
+      ]
+     },
+     {
+      "name": "run1",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 6.84,
+        "protectee": "Undead Dwarf God",
+        "acquireRange": 16,
+        "protectionRange": 10
+       },
+       {
+        "type": "Wander",
+        "speed": 2.96
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run2",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "run2",
+      "scripts": [
+       {
+        "type": "StayAwayFrom",
+        "speed": 5.1,
+        "distFromTarget": 4
+       },
+       {
+        "type": "Wander",
+        "speed": 2.96
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "run3",
+        "time": 1400
+       }
+      ]
+     },
+     {
+      "name": "run3",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 6.3,
+        "protectee": "Undead Dwarf King",
+        "acquireRange": 16,
+        "protectionRange": 2,
+        "reprotectRange": 2
+       },
+       {
+        "type": "Protect",
+        "speed": 6.3,
+        "protectee": "Undead Dwarf Axebearer",
+        "acquireRange": 16,
+        "protectionRange": 2,
+        "reprotectRange": 2
+       },
+       {
+        "type": "Protect",
+        "speed": 6.3,
+        "protectee": "Undead Dwarf Warrior",
+        "acquireRange": 16,
+        "protectionRange": 2,
+        "reprotectRange": 2
+       },
+       {
+        "type": "Wander",
+        "speed": 2.96
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 2000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Flayer God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Weapon",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Weapon",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Armor",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Armor",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Armor",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ring",
+       "chance": 0.15,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ability",
+       "chance": 0.15,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Flayer",
+      "maxSpawnsPerReset": 2
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Flayer Veteran",
+      "maxSpawnsPerReset": 3
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Flayer God",
+      "maxSpawnsPerReset": 2,
+      "maxDensity": 2,
+      "cooldownMs": 60000
+     },
+     {
+      "type": "Follow",
+      "speed": 6.3,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 5
+        }
+       ],
+       "damage": 60,
+       "lifetimeMs": 2200
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 0.5,
+      "cooldownMs": 400
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Grey Star",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 0,
+       "lifetimeMs": 2200,
+       "effects": [
+        {
+         "effect": "Quiet",
+         "durationMs": 10000
+        }
+       ]
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 1,
+      "cooldownMs": 1000
+     }
+    ]
+   }
+  },
+  "Flayer": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blue Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 5
+        }
+       ],
+       "damage": 40,
+       "lifetimeMs": 2700
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 0.5,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 7.4,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Flayer Veteran": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Purple Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 8
+        }
+       ],
+       "damage": 50,
+       "lifetimeMs": 1500
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 0.5,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Follow",
+      "speed": 7.4,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.96
+     }
+    ]
+   }
+  },
+  "Flamer King": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Flamer",
+      "maxSpawnsPerReset": 5,
+      "cooldownMs": 10000
+     }
+    ],
+    "states": [
+     {
+      "name": "Attacking",
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "FlashBeforeExplode",
+        "threshold": 0.2
+       }
+      ],
+      "states": [
+       {
+        "name": "Charge",
+        "scripts": [
+         {
+          "type": "Follow",
+          "speed": 4.62,
+          "distFromTarget": 0.1
+         }
+        ],
+        "transitions": [
+         {
+          "type": "EntityWithin",
+          "to": "Bullet",
+          "radius": 2
+         }
+        ]
+       },
+       {
+        "name": "Bullet",
+        "scripts": [
+         {
+          "type": "Flash",
+          "color": 16755200,
+          "flashPeriod": 0.2,
+          "flashRepeats": 20
+         },
+         {
+          "type": "ChangeSize",
+          "rate": 20,
+          "target": 140
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "White Flame",
+           "path": [
+            {
+             "type": "Amplitude",
+             "speed": 8,
+             "amplitude": 0.6,
+             "frequency": 0.5,
+             "lifetimeMs": 500
+            }
+           ],
+           "damage": 29,
+           "lifetimeMs": 500,
+           "size": 105,
+           "multiHit": true
+          },
+          "targeted": true,
+          "maxRadius": 8,
+          "cooldownMs": 200
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Wait",
+          "time": 4000
+         }
+        ]
+       },
+       {
+        "name": "Wait",
+        "scripts": [
+         {
+          "type": "ChangeSize",
+          "rate": -20,
+          "target": 80
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Charge",
+          "time": 500
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "FlashBeforeExplode",
+      "scripts": [
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 1,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Explode",
+        "time": 300
+       }
+      ]
+     },
+     {
+      "name": "Explode",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Flame",
+         "path": [
+          {
+           "type": "Amplitude",
+           "speed": 8,
+           "amplitude": 0.6,
+           "frequency": 0.5,
+           "lifetimeMs": 500
+          }
+         ],
+         "damage": 29,
+         "lifetimeMs": 500,
+         "size": 105,
+         "multiHit": true
+        },
+        "targeted": false,
+        "maxRadius": 12,
+        "count": 10,
+        "shootAngle": 36,
+        "fixedAngle": 0,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Flamer": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "states": [
+     {
+      "name": "Attacking",
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "FlashBeforeExplode",
+        "threshold": 0.2
+       }
+      ],
+      "states": [
+       {
+        "name": "Charge",
+        "scripts": [
+         {
+          "type": "Protect",
+          "speed": 4.62,
+          "protectee": "Flamer King"
+         },
+         {
+          "type": "Follow",
+          "speed": 4.62,
+          "distFromTarget": 0.1
+         }
+        ],
+        "transitions": [
+         {
+          "type": "EntityWithin",
+          "to": "Bullet",
+          "radius": 2
+         }
+        ]
+       },
+       {
+        "name": "Bullet",
+        "scripts": [
+         {
+          "type": "Flash",
+          "color": 16755200,
+          "flashPeriod": 0.2,
+          "flashRepeats": 20
+         },
+         {
+          "type": "ChangeSize",
+          "rate": 20,
+          "target": 130
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "White Flame",
+           "path": [
+            {
+             "type": "Amplitude",
+             "speed": 8,
+             "amplitude": 0.3,
+             "frequency": 0.5,
+             "lifetimeMs": 500
+            }
+           ],
+           "damage": 29,
+           "lifetimeMs": 500,
+           "multiHit": true
+          },
+          "targeted": true,
+          "maxRadius": 8,
+          "cooldownMs": 200
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Wait",
+          "time": 4000
+         }
+        ]
+       },
+       {
+        "name": "Wait",
+        "scripts": [
+         {
+          "type": "ChangeSize",
+          "rate": -20,
+          "target": 70
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Charge",
+          "time": 600
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "FlashBeforeExplode",
+      "scripts": [
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 1,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Explode",
+        "time": 300
+       }
+      ]
+     },
+     {
+      "name": "Explode",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Flame",
+         "path": [
+          {
+           "type": "Amplitude",
+           "speed": 8,
+           "amplitude": 0.3,
+           "frequency": 0.5,
+           "lifetimeMs": 500
+          }
+         ],
+         "damage": 29,
+         "lifetimeMs": 500,
+         "multiHit": true
+        },
+        "targeted": false,
+        "maxRadius": 12,
+        "count": 10,
+        "shootAngle": 36,
+        "fixedAngle": 0,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Dragon Egg": {
+   "root": {
+    "scripts": [
+     {
+      "type": "TransformOnDeath",
+      "target": "White Dragon Whelp",
+      "probability": 0.3
+     },
+     {
+      "type": "TransformOnDeath",
+      "target": "Juvenile White Dragon",
+      "probability": 0.2
+     },
+     {
+      "type": "TransformOnDeath",
+      "target": "Adult White Dragon",
+      "probability": 0.1
+     }
+    ]
+   }
+  },
+  "White Dragon Whelp": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Red Fire",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 30,
+       "lifetimeMs": 2300,
+       "size": 80
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "count": 2,
+      "shootAngle": 20,
+      "predictive": 0.3,
+      "cooldownMs": 750
+     },
+     {
+      "type": "Follow",
+      "speed": 11.84,
+      "distFromTarget": 2.5,
+      "acquireRange": 10.5,
+      "cooldownOffsetMs": 2200,
+      "cooldownMs": 3200
+     },
+     {
+      "type": "Wander",
+      "speed": 5.73
+     }
+    ]
+   }
+  },
+  "Juvenile White Dragon": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Red Fire",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 43,
+       "lifetimeMs": 2200
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "count": 2,
+      "shootAngle": 20,
+      "predictive": 0.3,
+      "cooldownMs": 750
+     },
+     {
+      "type": "Follow",
+      "speed": 10.73,
+      "distFromTarget": 2.2,
+      "acquireRange": 10.5,
+      "cooldownOffsetMs": 3000,
+      "cooldownMs": 3000
+     },
+     {
+      "type": "Wander",
+      "speed": 4.9
+     }
+    ]
+   }
+  },
+  "Adult White Dragon": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Armor",
+       "chance": 0.05,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Seal of the Divine",
+       "chance": 0.015,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "White Drake Egg",
+       "chance": 0.004,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Red Fire",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 70,
+       "lifetimeMs": 2200,
+       "size": 120
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "count": 3,
+      "shootAngle": 15,
+      "predictive": 0.3,
+      "cooldownMs": 750
+     },
+     {
+      "type": "Follow",
+      "speed": 8.5,
+      "distFromTarget": 1.8,
+      "acquireRange": 10.5,
+      "cooldownOffsetMs": 4000,
+      "cooldownMs": 2000
+     },
+     {
+      "type": "Wander",
+      "speed": 4.9
+     }
+    ]
+   }
+  },
+  "Shield Orc Shield": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Ring",
+       "chance": 0.01,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Orbit",
+      "speed": 6.3,
+      "radius": 3,
+      "target": "Shield Orc Flooder"
+     },
+     {
+      "type": "Wander",
+      "speed": 1.3
+     }
+    ],
+    "states": [
+     {
+      "name": "Attacking",
+      "states": [
+       {
+        "name": "Attack",
+        "scripts": [
+         {
+          "type": "Flash",
+          "color": 0,
+          "flashPeriod": 10,
+          "flashRepeats": 100
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "White Bullet",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6
+            }
+           ],
+           "damage": 40,
+           "lifetimeMs": 700,
+           "size": 30,
+           "multiHit": true
+          },
+          "targeted": true,
+          "maxRadius": 10,
+          "cooldownMs": 500
+         }
+        ],
+        "transitions": [
+         {
+          "type": "HpLess",
+          "to": "Heal",
+          "threshold": 0.5
+         },
+         {
+          "type": "EntityNotWithin",
+          "to": "Idling",
+          "target": "Shield Orc Key",
+          "radius": 7
+         }
+        ]
+       },
+       {
+        "name": "Heal",
+        "scripts": [
+         {
+          "type": "HealGroup",
+          "range": 7,
+          "group": "Shield Orcs",
+          "cooldownMs": 500
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Attack",
+          "time": 500
+         },
+         {
+          "type": "EntityNotWithin",
+          "to": "Idling",
+          "target": "Shield Orc Key",
+          "radius": 7
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "Flash",
+      "scripts": [
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 1,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Idling",
+        "time": 300
+       }
+      ]
+     },
+     {
+      "name": "Idling"
+     }
+    ]
+   }
+  },
+  "Shield Orc Flooder": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 4,
+       "itemType": "Ability",
+       "chance": 0.01,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Wander",
+      "speed": 1.3
+     }
+    ],
+    "states": [
+     {
+      "name": "Attacking",
+      "states": [
+       {
+        "name": "Attack",
+        "scripts": [
+         {
+          "type": "Flash",
+          "color": 0,
+          "flashPeriod": 10,
+          "flashRepeats": 100
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "White Bullet",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6
+            }
+           ],
+           "damage": 40,
+           "lifetimeMs": 700,
+           "size": 30,
+           "multiHit": true
+          },
+          "targeted": true,
+          "maxRadius": 10,
+          "cooldownMs": 500
+         }
+        ],
+        "transitions": [
+         {
+          "type": "HpLess",
+          "to": "Heal",
+          "threshold": 0.5
+         },
+         {
+          "type": "EntityNotWithin",
+          "to": "Idling",
+          "target": "Shield Orc Key",
+          "radius": 7
+         }
+        ]
+       },
+       {
+        "name": "Heal",
+        "scripts": [
+         {
+          "type": "HealGroup",
+          "range": 7,
+          "group": "Shield Orcs",
+          "cooldownMs": 500
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Attack",
+          "time": 500
+         },
+         {
+          "type": "EntityNotWithin",
+          "to": "Idling",
+          "target": "Shield Orc Key",
+          "radius": 7
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "Flash",
+      "scripts": [
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 1,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Idling",
+        "time": 300
+       }
+      ]
+     },
+     {
+      "name": "Idling"
+     }
+    ]
+   }
+  },
+  "Shield Orc Key": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 4,
+       "itemType": "Armor",
+       "chance": 0.01,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Shield Orc Flooder",
+      "maxSpawnsPerReset": 1,
+      "cooldownMs": 10000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Shield Orc Shield",
+      "maxSpawnsPerReset": 1,
+      "cooldownMs": 10000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Shield Orc Shield",
+      "maxSpawnsPerReset": 1,
+      "cooldownMs": 10000
+     }
+    ],
+    "states": [
+     {
+      "name": "Start",
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attacking",
+        "time": 500
+       }
+      ]
+     },
+     {
+      "name": "Attacking",
+      "scripts": [
+       {
+        "type": "Orbit",
+        "speed": 1,
+        "radius": 3,
+        "target": "Shield Orc Flooder"
+       },
+       {
+        "type": "Order",
+        "range": 7,
+        "children": "Shield Orc Flooder",
+        "targetState": "Attacking"
+       },
+       {
+        "type": "Order",
+        "range": 7,
+        "children": "Shield Orc Shield",
+        "targetState": "Attacking"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "FlashBeforeExplode",
+        "threshold": 0.5
+       }
+      ]
+     },
+     {
+      "name": "FlashBeforeExplode",
+      "scripts": [
+       {
+        "type": "Order",
+        "range": 7,
+        "children": "Shield Orc Flooder",
+        "targetState": "Flash"
+       },
+       {
+        "type": "Order",
+        "range": 7,
+        "children": "Shield Orc Shield",
+        "targetState": "Flash"
+       },
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 1,
+        "flashRepeats": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Explode",
+        "time": 300
+       }
+      ]
+     },
+     {
+      "name": "Explode",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Bullet",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 3
+          }
+         ],
+         "damage": 40,
+         "lifetimeMs": 3000,
+         "size": 30,
+         "multiHit": true
+        },
+        "targeted": true,
+        "maxRadius": 12,
+        "count": 10,
+        "shootAngle": 36,
+        "fixedAngle": 0,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Left Horizontal Trap": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invulnerable"
+     },
+     {
+      "type": "Suicide",
+      "delay": 6000
+     }
+    ],
+    "states": [
+     {
+      "name": "weak_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 1450,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Weak",
+           "durationMs": 6000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 0,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "blind_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "blind_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 2",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 1450,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Blind",
+           "durationMs": 2000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 0,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "pierce_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "pierce_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 3",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 1450,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "ArmorBroken",
+           "durationMs": 2400
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 0,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "weak_effect",
+        "time": 2000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Top Vertical Trap": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invulnerable"
+     },
+     {
+      "type": "Suicide",
+      "delay": 6000
+     }
+    ],
+    "states": [
+     {
+      "name": "weak_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 1450,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Weak",
+           "durationMs": 6000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 90,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "blind_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "blind_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 2",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 1450,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Blind",
+           "durationMs": 2000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 90,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "pierce_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "pierce_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 3",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 1450,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "ArmorBroken",
+           "durationMs": 2400
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 90,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "weak_effect",
+        "time": 2000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "45-225 Diagonal Trap": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invulnerable"
+     },
+     {
+      "type": "Suicide",
+      "delay": 6000
+     }
+    ],
+    "states": [
+     {
+      "name": "weak_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 370,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Weak",
+           "durationMs": 6000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 45,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "blind_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "blind_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 2",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 370,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Blind",
+           "durationMs": 2000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 45,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "pierce_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "pierce_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 3",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 370,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "ArmorBroken",
+           "durationMs": 2400
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 45,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "weak_effect",
+        "time": 2000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "135-315 Diagonal Trap": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invulnerable"
+     },
+     {
+      "type": "Suicide",
+      "delay": 6000
+     }
+    ],
+    "states": [
+     {
+      "name": "weak_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 370,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Weak",
+           "durationMs": 6000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 135,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "blind_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "blind_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 2",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 370,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "Blind",
+           "durationMs": 2000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 135,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "pierce_effect",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "pierce_effect",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Web Thread 3",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 20,
+         "lifetimeMs": 370,
+         "size": 210,
+         "multiHit": true,
+         "passesCover": true,
+         "effects": [
+          {
+           "effect": "ArmorBroken",
+           "durationMs": 6000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 1,
+        "fixedAngle": 135,
+        "cooldownMs": 200
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "weak_effect",
+        "time": 2000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Urgle": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Weapon",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Weapon",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Armor",
+       "chance": 0.26,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Armor",
+       "chance": 0.18,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Armor",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ring",
+       "chance": 0.15,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ability",
+       "chance": 0.15,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Spider Den Portal",
+      "probability": 0.9
+     },
+     {
+      "type": "Wander",
+      "speed": 3.5,
+      "distanceFromSpawn": 3
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "White Bullet",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 48,
+       "lifetimeMs": 1500,
+       "size": 80,
+       "multiHit": true
+      },
+      "targeted": true,
+      "maxRadius": 8,
+      "predictive": 0.3,
+      "cooldownMs": 1000
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "toss_horizontal_traps",
+        "radius": 10.5
+       }
+      ]
+     },
+     {
+      "name": "toss_horizontal_traps",
+      "scripts": [
+       {
+        "type": "TossObject",
+        "child": "Left Horizontal Trap",
+        "range": 9,
+        "angle": 230,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "Left Horizontal Trap",
+        "range": 10,
+        "angle": 180,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "Left Horizontal Trap",
+        "range": 9,
+        "angle": 140,
+        "cooldownMs": 100000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "toss_vertical_traps",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "toss_vertical_traps",
+      "scripts": [
+       {
+        "type": "TossObject",
+        "child": "Top Vertical Trap",
+        "range": 8,
+        "angle": 200,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "Top Vertical Trap",
+        "range": 10,
+        "angle": 240,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "Top Vertical Trap",
+        "range": 10,
+        "angle": 280,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "Top Vertical Trap",
+        "range": 8,
+        "angle": 320,
+        "cooldownMs": 100000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "toss_diagonal_traps",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "toss_diagonal_traps",
+      "scripts": [
+       {
+        "type": "TossObject",
+        "child": "45-225 Diagonal Trap",
+        "range": 2,
+        "angle": 45,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "45-225 Diagonal Trap",
+        "range": 7,
+        "angle": 45,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "45-225 Diagonal Trap",
+        "range": 11,
+        "angle": 225,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "45-225 Diagonal Trap",
+        "range": 6,
+        "angle": 225,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "135-315 Diagonal Trap",
+        "range": 2,
+        "angle": 135,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "135-315 Diagonal Trap",
+        "range": 7,
+        "angle": 135,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "135-315 Diagonal Trap",
+        "range": 11,
+        "angle": 315,
+        "cooldownMs": 100000
+       },
+       {
+        "type": "TossObject",
+        "child": "135-315 Diagonal Trap",
+        "range": 6,
+        "angle": 315,
+        "cooldownMs": 100000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "wait",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "wait",
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "idle",
+        "time": 2400
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Kage Kami": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Vitality",
+       "chance": 1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Potion of Dexterity",
+       "chance": 1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Potion of Defense",
+       "chance": 1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Potion of Speed",
+       "chance": 1,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Manor of the Immortals Portal"
+     }
+    ],
+    "states": [
+     {
+      "name": "yay i am good",
+      "scripts": [
+       {
+        "type": "Taunt",
+        "text": "Kyoufu no kage!",
+        "cooldownMs": 0,
+        "probability": 0.5
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "ChangeSize",
+        "rate": 20,
+        "target": 120
+       },
+       {
+        "type": "SetAltTexture",
+        "minValue": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "Attack",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "Wander",
+        "speed": 2.96
+       },
+       {
+        "type": "SetAltTexture",
+        "minValue": 1
+       },
+       {
+        "type": "TossObject",
+        "child": "Specter Mine",
+        "cooldownMs": 2000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Charge",
+        "time": 5000
+       }
+      ],
+      "states": [
+       {
+        "name": "Shoot1",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Specter Shot",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 3.5
+            }
+           ],
+           "damage": 75,
+           "lifetimeMs": 2600,
+           "size": 90,
+           "effects": [
+            {
+             "effect": "Paralyzed",
+             "durationMs": 400
+            }
+           ]
+          },
+          "targeted": false,
+          "maxRadius": 12,
+          "count": 1,
+          "fixedAngle": 0,
+          "rotateAngle": 30,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Specter Shot",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 3.5
+            }
+           ],
+           "damage": 75,
+           "lifetimeMs": 2600,
+           "size": 90,
+           "effects": [
+            {
+             "effect": "Paralyzed",
+             "durationMs": 400
+            }
+           ]
+          },
+          "targeted": false,
+          "maxRadius": 12,
+          "count": 1,
+          "fixedAngle": 180,
+          "rotateAngle": 30,
+          "cooldownMs": 300
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Shoot2",
+          "time": 1000
+         }
+        ]
+       },
+       {
+        "name": "Shoot2",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Specter Shot",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 3.5
+            }
+           ],
+           "damage": 75,
+           "lifetimeMs": 2600,
+           "size": 90
+          },
+          "targeted": false,
+          "maxRadius": 20,
+          "count": 2,
+          "shootAngle": 180,
+          "cooldownMs": 400
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Shoot1",
+          "time": 400
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "Charge",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "TossObject",
+        "child": "Specter Mine",
+        "cooldownMs": 2000
+       },
+       {
+        "type": "SetAltTexture",
+        "minValue": 2
+       },
+       {
+        "type": "Follow",
+        "speed": 5.18,
+        "distFromTarget": 20,
+        "acquireRange": 1
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Specter Spinner",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 5.5
+          }
+         ],
+         "damage": 50,
+         "lifetimeMs": 2000,
+         "size": 80,
+         "effects": [
+          {
+           "effect": "Sick",
+           "durationMs": 4000
+          },
+          {
+           "effect": "Confused",
+           "durationMs": 1000
+          }
+         ]
+        },
+        "targeted": false,
+        "maxRadius": 20,
+        "count": 2,
+        "shootAngle": 50,
+        "cooldownMs": 400
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack",
+        "time": 4000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Specter Mine": {
+   "root": {
+    "states": [
+     {
+      "name": "Waiting",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Suicide",
+        "radius": 3
+       },
+       {
+        "type": "Timed",
+        "to": "Suicide",
+        "time": 4000
+       }
+      ]
+     },
+     {
+      "name": "Suicide",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Specter Spike",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 6
+          }
+         ],
+         "damage": 55,
+         "lifetimeMs": 1200,
+         "multiHit": true,
+         "effects": [
+          {
+           "effect": "Sick",
+           "durationMs": 4000
+          }
+         ]
+        },
+        "targeted": true,
+        "maxRadius": 60,
+        "count": 4,
+        "shootAngle": 45,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

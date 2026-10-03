@@ -1,0 +1,23 @@
+{
+    "name": "WaW.Presentation",
+    "rootNamespace": "WaW.Presentation",
+    "references": [
+        "WaW.Protocol",
+        "WaW.Net",
+        "WaW.Domain",
+        "WaW.Client",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

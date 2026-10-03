@@ -1,0 +1,831 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.Shore.cs",
+ "behaviors": {
+  "Pirate": {
+   "loot": [
+    {
+     "public": true,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "threshold": 0.03,
+       "chance": 0.9
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 4
+        }
+       ],
+       "damage": 4,
+       "lifetimeMs": 600
+      },
+      "maxRadius": 3,
+      "targeted": true,
+      "cooldownMs": 2500
+     },
+     {
+      "type": "Follow",
+      "distFromTarget": 1,
+      "speed": 5.46
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ]
+   }
+  },
+  "Piratess": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Armor",
+       "chance": 0.2,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "speed": 6.825,
+      "distFromTarget": 1,
+      "cooldownOffsetMs": 3000,
+      "cooldownMs": 1500
+     },
+     {
+      "type": "Wander",
+      "speed": 4.07
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Blade",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 4
+        }
+       ],
+       "damage": 4,
+       "lifetimeMs": 600
+      },
+      "maxRadius": 3,
+      "targeted": true,
+      "cooldownMs": 2500
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Pirate",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 60000,
+      "maxDensity": 5,
+      "densityRadius": 40
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Piratess",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 60000,
+      "maxDensity": 5,
+      "densityRadius": 40
+     }
+    ]
+   }
+  },
+  "Snake": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 4
+        }
+       ],
+       "damage": 4,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 10,
+      "targeted": true,
+      "cooldownMs": 2000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Snake",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 60000,
+      "maxDensity": 5,
+      "densityRadius": 40
+     }
+    ]
+   }
+  },
+  "Poison Scorpion": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Protect",
+      "speed": 2.94,
+      "protectee": "Scorpion Queen"
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 4
+        }
+       ],
+       "damage": 7,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 8,
+      "targeted": true,
+      "cooldownMs": 2000
+     }
+    ]
+   }
+  },
+  "Scorpion Queen": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.03,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.02,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "ChangeSize",
+      "rate": 100,
+      "target": 200
+     },
+     {
+      "type": "Wander",
+      "speed": 1.84
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Poison Scorpion",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 10000,
+      "maxDensity": 10,
+      "densityRadius": 40
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Scorpion Queen",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 60000,
+      "maxDensity": 2,
+      "densityRadius": 40
+     }
+    ]
+   }
+  },
+  "Bandit Enemy": {
+   "root": {
+    "states": [
+     {
+      "name": "fast_follow",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 6
+          }
+         ],
+         "damage": 9,
+         "lifetimeMs": 600,
+         "size": 60
+        },
+        "maxRadius": 3,
+        "targeted": true,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Protect",
+        "speed": 4.07,
+        "protectee": "Bandit Leader",
+        "acquireRange": 9,
+        "protectionRange": 7,
+        "reprotectRange": 3
+       },
+       {
+        "type": "Follow",
+        "speed": 6.29,
+        "distFromTarget": 1
+       },
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "scatter1",
+        "time": 3000
+       }
+      ]
+     },
+     {
+      "name": "scatter1",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 4.07,
+        "protectee": "Bandit Leader",
+        "acquireRange": 9,
+        "protectionRange": 7,
+        "reprotectRange": 3
+       },
+       {
+        "type": "Wander",
+        "speed": 6.29
+       },
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "slow_follow",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "slow_follow",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blade",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 6
+          }
+         ],
+         "damage": 9,
+         "lifetimeMs": 600,
+         "size": 60
+        },
+        "maxRadius": 4.5,
+        "targeted": true,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Protect",
+        "speed": 4.07,
+        "protectee": "Bandit Leader",
+        "acquireRange": 9,
+        "protectionRange": 7,
+        "reprotectRange": 3
+       },
+       {
+        "type": "Follow",
+        "speed": 3.47,
+        "acquireRange": 9,
+        "distFromTarget": 3.5,
+        "cooldownOffsetMs": 4000
+       },
+       {
+        "type": "Wander",
+        "speed": 3.47
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "scatter2",
+        "time": 3000
+       }
+      ]
+     },
+     {
+      "name": "scatter2",
+      "scripts": [
+       {
+        "type": "Protect",
+        "speed": 4.07,
+        "protectee": "Bandit Leader",
+        "acquireRange": 9,
+        "protectionRange": 7,
+        "reprotectRange": 3
+       },
+       {
+        "type": "Wander",
+        "speed": 6.29
+       },
+       {
+        "type": "Wander",
+        "speed": 4.07
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "fast_follow",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "escape",
+      "scripts": [
+       {
+        "type": "StayAwayFrom",
+        "speed": 3.47,
+        "distFromTarget": 8
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "fast_follow",
+        "time": 15000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Bandit Leader": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Weapon",
+       "chance": 0.2,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 1,
+       "itemType": "Armor",
+       "chance": 0.2,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Weapon",
+       "chance": 0.12,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 2,
+       "itemType": "Armor",
+       "chance": 0.12,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.12,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.14,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Bandit Enemy",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 8000,
+      "maxSpawnsPerReset": 4
+     }
+    ],
+    "states": [
+     {
+      "name": "bold",
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "meek",
+        "threshold": 0.45
+       }
+      ],
+      "states": [
+       {
+        "name": "warn_about_grenades",
+        "scripts": [
+         {
+          "type": "Taunt",
+          "text": "Catch!",
+          "probability": 0.15
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "wimpy_grenade1",
+          "time": 400
+         }
+        ]
+       },
+       {
+        "name": "wimpy_grenade1",
+        "scripts": [
+         {
+          "type": "AOE",
+          "radius": 1.4,
+          "damage": 12,
+          "cooldownMs": 10000,
+          "effects": []
+         },
+         {
+          "type": "Wander",
+          "speed": 2.38
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "wimpy_grenade2",
+          "time": 2000
+         }
+        ]
+       },
+       {
+        "name": "wimpy_grenade2",
+        "scripts": [
+         {
+          "type": "AOE",
+          "radius": 1.4,
+          "damage": 12,
+          "cooldownMs": 10000,
+          "effects": []
+         },
+         {
+          "type": "Wander",
+          "speed": 3.47
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "slow_follow",
+          "time": 3000
+         }
+        ]
+       },
+       {
+        "name": "slow_follow",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Blade",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6
+            }
+           ],
+           "damage": 9,
+           "lifetimeMs": 800,
+           "size": 60
+          },
+          "maxRadius": 13,
+          "targeted": true,
+          "cooldownMs": 1000
+         },
+         {
+          "type": "Follow",
+          "speed": 2.94,
+          "acquireRange": 9,
+          "distFromTarget": 3.5,
+          "cooldownOffsetMs": 4000
+         },
+         {
+          "type": "Wander",
+          "speed": 2.94
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "warn_about_grenades",
+          "time": 4000
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "meek",
+      "scripts": [
+       {
+        "type": "Taunt",
+        "text": "Forget this... run for it!",
+        "probability": 0.45
+       },
+       {
+        "type": "StayAwayFrom",
+        "speed": 3.47,
+        "distFromTarget": 6
+       },
+       {
+        "type": "Order",
+        "range": 10,
+        "children": "Bandit Enemy",
+        "targetState": "escape"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "bold",
+        "time": 12000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Red Gelatinous Cube": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Salmon Missile",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 9,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 8,
+      "targeted": true,
+      "count": 2,
+      "shootAngle": 10,
+      "predictive": 0.2,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Red Gelatinous Cube",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 60000,
+      "maxDensity": 5,
+      "densityRadius": 40
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Pirate Cave Portal",
+      "probability": 0.01
+     }
+    ]
+   }
+  },
+  "Purple Gelatinous Cube": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Purple Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6.5
+        }
+       ],
+       "damage": 12,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 8,
+      "targeted": true,
+      "predictive": 0.2,
+      "cooldownMs": 600
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Purple Gelatinous Cube",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 60000,
+      "maxDensity": 5,
+      "densityRadius": 40
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Pirate Cave Portal",
+      "probability": 0.01
+     }
+    ]
+   }
+  },
+  "Green Gelatinous Cube": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.04,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Magic",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 6
+        }
+       ],
+       "damage": 10,
+       "lifetimeMs": 2000
+      },
+      "maxRadius": 8,
+      "targeted": true,
+      "count": 5,
+      "shootAngle": 72,
+      "predictive": 0.2,
+      "cooldownMs": 1800
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Green Gelatinous Cube",
+      "x": 0,
+      "y": 0,
+      "cooldownMs": 60000,
+      "maxDensity": 5,
+      "densityRadius": 40
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Pirate Cave Portal",
+      "probability": 0.01
+     }
+    ]
+   }
+  }
+ }
+}

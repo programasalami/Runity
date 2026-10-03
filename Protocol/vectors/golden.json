@@ -1,0 +1,155 @@
+{
+  "protocol_version": 1,
+  "samples": [
+    {
+      "name": "Hello",
+      "id": 1,
+      "dir": "c2s",
+      "hex": "2c1b1209080073392dc3a9e29c9309007331302dc3a9e29c93"
+    },
+    {
+      "name": "Ping",
+      "id": 2,
+      "dir": "c2s",
+      "hex": "4f302010"
+    },
+    {
+      "name": "LoadCharacter",
+      "id": 3,
+      "dir": "c2s",
+      "hex": "cffcffff"
+    },
+    {
+      "name": "CreateCharacter",
+      "id": 4,
+      "dir": "c2s",
+      "hex": "36045b04"
+    },
+    {
+      "name": "MoveInput",
+      "id": 5,
+      "dir": "c2s",
+      "hex": "0200f005030396c7a2131b110a99c49f"
+    },
+    {
+      "name": "Shoot",
+      "id": 6,
+      "dir": "c2s",
+      "hex": "3c06e0875a2d00003642"
+    },
+    {
+      "name": "ChatSend",
+      "id": 7,
+      "dir": "c2s",
+      "hex": "09007335302dc3a9e29c93"
+    },
+    {
+      "name": "Escape",
+      "id": 8,
+      "dir": "c2s",
+      "hex": ""
+    },
+    {
+      "name": "UsePortal",
+      "id": 9,
+      "dir": "c2s",
+      "hex": "44c48241"
+    },
+    {
+      "name": "UseItem",
+      "id": 10,
+      "dir": "c2s",
+      "hex": "48"
+    },
+    {
+      "name": "InvSwap",
+      "id": 11,
+      "dir": "c2s",
+      "hex": "8aee9e4f7094f4a251ba"
+    },
+    {
+      "name": "InvDrop",
+      "id": 12,
+      "dir": "c2s",
+      "hex": "4e"
+    },
+    {
+      "name": "HelloAck",
+      "id": 101,
+      "dir": "s2c",
+      "hex": "d85c92cadd5f94cb5f99ffffffffffff0a00733731312dc3a9e29c93ec689ace"
+    },
+    {
+      "name": "Failure",
+      "id": 102,
+      "dir": "s2c",
+      "hex": "0b00010a00733731372dc3a9e29c93"
+    },
+    {
+      "name": "Pong",
+      "id": 103,
+      "dir": "s2c",
+      "hex": "1e87aed8238ab0d9"
+    },
+    {
+      "name": "WorldInfo",
+      "id": 104,
+      "dir": "s2c",
+      "hex": "a096ffff0a00733733302dc3a9e29c930a00733733312dc3a9e29c93d169f6695aabc6e40a00733733352dc3a9e29c9301"
+    },
+    {
+      "name": "TileData",
+      "id": 105,
+      "dir": "s2c",
+      "hex": "02000dbb32bb57bb7cbb10bc35bc5abc7fbc"
+    },
+    {
+      "name": "PlayerSpawned",
+      "id": 106,
+      "dir": "s2c",
+      "hex": "87c6d8ed7594ffff0002a3c5000ca3452b94ffff"
+    },
+    {
+      "name": "Snapshot",
+      "id": 107,
+      "dir": "s2c",
+      "hex": "aadbe6f4afdee8f502009c5f2c35c2eb03200fd8c7c00fd8470c007331353830342dc3a9e29c93ac13f7ff8713f7ffa0ecc5ec103c3e3e3e3e3e3e0200ba38e5ff9538e5ffbf743a3cc5ec03c027d8472028d8c70c007331353831312dc3a9e29c93a912f7ff8412f7ffa3edc8ed486d68615a534c450200b135e5ff8c35e5ff020028abc4e62daec6e70200000000006ede805fff00000091f38e66c0b3d84720b4d8c7060df7ffe10cf7ff46f36bf3807f5325f7c89a6c0c007331353835362dc3a9e29c9302005924e5ff3424e5ff"
+    },
+    {
+      "name": "ChatMessage",
+      "id": 108,
+      "dir": "s2c",
+      "hex": "02d2f3f6fc0a00733735392dc3a9e29c930a00733736302dc3a9e29c93"
+    },
+    {
+      "name": "Notification",
+      "id": 109,
+      "dir": "s2c",
+      "hex": "f00503030a00733736352dc3a9e29c93fa0b070500"
+    },
+    {
+      "name": "PlayerStats",
+      "id": 110,
+      "dir": "s2c",
+      "hex": "8e90ffff6990ffff4490ffff1f90fffffa8fffffd58fffffb08fffff8b8fffff668fffff418fffffe670f78effffffffffffd28effffffffffffad8effffffffffff"
+    },
+    {
+      "name": "Inventory",
+      "id": 111,
+      "dir": "s2c",
+      "hex": "020082aefeff5daefeff"
+    },
+    {
+      "name": "ProjectileVolley",
+      "id": 112,
+      "dir": "s2c",
+      "hex": "59452d1801c471006cac450072acc500604544009045c458722102005cad45e121006cad450072adc550"
+    },
+    {
+      "name": "PlayerDied",
+      "id": 113,
+      "dir": "s2c",
+      "hex": "0a00733739322dc3a9e29c93a2723b8dffffffffffff"
+    }
+  ]
+}

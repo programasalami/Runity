@@ -1,0 +1,17 @@
+# waw_set_warnings(<target>): the project's warning policy, applied to every first-party target.
+function(waw_set_warnings target)
+  if(MSVC)
+    target_compile_options(${target} PRIVATE /W4 /permissive- /Zc:__cplusplus /Zc:preprocessor /utf-8 /EHsc)
+    if(WAW_WARNINGS_AS_ERRORS)
+      target_compile_options(${target} PRIVATE /WX)
+    endif()
+    target_compile_definitions(${target} PRIVATE _WIN32_WINNT=0x0A00 NOMINMAX WIN32_LEAN_AND_MEAN)
+  else()
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wno-sign-conversion)
+    # Movement must round exactly like the C# client (Protocol/vectors/movement.json): never fuse a*b+c into one FMA.
+    target_compile_options(${target} PRIVATE -ffp-contract=off)
+    if(WAW_WARNINGS_AS_ERRORS)
+      target_compile_options(${target} PRIVATE -Werror)
+    endif()
+  endif()
+endfunction()

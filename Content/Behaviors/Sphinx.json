@@ -1,0 +1,419 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.Sphinx.cs",
+ "behaviors": {
+  "Grand Sphinx": {
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Tomb of the Ancients Portal"
+     }
+    ],
+    "states": [
+     {
+      "name": "Spawned",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "Reproduce",
+        "entityName": "Horrid Reaper",
+        "densityRadius": 30,
+        "maxDensity": 4,
+        "cooldownMs": 100
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack1",
+        "time": 500
+       }
+      ]
+     },
+     {
+      "name": "Attack1",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 3.5149999999999997
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 12,
+        "cooldownMs": 800,
+        "targeted": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 12,
+        "count": 3,
+        "shootAngle": 10,
+        "cooldownMs": 1000,
+        "targeted": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 12,
+        "count": 1,
+        "shootAngle": 130,
+        "cooldownMs": 1000,
+        "targeted": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 12,
+        "count": 1,
+        "shootAngle": 230,
+        "cooldownMs": 1000,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "TransAttack2",
+        "time": 6000
+       }
+      ]
+     },
+     {
+      "name": "TransAttack2",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "Wander",
+        "speed": 3.5149999999999997
+       },
+       {
+        "type": "Flash",
+        "color": 65292,
+        "flashPeriod": 0.25,
+        "flashRepeats": 8
+       },
+       {
+        "type": "Taunt",
+        "text": "You hide behind rocks like cowards but you cannot hide from this!"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack2",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "Attack2",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 3.5149999999999997
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 10,
+        "count": 8,
+        "shootAngle": 10,
+        "fixedAngle": 0,
+        "rotateAngle": 70,
+        "cooldownMs": 2000
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 10,
+        "count": 8,
+        "shootAngle": 10,
+        "fixedAngle": 180,
+        "rotateAngle": 70,
+        "cooldownMs": 2000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "TransAttack3",
+        "time": 6200
+       }
+      ]
+     },
+     {
+      "name": "TransAttack3",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "Wander",
+        "speed": 3.5149999999999997
+       },
+       {
+        "type": "Flash",
+        "color": 65292,
+        "flashPeriod": 0.25,
+        "flashRepeats": 8
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack3",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "Attack3",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 3.5149999999999997
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 2,
+        "maxRadius": 20,
+        "count": 9,
+        "shootAngle": 40,
+        "fixedAngle": 40,
+        "cooldownMs": 2300
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "TransAttack1",
+        "time": 6000
+       }
+      ],
+      "states": [
+       {
+        "name": "Shoot1",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectileIndex": 2,
+          "maxRadius": 20,
+          "count": 2,
+          "shootAngle": 4,
+          "cooldownMs": 700,
+          "targeted": true
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": [
+           "Shoot1",
+           "Shoot2"
+          ],
+          "mode": "Random",
+          "time": 1000
+         }
+        ]
+       },
+       {
+        "name": "Shoot2",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectileIndex": 2,
+          "maxRadius": 20,
+          "count": 8,
+          "shootAngle": 5,
+          "cooldownMs": 1100,
+          "targeted": true
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": [
+           "Shoot1",
+           "Shoot2"
+          ],
+          "mode": "Random",
+          "time": 1000
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "TransAttack1",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "Wander",
+        "speed": 3.5149999999999997
+       },
+       {
+        "type": "Flash",
+        "color": 65292,
+        "flashPeriod": 0.25,
+        "flashRepeats": 8
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack1",
+        "time": 2000
+       },
+       {
+        "type": "HpLess",
+        "to": "Order",
+        "threshold": 0.15
+       }
+      ]
+     },
+     {
+      "name": "Order",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 3.5149999999999997
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       },
+       {
+        "type": "Order",
+        "range": 30,
+        "children": "Horrid Reaper",
+        "targetState": "Die"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Attack1",
+        "time": 1900
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Horrid Reaper": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invincible"
+     }
+    ],
+    "states": [
+     {
+      "name": "Move",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 3,
+        "distanceFromSpawn": 10
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Die",
+        "target": "Grand Sphinx",
+        "radius": 50
+       },
+       {
+        "type": "Timed",
+        "to": "Attack",
+        "mode": "Random",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "Attack",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 10,
+        "count": 6,
+        "shootAngle": 60,
+        "fixedAngle": 60,
+        "cooldownMs": 700
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Follow",
+        "radius": 2
+       },
+       {
+        "type": "Timed",
+        "to": "Move",
+        "mode": "Random",
+        "time": 5000
+       }
+      ]
+     },
+     {
+      "name": "Follow",
+      "scripts": [
+       {
+        "type": "Follow",
+        "speed": 4.625,
+        "distFromTarget": 10,
+        "acquireRange": 3
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 7,
+        "cooldownMs": 700,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Move",
+        "mode": "Random",
+        "time": 5000
+       }
+      ]
+     },
+     {
+      "name": "Die",
+      "scripts": [
+       {
+        "type": "Taunt",
+        "text": "OOaoaoAaAoaAAOOAoaaoooaa!!!"
+       },
+       {
+        "type": "Suicide",
+        "delay": 1000
+       }
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

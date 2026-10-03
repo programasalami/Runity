@@ -1,0 +1,638 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.LotLL.cs",
+ "behaviors": {
+  "Lord of the Lost Lands": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Shield of Ogmur",
+       "chance": 0.003,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Ice Cave Portal",
+      "probability": 0.5
+     }
+    ],
+    "states": [
+     {
+      "name": "0",
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "Start1.0",
+        "threshold": 0.99
+       }
+      ]
+     },
+     {
+      "name": "Start1.0",
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "Dead",
+        "threshold": 0.1
+       }
+      ],
+      "states": [
+       {
+        "name": "Start",
+        "scripts": [
+         {
+          "type": "SetAltTexture",
+          "minValue": 0
+         },
+         {
+          "type": "Wander",
+          "speed": 2.96
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 12,
+          "count": 7,
+          "shootAngle": 10,
+          "fixedAngle": 180,
+          "cooldownMs": 1000
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 12,
+          "count": 7,
+          "shootAngle": 10,
+          "fixedAngle": 0,
+          "cooldownMs": 800
+         },
+         {
+          "type": "TossObject",
+          "child": "Guardian of the Lost Lands"
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Spawning Guardian",
+          "time": 100
+         }
+        ]
+       },
+       {
+        "name": "Spawning Guardian",
+        "scripts": [
+         {
+          "type": "TossObject",
+          "child": "Guardian of the Lost Lands"
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Attack",
+          "time": 3100
+         }
+        ]
+       },
+       {
+        "name": "Attack",
+        "scripts": [
+         {
+          "type": "SetAltTexture",
+          "minValue": 0
+         },
+         {
+          "type": "Wander",
+          "speed": 2.96
+         }
+        ],
+        "transitions": [
+         {
+          "type": "EntityWithin",
+          "to": "Follow",
+          "radius": 1
+         },
+         {
+          "type": "Timed",
+          "to": "Gathering",
+          "time": 10000
+         }
+        ],
+        "states": [
+         {
+          "name": "Attack1.0",
+          "transitions": [
+           {
+            "type": "Timed",
+            "to": [
+             "Attack1.1",
+             "Attack1.2"
+            ],
+            "mode": "Random",
+            "time": 3000
+           }
+          ],
+          "states": [
+           {
+            "name": "Attack1.1",
+            "scripts": [
+             {
+              "type": "Shoot",
+              "projectileIndex": 0,
+              "maxRadius": 12,
+              "count": 7,
+              "shootAngle": 10,
+              "cooldownMs": 1000,
+              "targeted": true
+             },
+             {
+              "type": "Shoot",
+              "projectileIndex": 0,
+              "maxRadius": 12,
+              "count": 7,
+              "shootAngle": 190,
+              "cooldownMs": 800,
+              "targeted": true
+             }
+            ],
+            "transitions": [
+             {
+              "type": "Timed",
+              "to": "Attack1.0",
+              "time": 2000
+             }
+            ]
+           },
+           {
+            "name": "Attack1.2",
+            "scripts": [
+             {
+              "type": "Shoot",
+              "projectileIndex": 0,
+              "maxRadius": 10,
+              "count": 7,
+              "shootAngle": 10,
+              "fixedAngle": 180,
+              "cooldownMs": 1000
+             },
+             {
+              "type": "Shoot",
+              "projectileIndex": 0,
+              "maxRadius": 10,
+              "count": 7,
+              "shootAngle": 10,
+              "fixedAngle": 0,
+              "cooldownMs": 800
+             }
+            ],
+            "transitions": [
+             {
+              "type": "Timed",
+              "to": "Attack1.0",
+              "time": 2000
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "name": "Follow",
+        "scripts": [
+         {
+          "type": "Follow",
+          "speed": 6.29,
+          "distFromTarget": 3,
+          "acquireRange": 20
+         },
+         {
+          "type": "Wander",
+          "speed": 2.96
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 20,
+          "count": 7,
+          "shootAngle": 10,
+          "cooldownMs": 700,
+          "targeted": true
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Gathering",
+          "time": 5000
+         }
+        ]
+       },
+       {
+        "name": "Gathering",
+        "scripts": [
+         {
+          "type": "Taunt",
+          "text": "Gathering power!",
+          "probability": 0.99
+         },
+         {
+          "type": "SetAltTexture",
+          "minValue": 3
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Gathering1.0",
+          "time": 2000
+         }
+        ]
+       },
+       {
+        "name": "Gathering1.0",
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Protection",
+          "time": 5000
+         }
+        ],
+        "states": [
+         {
+          "name": "Gathering1.1",
+          "scripts": [
+           {
+            "type": "Shoot",
+            "projectileIndex": 1,
+            "maxRadius": 30,
+            "count": 4,
+            "shootAngle": 90,
+            "fixedAngle": 90,
+            "cooldownMs": 1200
+           }
+          ],
+          "transitions": [
+           {
+            "type": "Timed",
+            "to": "Gathering1.2",
+            "time": 1500
+           }
+          ]
+         },
+         {
+          "name": "Gathering1.2",
+          "scripts": [
+           {
+            "type": "Shoot",
+            "projectileIndex": 1,
+            "maxRadius": 30,
+            "count": 4,
+            "shootAngle": 90,
+            "fixedAngle": 45,
+            "cooldownMs": 1000
+           }
+          ],
+          "transitions": [
+           {
+            "type": "Timed",
+            "to": "Gathering1.1",
+            "time": 1500
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "name": "Protection",
+        "scripts": [
+         {
+          "type": "SetAltTexture",
+          "minValue": 0
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 0,
+          "cooldownMs": 5000
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 45,
+          "cooldownMs": 5000
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 90,
+          "cooldownMs": 5000
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 135,
+          "cooldownMs": 5000
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 180,
+          "cooldownMs": 5000
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 225,
+          "cooldownMs": 5000
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 270,
+          "cooldownMs": 5000
+         },
+         {
+          "type": "TossObject",
+          "child": "Protection Crystal",
+          "range": 4,
+          "angle": 315,
+          "cooldownMs": 5000
+         }
+        ],
+        "transitions": [
+         {
+          "type": "EntityWithin",
+          "to": "Waiting",
+          "target": "Protection Crystal",
+          "radius": 10
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "Waiting",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "SetAltTexture",
+        "minValue": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Start1.0",
+        "target": "Protection Crystal",
+        "radius": 10
+       }
+      ]
+     },
+     {
+      "name": "Dead",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "SetAltTexture",
+        "minValue": 3
+       },
+       {
+        "type": "Taunt",
+        "text": "NOOOO!!!!!!"
+       },
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 0.1,
+        "flashRepeats": 1000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Suicide",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "Suicide",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "StunImmune",
+        "persist": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 12,
+        "count": 8,
+        "shootAngle": 45,
+        "fixedAngle": 45,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Protection Crystal": {
+   "root": {
+    "scripts": [
+     {
+      "type": "Orbit",
+      "speed": 3,
+      "radius": 4,
+      "acquireRange": 10,
+      "target": "Lord of the Lost Lands"
+     },
+     {
+      "type": "Shoot",
+      "projectileIndex": 0,
+      "maxRadius": 12,
+      "count": 4,
+      "shootAngle": 7,
+      "cooldownMs": 500,
+      "targeted": true
+     }
+    ]
+   }
+  },
+  "Guardian of the Lost Lands": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.1,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "states": [
+     {
+      "name": "Full",
+      "scripts": [
+       {
+        "type": "Spawn",
+        "entityName": "Knight of the Lost Lands",
+        "maxSpawnsPerReset": 2,
+        "cooldownMs": 4000
+       },
+       {
+        "type": "Follow",
+        "speed": 11.84,
+        "distFromTarget": 6,
+        "acquireRange": 20
+       },
+       {
+        "type": "Wander",
+        "speed": 2.405
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 10,
+        "count": 8,
+        "shootAngle": 45,
+        "fixedAngle": 45,
+        "cooldownMs": 1300
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 10,
+        "count": 5,
+        "shootAngle": 10,
+        "cooldownMs": 1200,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "Low",
+        "threshold": 0.25
+       }
+      ]
+     },
+     {
+      "name": "Low",
+      "scripts": [
+       {
+        "type": "StayAwayFrom",
+        "speed": 6.29,
+        "distFromTarget": 5
+       },
+       {
+        "type": "Wander",
+        "speed": 6.29
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 10,
+        "count": 8,
+        "shootAngle": 45,
+        "fixedAngle": 45,
+        "cooldownMs": 3000
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 10,
+        "count": 5,
+        "shootAngle": 10,
+        "cooldownMs": 1500,
+        "targeted": true
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Knight of the Lost Lands": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Health Potion",
+       "chance": 0.1,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Magic Potion",
+       "chance": 0.1,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "speed": 11.84,
+      "distFromTarget": 4,
+      "acquireRange": 20
+     },
+     {
+      "type": "StayAwayFrom",
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 6.29
+     },
+     {
+      "type": "Shoot",
+      "projectileIndex": 0,
+      "maxRadius": 13,
+      "cooldownMs": 700,
+      "targeted": true
+     }
+    ]
+   }
+  }
+ }
+}

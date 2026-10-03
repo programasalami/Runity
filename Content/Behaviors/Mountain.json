@@ -1,0 +1,2388 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.Mountain.cs",
+ "behaviors": {
+  "Arena Horseman Anchor": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invincible"
+     }
+    ]
+   }
+  },
+  "Arena Headless Horseman": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Wisdom",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Arena Horseman Anchor",
+      "minSpawnCount": 1,
+      "maxSpawnsPerReset": 1
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Haunted Cemetery Portal",
+      "probability": 0.5
+     }
+    ],
+    "states": [
+     {
+      "name": "EverythingIsCool",
+      "transitions": [
+       {
+        "type": "HpLess",
+        "to": "End",
+        "threshold": 0.1
+       }
+      ],
+      "states": [
+       {
+        "name": "Circle",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Orange Pumpkin Blast",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 7.5
+            }
+           ],
+           "damage": 85,
+           "lifetimeMs": 2000,
+           "size": 140
+          },
+          "targeted": true,
+          "maxRadius": 15,
+          "count": 3,
+          "shootAngle": 25,
+          "cooldownMs": 1000
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Orange Shot",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6
+            }
+           ],
+           "damage": 120,
+           "lifetimeMs": 2500,
+           "size": 170
+          },
+          "targeted": true,
+          "maxRadius": 15,
+          "cooldownMs": 1000
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Shoot",
+          "time": 8000
+         }
+        ]
+       },
+       {
+        "name": "Shoot",
+        "scripts": [
+         {
+          "type": "ReturnToSpawn",
+          "speed": 9.045
+         },
+         {
+          "type": "ConditionEffectBehavior",
+          "effect": "Invincible"
+         },
+         {
+          "type": "Flash",
+          "color": 15787660,
+          "flashPeriod": 1,
+          "flashRepeats": 6
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Horseman Blast",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 7.5
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1500,
+           "size": 150
+          },
+          "targeted": true,
+          "maxRadius": 15,
+          "count": 8,
+          "cooldownMs": 1500
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Orange Shot",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6
+            }
+           ],
+           "damage": 120,
+           "lifetimeMs": 2500,
+           "size": 170
+          },
+          "targeted": true,
+          "maxRadius": 15,
+          "cooldownMs": 2500
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Circle",
+          "time": 6000
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "End",
+      "scripts": [
+       {
+        "type": "Follow",
+        "speed": 9.045,
+        "acquireRange": 20,
+        "distFromTarget": 1
+       },
+       {
+        "type": "Wander",
+        "speed": 3.995
+       },
+       {
+        "type": "Flash",
+        "color": 15787660,
+        "flashPeriod": 1,
+        "flashRepeats": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Orange Pumpkin Blast",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7.5
+          }
+         ],
+         "damage": 85,
+         "lifetimeMs": 2000,
+         "size": 140
+        },
+        "targeted": true,
+        "maxRadius": 15,
+        "count": 3,
+        "shootAngle": 25,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Orange Shot",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 6
+          }
+         ],
+         "damage": 120,
+         "lifetimeMs": 2500,
+         "size": 170
+        },
+        "targeted": true,
+        "maxRadius": 15,
+        "cooldownMs": 1000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "White Demon": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Attack",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Abyss of Demons Portal",
+      "probability": 0.25
+     },
+     {
+      "type": "Follow",
+      "speed": 5.29,
+      "distFromTarget": 7
+     },
+     {
+      "type": "Wander",
+      "speed": 2.92
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "White Demon Shot",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 5
+        }
+       ],
+       "damage": 45,
+       "lifetimeMs": 2000,
+       "size": 60,
+       "multiHit": true,
+       "armorPiercing": true
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "count": 3,
+      "shootAngle": 20,
+      "predictive": 1,
+      "cooldownMs": 500
+     },
+     {
+      "type": "Spawn",
+      "entityName": "White Demon",
+      "maxDensity": 3,
+      "cooldownMs": 60000
+     }
+    ]
+   }
+  },
+  "Sprite God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Attack",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "states": [
+     {
+      "name": "0",
+      "scripts": [
+       {
+        "type": "DropPortalOnDeath",
+        "portalId": "Glowing Portal",
+        "probability": 0.25
+       },
+       {
+        "type": "Wander",
+        "speed": 2.22
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Purple Magic",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 100,
+         "lifetimeMs": 2000
+        },
+        "targeted": true,
+        "maxRadius": 12,
+        "count": 4,
+        "shootAngle": 10,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "targeted": true,
+        "maxRadius": 10,
+        "predictive": 1,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Spawn",
+        "entityName": "Sprite God",
+        "maxDensity": 3,
+        "cooldownMs": 60000
+       },
+       {
+        "type": "Spawn",
+        "entityName": "Sprite Child",
+        "minSpawnCount": 5,
+        "maxSpawnCount": 5,
+        "maxSpawnsPerReset": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Sprite Child": {
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Glowing Portal",
+      "probability": 0.15
+     },
+     {
+      "type": "Protect",
+      "speed": 2.22,
+      "protectee": "Sprite God",
+      "protectionRange": 1
+     },
+     {
+      "type": "Wander",
+      "speed": 2.22
+     }
+    ]
+   }
+  },
+  "Medusa": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Speed",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Snake Pit Portal",
+      "probability": 0.25
+     },
+     {
+      "type": "Follow",
+      "distFromTarget": 7,
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 2.22
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 100,
+       "lifetimeMs": 2000
+      },
+      "targeted": true,
+      "maxRadius": 12,
+      "count": 5,
+      "shootAngle": 10,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "AOE",
+      "radius": 4,
+      "damage": 150,
+      "effects": [],
+      "range": 8,
+      "cooldownMs": 3000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Medusa",
+      "maxDensity": 3,
+      "cooldownMs": 60000
+     }
+    ]
+   }
+  },
+  "Ent God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Defense",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "distFromTarget": 7,
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 2.22
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Fire Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 8
+        }
+       ],
+       "damage": 70,
+       "lifetimeMs": 2000,
+       "multiHit": true
+      },
+      "targeted": true,
+      "maxRadius": 12,
+      "count": 5,
+      "shootAngle": 10,
+      "predictive": 1,
+      "cooldownMs": 1250
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Ent God",
+      "maxDensity": 3,
+      "cooldownMs": 60000
+     }
+    ]
+   }
+  },
+  "Beholder": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Defense",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "distFromTarget": 7,
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 2.22
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "White Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 5
+        }
+       ],
+       "damage": 120,
+       "lifetimeMs": 2700,
+       "size": 120
+      },
+      "targeted": true,
+      "maxRadius": 12,
+      "count": 5,
+      "shootAngle": 72,
+      "predictive": 1,
+      "cooldownMs": 750
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Purple Star",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 0,
+       "lifetimeMs": 3000,
+       "effects": [
+        {
+         "effect": "Blind",
+         "durationMs": 5000
+        }
+       ]
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Beholder",
+      "maxDensity": 3,
+      "cooldownMs": 60000
+     }
+    ]
+   }
+  },
+  "Flying Brain": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Attack",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "distFromTarget": 7,
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 2.22
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Pink Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 12
+        }
+       ],
+       "damage": 50,
+       "lifetimeMs": 1800
+      },
+      "targeted": true,
+      "maxRadius": 12,
+      "count": 5,
+      "shootAngle": 72,
+      "cooldownMs": 500
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Flying Brain",
+      "maxDensity": 3,
+      "cooldownMs": 60000
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Mad Lab Portal",
+      "probability": 0.17
+     }
+    ]
+   }
+  },
+  "Slime God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Defense",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "distFromTarget": 7,
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 2.22
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Red Fire",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 10
+        }
+       ],
+       "damage": 80,
+       "lifetimeMs": 1100
+      },
+      "targeted": true,
+      "maxRadius": 12,
+      "count": 5,
+      "shootAngle": 10,
+      "predictive": 1,
+      "cooldownMs": 1000
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Green Star",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 7
+        }
+       ],
+       "damage": 0,
+       "lifetimeMs": 2000,
+       "effects": [
+        {
+         "effect": "Slowed",
+         "durationMs": 6000
+        }
+       ]
+      },
+      "targeted": true,
+      "maxRadius": 10,
+      "predictive": 1,
+      "cooldownMs": 650
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Slime God",
+      "maxDensity": 2,
+      "cooldownMs": 60000
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Toxic Sewers Portal",
+      "probability": 0.3
+     }
+    ]
+   }
+  },
+  "Ghost God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Speed",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Follow",
+      "distFromTarget": 7,
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 2.22
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "White Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 5
+        }
+       ],
+       "damage": 120,
+       "lifetimeMs": 2700,
+       "size": 110
+      },
+      "targeted": true,
+      "maxRadius": 12,
+      "count": 7,
+      "shootAngle": 25,
+      "predictive": 1,
+      "cooldownMs": 900
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Ghost God",
+      "maxDensity": 3,
+      "cooldownMs": 60000
+     },
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Undead Lair Portal",
+      "probability": 0.25
+     }
+    ]
+   }
+  },
+  "Rock Bot": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Dexterity",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Spawn",
+      "entityName": "Paper Bot",
+      "maxSpawnsPerReset": 1,
+      "cooldownMs": 10000
+     },
+     {
+      "type": "Spawn",
+      "entityName": "Steel Bot",
+      "maxSpawnsPerReset": 1,
+      "cooldownMs": 10000
+     },
+     {
+      "type": "Swirl",
+      "speed": 4.07,
+      "radius": 3,
+      "targeted": false
+     }
+    ],
+    "states": [
+     {
+      "name": "Waiting",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Attacking",
+        "radius": 15
+       }
+      ]
+     },
+     {
+      "name": "Attacking",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Bullet",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 7
+          }
+         ],
+         "damage": 80,
+         "lifetimeMs": 2000,
+         "size": 80,
+         "multiHit": true
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "cooldownMs": 2000
+       },
+       {
+        "type": "HealGroup",
+        "range": 8,
+        "group": "Papers"
+       },
+       {
+        "type": "Taunt",
+        "text": "We are impervious to non-mystic attacks!",
+        "probability": 0.5
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Waiting",
+        "time": 10000
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Paper Bot": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Vitality",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Puppet Theatre Portal",
+      "probability": 0.15
+     },
+     {
+      "type": "Orbit",
+      "speed": 2.94,
+      "radius": 3,
+      "target": "Rock Bot"
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ],
+    "states": [
+     {
+      "name": "Idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Attack",
+        "radius": 15
+       }
+      ]
+     },
+     {
+      "name": "Attack",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Bullet",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 3
+          }
+         ],
+         "damage": 50,
+         "lifetimeMs": 4000,
+         "size": 50,
+         "multiHit": true
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "count": 3,
+        "shootAngle": 20,
+        "cooldownMs": 800
+       },
+       {
+        "type": "HealGroup",
+        "range": 8,
+        "group": "Steels"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Idle",
+        "radius": 30
+       },
+       {
+        "type": "HpLess",
+        "to": "Explode",
+        "threshold": 0.2
+       }
+      ]
+     },
+     {
+      "name": "Explode",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Bullet",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 3
+          }
+         ],
+         "damage": 50,
+         "lifetimeMs": 4000,
+         "size": 50,
+         "multiHit": true
+        },
+        "maxRadius": 10,
+        "targeted": false,
+        "count": 10,
+        "shootAngle": 36,
+        "fixedAngle": 0,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Steel Bot": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Speed",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "Orbit",
+      "speed": 2.94,
+      "radius": 3,
+      "target": "Rock Bot"
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     }
+    ],
+    "states": [
+     {
+      "name": "Idle",
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Attack",
+        "radius": 15
+       }
+      ]
+     },
+     {
+      "name": "Attack",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Bullet",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 3
+          }
+         ],
+         "damage": 50,
+         "lifetimeMs": 4000,
+         "size": 50,
+         "multiHit": true
+        },
+        "maxRadius": 8,
+        "targeted": true,
+        "count": 3,
+        "shootAngle": 20,
+        "cooldownMs": 800
+       },
+       {
+        "type": "HealGroup",
+        "range": 8,
+        "group": "Rocks"
+       },
+       {
+        "type": "Taunt",
+        "text": "Silly squishy. We heal our brothers in a circle.",
+        "probability": 0.5
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Idle",
+        "radius": 30
+       },
+       {
+        "type": "HpLess",
+        "to": "Explode",
+        "threshold": 0.2
+       }
+      ]
+     },
+     {
+      "name": "Explode",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "White Bullet",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 3
+          }
+         ],
+         "damage": 50,
+         "lifetimeMs": 4000,
+         "size": 50,
+         "multiHit": true
+        },
+        "maxRadius": 10,
+        "targeted": false,
+        "count": 10,
+        "shootAngle": 36,
+        "fixedAngle": 0,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Djinn": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Speed",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Treasure Cave Portal",
+      "probability": 0.25
+     }
+    ],
+    "states": [
+     {
+      "name": "Idle",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 2.94
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "Spawn",
+        "entityName": "Djinn",
+        "maxDensity": 3,
+        "densityRadius": 20,
+        "cooldownMs": 60000
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Attacking",
+        "radius": 8
+       }
+      ]
+     },
+     {
+      "name": "Attacking",
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Idle",
+        "radius": 13
+       },
+       {
+        "type": "HpLess",
+        "to": "FlashBeforeExplode",
+        "threshold": 0.5
+       }
+      ],
+      "states": [
+       {
+        "name": "Bullet",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 90,
+          "cooldownOffsetMs": 0,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 100,
+          "cooldownOffsetMs": 200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 110,
+          "cooldownOffsetMs": 400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 120,
+          "cooldownOffsetMs": 600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 130,
+          "cooldownOffsetMs": 800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 140,
+          "cooldownOffsetMs": 1000,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 150,
+          "cooldownOffsetMs": 1200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 160,
+          "cooldownOffsetMs": 1400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 170,
+          "cooldownOffsetMs": 1600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 180,
+          "cooldownOffsetMs": 1800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 8,
+          "cooldownMs": 10000,
+          "fixedAngle": 180,
+          "cooldownOffsetMs": 2000,
+          "shootAngle": 45,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 180,
+          "cooldownOffsetMs": 0,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 170,
+          "cooldownOffsetMs": 200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 160,
+          "cooldownOffsetMs": 400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 150,
+          "cooldownOffsetMs": 600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 140,
+          "cooldownOffsetMs": 800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 130,
+          "cooldownOffsetMs": 1000,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 120,
+          "cooldownOffsetMs": 1200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 110,
+          "cooldownOffsetMs": 1400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 100,
+          "cooldownOffsetMs": 1600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 90,
+          "cooldownOffsetMs": 1800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 8,
+          "cooldownMs": 10000,
+          "fixedAngle": 90,
+          "cooldownOffsetMs": 2000,
+          "shootAngle": 22.5,
+          "targeted": false
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Wait",
+          "time": 2000
+         }
+        ]
+       },
+       {
+        "name": "Wait",
+        "scripts": [
+         {
+          "type": "Follow",
+          "speed": 4.07,
+          "distFromTarget": 0.5
+         },
+         {
+          "type": "Flash",
+          "color": 65280,
+          "flashPeriod": 0.1,
+          "flashRepeats": 20
+         },
+         {
+          "type": "ConditionEffectBehavior",
+          "effect": "Invulnerable"
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Bullet",
+          "time": 2000
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "FlashBeforeExplode",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 0.3,
+        "flashRepeats": 3
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Explode",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "Explode",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 10,
+        "count": 10,
+        "shootAngle": 36,
+        "fixedAngle": 0,
+        "targeted": false,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Lucky Djinn": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Defense",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "The Crawling Depths"
+     }
+    ],
+    "states": [
+     {
+      "name": "Idle",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 2.94
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityWithin",
+        "to": "Attacking",
+        "radius": 8
+       }
+      ]
+     },
+     {
+      "name": "Attacking",
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Idle",
+        "radius": 13
+       },
+       {
+        "type": "HpLess",
+        "to": "FlashBeforeExplode",
+        "threshold": 0.5
+       }
+      ],
+      "states": [
+       {
+        "name": "Bullet",
+        "scripts": [
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 90,
+          "cooldownOffsetMs": 0,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 100,
+          "cooldownOffsetMs": 200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 110,
+          "cooldownOffsetMs": 400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 120,
+          "cooldownOffsetMs": 600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 130,
+          "cooldownOffsetMs": 800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 140,
+          "cooldownOffsetMs": 1000,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 150,
+          "cooldownOffsetMs": 1200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 160,
+          "cooldownOffsetMs": 1400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 170,
+          "cooldownOffsetMs": 1600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 180,
+          "cooldownOffsetMs": 1800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 8,
+          "cooldownMs": 10000,
+          "fixedAngle": 180,
+          "cooldownOffsetMs": 2000,
+          "shootAngle": 45,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 180,
+          "cooldownOffsetMs": 0,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 170,
+          "cooldownOffsetMs": 200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 160,
+          "cooldownOffsetMs": 400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 150,
+          "cooldownOffsetMs": 600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 140,
+          "cooldownOffsetMs": 800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 130,
+          "cooldownOffsetMs": 1000,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 120,
+          "cooldownOffsetMs": 1200,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 110,
+          "cooldownOffsetMs": 1400,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 100,
+          "cooldownOffsetMs": 1600,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "cooldownMs": 10000,
+          "fixedAngle": 90,
+          "cooldownOffsetMs": 1800,
+          "shootAngle": 90,
+          "targeted": false
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 8,
+          "cooldownMs": 10000,
+          "fixedAngle": 90,
+          "cooldownOffsetMs": 2000,
+          "shootAngle": 22.5,
+          "targeted": false
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Wait",
+          "time": 2000
+         }
+        ]
+       },
+       {
+        "name": "Wait",
+        "scripts": [
+         {
+          "type": "Follow",
+          "speed": 4.07,
+          "distFromTarget": 0.5
+         },
+         {
+          "type": "Flash",
+          "color": 65280,
+          "flashPeriod": 0.1,
+          "flashRepeats": 20
+         },
+         {
+          "type": "ConditionEffectBehavior",
+          "effect": "Invulnerable"
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Bullet",
+          "time": 2000
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "FlashBeforeExplode",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "Flash",
+        "color": 16711680,
+        "flashPeriod": 0.3,
+        "flashRepeats": 3
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Explode",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "Explode",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 10,
+        "count": 10,
+        "shootAngle": 36,
+        "fixedAngle": 0,
+        "targeted": false,
+        "cooldownMs": 1000
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Lucky Ent God": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Weapon",
+       "chance": 0.08,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Weapon",
+       "chance": 0.04,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Weapon",
+       "chance": 0.02,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 8,
+       "itemType": "Weapon",
+       "chance": 0.01,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 5,
+       "itemType": "Armor",
+       "chance": 0.08,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 6,
+       "itemType": "Armor",
+       "chance": 0.04,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 7,
+       "itemType": "Armor",
+       "chance": 0.02,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 8,
+       "itemType": "Armor",
+       "chance": 0.01,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ring",
+       "chance": 0.05,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 4,
+       "itemType": "Ring",
+       "chance": 0.025,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 3,
+       "itemType": "Ability",
+       "chance": 0.08,
+       "threshold": 0.01
+      },
+      {
+       "type": "Tier",
+       "tier": 4,
+       "itemType": "Ability",
+       "chance": 0.04,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Potion of Defense",
+       "chance": 0.025,
+       "threshold": 0.18
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Woodland Labyrinth"
+     },
+     {
+      "type": "Follow",
+      "distFromTarget": 7,
+      "speed": 6.29
+     },
+     {
+      "type": "Wander",
+      "speed": 2.94
+     },
+     {
+      "type": "Shoot",
+      "projectile": {
+       "id": "Fire Bolt",
+       "path": [
+        {
+         "type": "Line",
+         "speed": 8
+        }
+       ],
+       "damage": 100,
+       "lifetimeMs": 2000,
+       "multiHit": true
+      },
+      "maxRadius": 12,
+      "targeted": true,
+      "count": 5,
+      "shootAngle": 10,
+      "predictive": 1,
+      "cooldownMs": 1250
+     }
+    ]
+   }
+  },
+  "Leviathan": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Potion of Defense",
+       "chance": 0.05,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "DropPortalOnDeath",
+      "portalId": "Puppet Theatre Portal",
+      "probability": 0.25
+     }
+    ],
+    "states": [
+     {
+      "name": "Wander",
+      "scripts": [
+       {
+        "type": "Swirl"
+       },
+       {
+        "type": "Shoot",
+        "projectile": {
+         "id": "Blue Missile",
+         "path": [
+          {
+           "type": "Line",
+           "speed": 8.5
+          }
+         ],
+         "damage": 90,
+         "lifetimeMs": 1800
+        },
+        "maxRadius": 10,
+        "targeted": true,
+        "count": 2,
+        "shootAngle": 10,
+        "cooldownMs": 500
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Triangle",
+        "time": 5000
+       }
+      ]
+     },
+     {
+      "name": "Triangle",
+      "states": [
+       {
+        "name": "1",
+        "scripts": [
+         {
+          "type": "MoveLine",
+          "speed": 4.07,
+          "angle": 40
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 34,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 38,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 1,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 42,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 1,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 46,
+          "cooldownMs": 300
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "2",
+          "time": 1500
+         }
+        ]
+       },
+       {
+        "name": "2",
+        "scripts": [
+         {
+          "type": "MoveLine",
+          "speed": 4.07,
+          "angle": 160
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 94,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 98,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 102,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 106,
+          "cooldownMs": 300
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "3",
+          "time": 1500
+         }
+        ]
+       },
+       {
+        "name": "3",
+        "scripts": [
+         {
+          "type": "MoveLine",
+          "speed": 4.07,
+          "angle": 280
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 274,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 278,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 282,
+          "cooldownMs": 300
+         },
+         {
+          "type": "Shoot",
+          "projectile": {
+           "id": "Aqua Missile",
+           "path": [
+            {
+             "type": "Line",
+             "speed": 6.7
+            }
+           ],
+           "damage": 70,
+           "lifetimeMs": 1700
+          },
+          "maxRadius": 10,
+          "targeted": false,
+          "count": 3,
+          "shootAngle": 120,
+          "fixedAngle": 286,
+          "cooldownMs": 300
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "Wander",
+          "time": 1500
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

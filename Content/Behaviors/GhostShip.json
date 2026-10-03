@@ -1,0 +1,1073 @@
+{
+ "format": 1,
+ "source": "BehaviorLib.GhostShip.cs",
+ "behaviors": {
+  "Vengeful Spirit": {
+   "root": {
+    "states": [
+     {
+      "name": "Start",
+      "scripts": [
+       {
+        "type": "ChangeSize",
+        "rate": 50,
+        "target": 120
+       },
+       {
+        "type": "Follow",
+        "speed": 3.5149999999999997,
+        "distFromTarget": 1,
+        "acquireRange": 8
+       },
+       {
+        "type": "Wander",
+        "speed": 2.405
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 3,
+        "shootAngle": 16,
+        "cooldownMs": 800,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Vengeful",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "Vengeful",
+      "scripts": [
+       {
+        "type": "Follow",
+        "speed": 3.5149999999999997,
+        "distFromTarget": 8,
+        "acquireRange": 1
+       },
+       {
+        "type": "Wander",
+        "speed": 2.405
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 3,
+        "shootAngle": 16,
+        "cooldownMs": 1245,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Vengeful2",
+        "time": 3000
+       }
+      ]
+     },
+     {
+      "name": "Vengeful2",
+      "scripts": [
+       {
+        "type": "ReturnToSpawn",
+        "speed": 6.29
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 3,
+        "shootAngle": 16,
+        "cooldownMs": 750,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Vengeful",
+        "time": 1500
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Water Mine": {
+   "root": {
+    "states": [
+     {
+      "name": "Seek",
+      "scripts": [
+       {
+        "type": "Follow",
+        "speed": 5.735,
+        "distFromTarget": 1,
+        "acquireRange": 8
+       },
+       {
+        "type": "Wander",
+        "speed": 2.405
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Boom",
+        "time": 3750
+       }
+      ]
+     },
+     {
+      "name": "Boom",
+      "scripts": [
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 10,
+        "shootAngle": 36,
+        "cooldownMs": 700,
+        "targeted": true
+       },
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Beach Spectre": {
+   "root": {
+    "states": [
+     {
+      "name": "Fight",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 2.405
+       },
+       {
+        "type": "ChangeSize",
+        "rate": 10,
+        "target": 120
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 3,
+        "shootAngle": 14,
+        "cooldownMs": 1250,
+        "targeted": true
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Beach Spectre Spawner": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invincible"
+     }
+    ],
+    "states": [
+     {
+      "name": "Idle",
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Spawn",
+        "time": 1000
+       }
+      ]
+     },
+     {
+      "name": "Spawn",
+      "scripts": [
+       {
+        "type": "Reproduce",
+        "entityName": "Beach Spectre",
+        "maxDensity": 1,
+        "densityRadius": 3,
+        "cooldownMs": 1250
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Death",
+        "target": "Ghost Ship",
+        "radius": 30
+       }
+      ]
+     },
+     {
+      "name": "Death",
+      "scripts": [
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Tempest Cloud": {
+   "root": {
+    "scripts": [
+     {
+      "type": "ConditionEffectBehavior",
+      "effect": "Invincible"
+     }
+    ],
+    "states": [
+     {
+      "name": "Start1",
+      "scripts": [
+       {
+        "type": "ChangeSize",
+        "rate": 70,
+        "target": 130
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start2",
+        "time": 3000
+       }
+      ]
+     },
+     {
+      "name": "Start2",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 1
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start3",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Start3",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 2
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start4",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Start4",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 3
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start5",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Start5",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 4
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start6",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Start6",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 5
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start7",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Start7",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 6
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start8",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Start8",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 7
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Start9",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Start9",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 8
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "Final",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "Final",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 9
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "CircleAndStorm",
+        "time": 1
+       }
+      ]
+     },
+     {
+      "name": "CircleAndStorm",
+      "scripts": [
+       {
+        "type": "Orbit",
+        "speed": 1,
+        "radius": 9,
+        "acquireRange": 20,
+        "target": "Ghost Ship Anchor"
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 7,
+        "shootAngle": 51.42857142857143,
+        "cooldownMs": 1000,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "EntityNotWithin",
+        "to": "Death",
+        "target": "Ghost Ship",
+        "radius": 30
+       }
+      ]
+     },
+     {
+      "name": "Death",
+      "scripts": [
+       {
+        "type": "Suicide"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Ghost Ship Anchor": {
+   "root": {
+    "states": [
+     {
+      "name": "idle",
+      "scripts": [
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       }
+      ]
+     },
+     {
+      "name": "tempestcloud",
+      "scripts": [
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 0,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 45,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 90,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 135,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 180,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 225,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 270,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 315,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 350,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 250,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 110,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 200,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 10,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Tempest Cloud",
+        "range": 9,
+        "angle": 290,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 0,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 45,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 90,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 135,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 180,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 225,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 270,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 315,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 250,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 110,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "TossObject",
+        "child": "Beach Spectre Spawner",
+        "range": 17,
+        "angle": 200,
+        "cooldownMs": 9999999,
+        "tossInvis": true
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invincible"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "Ghost Ship": {
+   "loot": [
+    {
+     "public": false,
+     "items": [
+      {
+       "type": "Item",
+       "id": "Trap of the Vile Spirit",
+       "chance": 0.001,
+       "threshold": 0.01
+      },
+      {
+       "type": "Item",
+       "id": "Ghost Pirate Rum",
+       "chance": 1,
+       "threshold": 0.01
+      }
+     ]
+    }
+   ],
+   "root": {
+    "scripts": [
+     {
+      "type": "SpawnSetpieceOnDeath",
+      "setpiece": "GhostShipDeath",
+      "useSpawnPoint": true
+     }
+    ],
+    "states": [
+     {
+      "name": "idle",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 1
+       },
+       {
+        "type": "Wander",
+        "speed": 6.29
+       }
+      ],
+      "transitions": [
+       {
+        "type": "DamageTaken",
+        "to": "pause",
+        "damage": 2000
+       }
+      ]
+     },
+     {
+      "name": "pause",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 2
+       },
+       {
+        "type": "ConditionEffectBehavior",
+        "effect": "Invulnerable"
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "start",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "start",
+      "scripts": [
+       {
+        "type": "SetAltTexture",
+        "minValue": 0
+       },
+       {
+        "type": "Reproduce",
+        "entityName": "Vengeful Spirit",
+        "maxDensity": 2,
+        "cooldownMs": 2500
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "midfight",
+        "time": 15000
+       }
+      ],
+      "states": [
+       {
+        "name": "2",
+        "scripts": [
+         {
+          "type": "SetAltTexture",
+          "minValue": 0
+         },
+         {
+          "type": "Wander",
+          "speed": 1.295
+         },
+         {
+          "type": "StayAwayFrom",
+          "speed": 1.295,
+          "distFromTarget": 5
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 12,
+          "cooldownMs": 450,
+          "targeted": true
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 12,
+          "count": 3,
+          "shootAngle": 20,
+          "cooldownMs": 1050,
+          "targeted": true
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "1",
+          "time": 3250
+         }
+        ]
+       },
+       {
+        "name": "1",
+        "scripts": [
+         {
+          "type": "TossObject",
+          "child": "Water Mine",
+          "range": 7,
+          "cooldownMs": 1000
+         },
+         {
+          "type": "ConditionEffectBehavior",
+          "effect": "Invulnerable"
+         },
+         {
+          "type": "ReturnToSpawn",
+          "speed": 6.29
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 12,
+          "cooldownMs": 450,
+          "targeted": true
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 12,
+          "count": 3,
+          "shootAngle": 20,
+          "cooldownMs": 1050,
+          "targeted": true
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "2",
+          "time": 1500
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "midfight",
+      "scripts": [
+       {
+        "type": "Order",
+        "range": 100,
+        "children": "Ghost Ship Anchor",
+        "targetState": "tempestcloud"
+       },
+       {
+        "type": "Reproduce",
+        "entityName": "Vengeful Spirit",
+        "maxDensity": 1,
+        "cooldownMs": 5000
+       },
+       {
+        "type": "TossObject",
+        "child": "Water Mine",
+        "cooldownMs": 2250
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "countdown",
+        "time": 10000
+       }
+      ],
+      "states": [
+       {
+        "name": "midfight2",
+        "scripts": [
+         {
+          "type": "SetAltTexture",
+          "minValue": 0
+         },
+         {
+          "type": "ReturnToSpawn",
+          "speed": 6.29
+         },
+         {
+          "type": "ConditionEffectBehavior",
+          "effect": "Invulnerable"
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "shootAngle": 90,
+          "cooldownOffsetMs": 800,
+          "angleOffset": 270,
+          "cooldownMs": 1000,
+          "targeted": true
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 10,
+          "count": 4,
+          "shootAngle": 90,
+          "cooldownOffsetMs": 800,
+          "angleOffset": 90,
+          "cooldownMs": 1000,
+          "targeted": true
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 1,
+          "maxRadius": 8.4,
+          "cooldownMs": 1250,
+          "targeted": true
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "midfight1",
+          "time": 3000
+         }
+        ]
+       },
+       {
+        "name": "midfight1",
+        "scripts": [
+         {
+          "type": "Follow",
+          "speed": 5.180000000000001,
+          "distFromTarget": 1,
+          "acquireRange": 8
+         },
+         {
+          "type": "Wander",
+          "speed": 3.5149999999999997
+         },
+         {
+          "type": "Taunt",
+          "text": "Fire at will!"
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 1,
+          "maxRadius": 8.4,
+          "count": 2,
+          "shootAngle": 25,
+          "cooldownMs": 1250,
+          "targeted": true
+         },
+         {
+          "type": "Shoot",
+          "projectileIndex": 0,
+          "maxRadius": 8.4,
+          "count": 6,
+          "shootAngle": 10,
+          "cooldownMs": 950,
+          "targeted": true
+         }
+        ],
+        "transitions": [
+         {
+          "type": "Timed",
+          "to": "midfight2",
+          "time": 4000
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "name": "countdown",
+      "scripts": [
+       {
+        "type": "Wander",
+        "speed": 2.405
+       },
+       {
+        "type": "Timed",
+        "period": 1000,
+        "scripts": [
+         {
+          "type": "Taunt",
+          "text": "Ready.."
+         }
+        ]
+       },
+       {
+        "type": "Timed",
+        "period": 2000,
+        "scripts": [
+         {
+          "type": "Taunt",
+          "text": "Aim.."
+         }
+        ]
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "cooldownMs": 450,
+        "targeted": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 5,
+        "shootAngle": 20,
+        "cooldownMs": 750,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "fire",
+        "time": 2000
+       }
+      ]
+     },
+     {
+      "name": "fire",
+      "scripts": [
+       {
+        "type": "Follow",
+        "speed": 2.405,
+        "distFromTarget": 1,
+        "acquireRange": 8
+       },
+       {
+        "type": "Wander",
+        "speed": 1.295
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 10,
+        "count": 4,
+        "shootAngle": 90,
+        "cooldownOffsetMs": 1100,
+        "angleOffset": 270,
+        "cooldownMs": 850,
+        "targeted": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 1,
+        "maxRadius": 10,
+        "count": 4,
+        "shootAngle": 90,
+        "cooldownOffsetMs": 1100,
+        "angleOffset": 90,
+        "cooldownMs": 850,
+        "targeted": true
+       },
+       {
+        "type": "Shoot",
+        "projectileIndex": 0,
+        "maxRadius": 8.4,
+        "count": 10,
+        "cooldownMs": 1300,
+        "targeted": true
+       }
+      ],
+      "transitions": [
+       {
+        "type": "Timed",
+        "to": "midfight",
+        "time": 3400
+       }
+      ]
+     }
+    ]
+   }
+  }
+ }
+}
