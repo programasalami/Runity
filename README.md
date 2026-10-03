@@ -1,10 +1,10 @@
-# Warriors & Wizards - Unity client + C++ server
+# Credits to Link & Zolmex for their awesome work and creation of Alloy, they created the entire foundation of what this port was built around.
+https://github.com/NotTheLegend/Alloy-Client
+https://github.com/Zolmex/Alloy-Server
 
-The migration of Warriors & Wizards (reference: `Reference - This Is The Source Being Ported To Unity/`) to a Unity client, a C++
-authoritative game server, a C# Account/API service, PostgreSQL and Redis. Start with `Documentation/Migration/Architecture.md`;
-what is done and how it is tested is in `Documentation/Migration/MigrationStatus.md`.
+# Unity client + C++ server
 
-| Folder | What it is |
+| Navigation | 
 | --- | --- |
 | `Documentation/Migration/` | the audit of the reference and the design of the new system (19 documents) |
 | `Protocol/` | the game protocol contract (`schema/protocol.toml`), its generator and shared test vectors |
