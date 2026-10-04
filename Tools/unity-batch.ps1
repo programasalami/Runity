@@ -1,4 +1,4 @@
-# Runs Unity in batch mode on the WaW project with a stall watchdog (the editor occasionally stops making progress in batch mode).
+# Runs Unity in batch mode on the Runity project with a stall watchdog (the editor occasionally stops making progress in batch mode).
 #   powershell -File Tools\unity-batch.ps1 -Log TestResults\x.log -Args "-runTests","-testPlatform","EditMode","-testResults","C:\...\x.xml"
 param(
     [Parameter(Mandatory = $true)][string]$Log,
@@ -15,7 +15,7 @@ if (Test-Path $logPath) {
     # A killed editor can hold its log for a while: never fail on it, write a fresh file instead.
     try { Remove-Item $logPath -ErrorAction Stop } catch { $logPath = $logPath -replace '\.log$', ('-' + (Get-Date -Format 'HHmmss') + '.log'); Write-Output "log: $logPath" }
 }
-$all = @('-batchmode', '-projectPath', (Join-Path $root 'WaW'), '-logFile', $logPath) + $Args
+$all = @('-batchmode', '-projectPath', (Join-Path $root 'Runity'), '-logFile', $logPath) + $Args
 if ($NoGraphics) { $all = @('-nographics') + $all }
 $p = Start-Process -FilePath $unity -ArgumentList $all -PassThru
 $start = Get-Date
@@ -28,7 +28,7 @@ while (-not $p.HasExited) {
     $tooLong = ((Get-Date) - $start).TotalMinutes -ge $MaxMinutes
     if ($stalled -or $tooLong) {
         Write-Output ("watchdog: Unity " + $(if ($stalled) { "made no progress for $StallMinutes minutes" } else { "ran over $MaxMinutes minutes" }) + " - stopping it")
-        Get-CimInstance Win32_Process -Filter "Name='Unity.exe'" | Where-Object { $_.CommandLine -like '*Runity*WaW*' } |
+        Get-CimInstance Win32_Process -Filter "Name='Unity.exe'" | Where-Object { $_.CommandLine -like '*Runity*Runity*' } |
             ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
         exit 3
     }

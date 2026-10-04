@@ -1,10 +1,10 @@
-#include "waw/sim/world.hpp"
+#include "runity/sim/world.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <numbers>
 
-namespace waw::sim {
+namespace runity::sim {
 
 namespace {
 
@@ -1007,4 +1007,4 @@ void World::tick(float dt_ms, std::vector<ViewUpdate>& out) {
     }
 }
 
-}  // namespace waw::sim
+}  // namespace runity::sim

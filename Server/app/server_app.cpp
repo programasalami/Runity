@@ -2,9 +2,9 @@
 
 #include <chrono>
 
-#include "waw/core/tick_scheduler.hpp"
+#include "runity/core/tick_scheduler.hpp"
 
-namespace waw::app {
+namespace runity::app {
 
 ServerApp::ServerApp(Config config, core::ILogSink& sink, const core::IClock& clock)
     : config_(std::move(config)),
@@ -66,4 +66,4 @@ int ServerApp::run(std::optional<core::Millis> run_for) {
     return 0;
 }
 
-}  // namespace waw::app
+}  // namespace runity::app

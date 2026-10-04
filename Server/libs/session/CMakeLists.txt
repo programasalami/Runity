@@ -1,4 +1,4 @@
-add_library(waw_session STATIC src/session_manager.cpp)
-target_include_directories(waw_session PUBLIC include)
-target_link_libraries(waw_session PUBLIC waw_core waw_protocol waw_net waw_persistence)
-waw_set_warnings(waw_session)
+add_library(runity_session STATIC src/session_manager.cpp)
+target_include_directories(runity_session PUBLIC include)
+target_link_libraries(runity_session PUBLIC runity_core runity_protocol runity_net runity_persistence)
+runity_set_warnings(runity_session)

@@ -6,9 +6,9 @@
 #include <filesystem>
 #include <string>
 
-namespace waw::app {
+namespace runity::app {
 
-/// Non-secret server settings (Server/config/gameserver.json). Secrets come from the environment, never from this file.
+/// Server settings (Server/config/gameserver.json).
 struct Config {
     std::string bind_address = "0.0.0.0";
     std::uint16_t game_port = 2050;
@@ -22,9 +22,10 @@ struct Config {
     std::filesystem::path content_root = "../Content";
     bool debug_log = false;
     std::string server_id = "gs1";             // part of every account-lock owner value; unique per running server
-    std::string redis_prefix = "waw:";         // must equal the Account/API service's Service:RedisPrefix
+    std::string redis_prefix = "runity:";         // must equal the Account/API service's Service:RedisPrefix
     bool require_matching_build = true;        // the reference turned away any other client version
-    std::string character_store = "InMemory";  // "InMemory" until the PostgreSQL character repository is migrated
+    std::string character_store = "InMemory";  // "Postgres" (gameserver.json) or "InMemory" (tests: configs that name no store)
+    std::string pg_conninfo;                   // libpq "key=value" form; must match the Account/API service's Service:PgConnInfo
     std::string entry_world;                   // development / tests: the world characters enter (default: the Nexus)
 
     [[nodiscard]] std::chrono::milliseconds tick_interval() const { return std::chrono::milliseconds(1000 / tick_rate); }
@@ -35,4 +36,4 @@ struct Config {
 /// Parses JSON text (tests).
 [[nodiscard]] std::expected<Config, std::string> parse_config(const std::string& json_text);
 
-}  // namespace waw::app
+}  // namespace runity::app

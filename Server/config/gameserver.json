@@ -1,5 +1,5 @@
 {
-  // Non-secret settings only. Database / Redis credentials come from the environment (WAW_PG_CONNINFO, WAW_REDIS_URL).
+  // pgConnInfo is the local development login (Database/setup/create_database.sql); a public server uses its own password.
   "bindAddress": "0.0.0.0",
   "gamePort": 2050,
   "tickRate": 20,
@@ -12,7 +12,8 @@
   "contentRoot": "../../Content",
   "debugLog": false,
   "serverId": "gs1",
-  "redisPrefix": "waw:",
+  "redisPrefix": "runity:",
   "requireMatchingBuild": true,
-  "characterStore": "InMemory"
+  "characterStore": "Postgres",
+  "pgConnInfo": "host=localhost port=5432 dbname=runity user=runity password=runitypass"
 }

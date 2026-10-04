@@ -7,9 +7,9 @@
 
 #include "real_fixtures.hpp"
 
-using namespace waw;
-using namespace waw::sim;
-using namespace waw::test;
+using namespace runity;
+using namespace runity::sim;
+using namespace runity::test;
 
 namespace {
 

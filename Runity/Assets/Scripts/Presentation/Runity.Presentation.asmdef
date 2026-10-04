@@ -1,0 +1,23 @@
+{
+    "name": "Runity.Presentation",
+    "rootNamespace": "Runity.Presentation",
+    "references": [
+        "Runity.Protocol",
+        "Runity.Net",
+        "Runity.Domain",
+        "Runity.Client",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

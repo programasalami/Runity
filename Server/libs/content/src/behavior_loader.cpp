@@ -1,4 +1,4 @@
-// Content/Behaviors/*.json -> behaviour descriptors (waw/content/behavior.hpp). Parameter names and defaults are the original's
+// Content/Behaviors/*.json -> behaviour descriptors (runity/content/behavior.hpp). Parameter names and defaults are the original's
 // (alloy-server Behaviors/Actions/*.cs, Transitions/*.cs); Tools/behaviors/transpile_behaviorlib.py documents the few renames.
 
 #include <array>
@@ -6,10 +6,10 @@
 
 #include <nlohmann/json.hpp>
 
-#include "waw/content/conditions.hpp"
-#include "waw/content/content_db.hpp"
+#include "runity/content/conditions.hpp"
+#include "runity/content/content_db.hpp"
 
-namespace waw::content {
+namespace runity::content {
 
 namespace {
 
@@ -536,4 +536,4 @@ void ContentDb::link_behavior(bh::Behavior& b) {
     }
 }
 
-}  // namespace waw::content
+}  // namespace runity::content

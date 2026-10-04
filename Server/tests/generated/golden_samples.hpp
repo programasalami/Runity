@@ -6,9 +6,9 @@
 #include <string_view>
 #include <vector>
 
-#include "waw/protocol/generated/messages.hpp"
+#include "runity/protocol/generated/messages.hpp"
 
-namespace waw::protocol::golden {
+namespace runity::protocol::golden {
 
 struct Sample {
     std::string_view name;
@@ -199,4 +199,4 @@ inline std::vector<Sample> all_samples() {
     return out;
 }
 
-}  // namespace waw::protocol::golden
+}  // namespace runity::protocol::golden

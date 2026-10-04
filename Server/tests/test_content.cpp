@@ -1,10 +1,10 @@
 #include <doctest/doctest.h>
 
 #include "real_fixtures.hpp"
-#include "waw/content/content_db.hpp"
+#include "runity/content/content_db.hpp"
 
-using namespace waw::content;
-using waw::test::real;
+using namespace runity::content;
+using runity::test::real;
 
 TEST_CASE("the original content loads: 14 classes, 2250 grounds, maps, worlds and realm behaviours") {
     const auto& db = real();

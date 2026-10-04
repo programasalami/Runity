@@ -4,11 +4,11 @@
 #include <numbers>
 
 #include "real_fixtures.hpp"
-#include "waw/sim/world.hpp"
+#include "runity/sim/world.hpp"
 
-using namespace waw;
-using namespace waw::sim;
-using namespace waw::test;
+using namespace runity;
+using namespace runity::sim;
+using namespace runity::test;
 
 TEST_CASE("rules: the original's XP curve, kill XP with its cap, fame, defense floor and attack") {
     CHECK(rules::kMaxLevel == 20);

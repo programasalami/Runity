@@ -1,12 +1,12 @@
-#include "waw/sim/movement.hpp"
+#include "runity/sim/movement.hpp"
 
 #include <algorithm>
 #include <cmath>
 
-namespace waw::sim::movement {
+namespace runity::sim::movement {
 
 float move_speed(int speed_stat, float tile_multiplier) noexcept {
-    // Integer division on purpose: reference Player.GetMoveSpeed (Movement.md "Speed formula (exact)").
+    // Integer division on purpose: reference Player.GetMoveSpeed.
     const int steps = speed_stat / kSpeedDivisor;
     const float speed = kMinMoveSpeed + static_cast<float>(steps) * (kMaxMoveSpeed - kMinMoveSpeed);
     return speed * tile_multiplier;
@@ -146,4 +146,4 @@ void step(const TileMap& map, MoverState& state, Vec2 direction, float dt_ms, in
                                   state.position.y + direction.y * speed * dt_ms);
 }
 
-}  // namespace waw::sim::movement
+}  // namespace runity::sim::movement

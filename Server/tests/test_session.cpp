@@ -1,8 +1,8 @@
 #include <doctest/doctest.h>
 
-#include "waw/session/session_manager.hpp"
+#include "runity/session/session_manager.hpp"
 
-using namespace waw;
+using namespace runity;
 using namespace std::chrono_literals;
 using protocol::FailureCode;
 

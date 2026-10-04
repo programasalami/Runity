@@ -5,12 +5,12 @@
 
 #include <asio.hpp>
 
-#include "waw/core/sha256.hpp"
-#include "waw/core/task_queue.hpp"
-#include "waw/persistence/account_sessions.hpp"
-#include "waw/persistence/redis_client.hpp"
+#include "runity/core/sha256.hpp"
+#include "runity/core/task_queue.hpp"
+#include "runity/persistence/account_sessions.hpp"
+#include "runity/persistence/redis_client.hpp"
 
-using namespace waw;
+using namespace runity;
 using namespace std::chrono_literals;
 using persistence::RedisReply;
 
@@ -132,7 +132,7 @@ bool local_redis_available() {
 
 std::string unique_prefix() {
     std::random_device rd;
-    return "waw:test:" + std::to_string(rd()) + std::to_string(rd()) + ":";
+    return "runity:test:" + std::to_string(rd()) + std::to_string(rd()) + ":";
 }
 
 }  // namespace
@@ -179,7 +179,7 @@ TEST_CASE("redis account sessions follow the key contract shared with the Accoun
 
 TEST_CASE("an unreachable redis fails closed and quickly") {
     persistence::RedisAccountSessions sessions(
-        std::make_unique<persistence::RedisClient>(persistence::RedisEndpoint{"127.0.0.1", 1}, 300ms), "waw:test:");
+        std::make_unique<persistence::RedisClient>(persistence::RedisEndpoint{"127.0.0.1", 1}, 300ms), "runity:test:");
     const auto start = std::chrono::steady_clock::now();
     CHECK(sessions.redeem_join_ticket("x").error() == persistence::SessionError::ServiceUnavailable);
     CHECK(sessions.acquire_lock(1, "o", 1000ms).error() == persistence::SessionError::ServiceUnavailable);

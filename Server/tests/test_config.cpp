@@ -2,7 +2,7 @@
 
 #include "config.hpp"
 
-using waw::app::parse_config;
+using runity::app::parse_config;
 
 TEST_CASE("an empty object gives the defaults") {
     auto c = parse_config("{}");

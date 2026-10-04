@@ -1,9 +1,9 @@
-#include "waw/sim/projectile_path.hpp"
+#include "runity/sim/projectile_path.hpp"
 
 #include <cmath>
 #include <numbers>
 
-namespace waw::sim {
+namespace runity::sim {
 
 Vec2 path_offset(const PathSpec& spec, float elapsed_ms, std::uint32_t bullet_id, float angle) noexcept {
     constexpr float pi = std::numbers::pi_v<float>;
@@ -39,4 +39,4 @@ Vec2 path_offset(const PathSpec& spec, float elapsed_ms, std::uint32_t bullet_id
     }
 }
 
-}  // namespace waw::sim
+}  // namespace runity::sim

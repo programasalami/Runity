@@ -1,4 +1,4 @@
--- 0001: accounts and characters (normalized; see Documentation/Migration/PostgreSQL.md "New schema").
+-- 0001: accounts and characters (normalized).
 -- Ownership (Architecture.md section 5): accounts = Account/API service; characters = GameServer, except that the API service
 -- may soft-delete a character with a single conditional statement.
 

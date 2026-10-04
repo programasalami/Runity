@@ -2,8 +2,8 @@
 
 #include "real_fixtures.hpp"
 
-using namespace waw;
-using namespace waw::test;
+using namespace runity;
+using namespace runity::test;
 
 namespace {
 

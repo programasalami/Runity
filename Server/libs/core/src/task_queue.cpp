@@ -1,6 +1,6 @@
-#include "waw/core/task_queue.hpp"
+#include "runity/core/task_queue.hpp"
 
-namespace waw::core {
+namespace runity::core {
 
 void TaskQueue::post(Task task) {
     std::lock_guard lock(mutex_);
@@ -65,4 +65,4 @@ void Worker::loop() {
     }
 }
 
-}  // namespace waw::core
+}  // namespace runity::core

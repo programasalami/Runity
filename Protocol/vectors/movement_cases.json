@@ -1,5 +1,5 @@
 {
-  "comment": "Shared movement test cases. Legend: '.' grass  '#' wall (FullOccupy)  'o' rock (OccupySquare)  '~' water (NoWalk)  's' mud (sinking, speed 0.5)  ' ' void. Each step entry is [dirX, dirY, dtMs, repeat] (dir quantized to -127..127). The C++ suite writes the expected results into movement.json (WAW_WRITE_VECTORS=1) and both the C++ and the C# suites must reproduce them.",
+  "comment": "Shared movement test cases. Legend: '.' grass  '#' wall (FullOccupy)  'o' rock (OccupySquare)  '~' water (NoWalk)  's' mud (sinking, speed 0.5)  ' ' void. Each step entry is [dirX, dirY, dtMs, repeat] (dir quantized to -127..127). The C++ suite writes the expected results into movement.json (RUNITY_WRITE_VECTORS=1) and both the C++ and the C# suites must reproduce them.",
   "maps": {
     "room": [
       "##########",

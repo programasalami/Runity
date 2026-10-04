@@ -8,10 +8,10 @@
 #include <optional>
 
 #include "config.hpp"
-#include "waw/core/clock.hpp"
-#include "waw/core/log.hpp"
+#include "runity/core/clock.hpp"
+#include "runity/core/log.hpp"
 
-namespace waw::app {
+namespace runity::app {
 
 /// Owns the simulation run loop: a fixed-rate tick on the calling thread, a periodic stats line, and an orderly stop.
 /// request_stop() may be called from any thread (signal handler thread, tests).
@@ -41,4 +41,4 @@ private:
     std::atomic<std::uint64_t> ticks_run_{0};
 };
 
-}  // namespace waw::app
+}  // namespace runity::app

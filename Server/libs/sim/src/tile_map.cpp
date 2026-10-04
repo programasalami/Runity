@@ -1,6 +1,6 @@
-#include "waw/sim/tile_map.hpp"
+#include "runity/sim/tile_map.hpp"
 
-namespace waw::sim {
+namespace runity::sim {
 
 namespace {
 const Tile kVoidTile{};
@@ -89,4 +89,4 @@ const std::vector<TileCoord>& TileMap::terrain(content::Terrain t) const {
     return i < terrains_.size() ? terrains_[i] : kNoTiles;
 }
 
-}  // namespace waw::sim
+}  // namespace runity::sim

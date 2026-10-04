@@ -2,12 +2,12 @@
 
 #include <unordered_set>
 
-#include "waw/core/clock.hpp"
-#include "waw/core/log.hpp"
-#include "waw/core/strong_id.hpp"
-#include "waw/core/tick_scheduler.hpp"
+#include "runity/core/clock.hpp"
+#include "runity/core/log.hpp"
+#include "runity/core/strong_id.hpp"
+#include "runity/core/tick_scheduler.hpp"
 
-using namespace waw::core;
+using namespace runity::core;
 using namespace std::chrono_literals;
 
 TEST_CASE("tick scheduler runs one tick per interval") {

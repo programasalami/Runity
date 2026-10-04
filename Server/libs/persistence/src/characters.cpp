@@ -1,6 +1,6 @@
-#include "waw/persistence/characters.hpp"
+#include "runity/persistence/characters.hpp"
 
-namespace waw::persistence {
+namespace runity::persistence {
 
 const char* to_string(CharacterError e) noexcept {
     switch (e) {
@@ -57,4 +57,4 @@ std::size_t InMemoryCharacterRepository::count(std::int64_t account_id) const {
     return n;
 }
 
-}  // namespace waw::persistence
+}  // namespace runity::persistence

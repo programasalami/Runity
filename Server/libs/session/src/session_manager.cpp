@@ -1,6 +1,6 @@
-#include "waw/session/session_manager.hpp"
+#include "runity/session/session_manager.hpp"
 
-namespace waw::session {
+namespace runity::session {
 
 using protocol::FailureCode;
 
@@ -254,4 +254,4 @@ void SessionManager::shutdown() {
     by_id_.clear();
 }
 
-}  // namespace waw::session
+}  // namespace runity::session

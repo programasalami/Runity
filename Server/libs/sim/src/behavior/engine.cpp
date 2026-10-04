@@ -1,4 +1,4 @@
-// The monster behaviour engine: runs the state machines of Content/Behaviors/*.json (waw/content/behavior.hpp).
+// The monster behaviour engine: runs the state machines of Content/Behaviors/*.json (runity/content/behavior.hpp).
 //
 // Semantics follow the original Alloy server (GameServer/Game/Entities/Behaviors):
 //  * State.Tick: the root ticks first; per active state (root -> current) its transitions are checked in order (the first that
@@ -16,9 +16,9 @@
 #include <cmath>
 #include <numbers>
 
-#include "waw/sim/world.hpp"
+#include "runity/sim/world.hpp"
 
-namespace waw::sim {
+namespace runity::sim {
 
 namespace {
 
@@ -894,4 +894,4 @@ World::ScriptResult World::tick_script(Entity& e, const bh::Script& script, floa
         script.kind);
 }
 
-}  // namespace waw::sim
+}  // namespace runity::sim

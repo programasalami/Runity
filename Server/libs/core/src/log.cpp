@@ -1,10 +1,10 @@
-#include "waw/core/log.hpp"
+#include "runity/core/log.hpp"
 
 #include <chrono>
 #include <cstdio>
 #include <print>
 
-namespace waw::core {
+namespace runity::core {
 
 std::string_view to_string(LogLevel level) noexcept {
     switch (level) {
@@ -42,4 +42,4 @@ bool MemoryLogSink::contains(std::string_view text) const {
     return false;
 }
 
-}  // namespace waw::core
+}  // namespace runity::core

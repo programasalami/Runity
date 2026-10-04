@@ -1,4 +1,4 @@
-# Warriors & Wizards game protocol - the single source of truth for the Unity client (C#) and the C++ GameServer.
+# Runity game protocol - the single source of truth for the Unity client (C#) and the C++ GameServer.
 # Generated code: python Protocol/generator/gen.py   (never edit generated files by hand)
 #
 # Wire: frame = [u32 LE payload length][u16 LE message id][payload]. Length counts the payload only (not the 6 header bytes).
@@ -123,7 +123,7 @@ fields = [
 
 [[struct]]
 name = "ProjectileSpec"
-doc = "How a projectile flies (reference ProjectilePaths; Movement.md section 5). speed in tiles per second."
+doc = "How a projectile flies (reference ProjectilePaths). speed in tiles per second."
 fields = [
   ["projectileType", "u16"],
   ["path", "PathKind"],

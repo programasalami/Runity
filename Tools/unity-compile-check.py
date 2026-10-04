@@ -2,22 +2,22 @@
 
 It copies Unity's generated SDK-style .csproj files into a scratch folder, swaps their explicit <Compile> lists for globs of the
 assembly folder (so new files are included) and points relative paths back at the project. Then `dotnet build` the requested one.
-Usage: python Tools/unity-compile-check.py WaW.Presentation   (needs the Unity-generated WaW/*.csproj files)
+Usage: python Tools/unity-compile-check.py Runity.Presentation   (needs the Unity-generated Runity/*.csproj files)
 """
 import os
 import re
 import subprocess
 import sys
 
-PROJECT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'WaW')
+PROJECT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'Runity')
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'TestResults', 'unity-compile-check')
 FOLDERS = {
-    'WaW.Protocol': r'Assets\Scripts\Protocol',
-    'WaW.Net': r'Assets\Scripts\Net',
-    'WaW.Domain': r'Assets\Scripts\Domain',
-    'WaW.Client': r'Assets\Scripts\Client',
-    'WaW.Presentation': r'Assets\Scripts\Presentation',
-    'WaW.EditorTools': r'Assets\Editor',
+    'Runity.Protocol': r'Assets\Scripts\Protocol',
+    'Runity.Net': r'Assets\Scripts\Net',
+    'Runity.Domain': r'Assets\Scripts\Domain',
+    'Runity.Client': r'Assets\Scripts\Client',
+    'Runity.Presentation': r'Assets\Scripts\Presentation',
+    'Runity.EditorTools': r'Assets\Editor',
 }
 
 os.makedirs(OUT, exist_ok=True)
@@ -35,7 +35,7 @@ for name, folder in FOLDERS.items():
     s = re.sub(r'<ProjectReference Include="([^"]+)\.csproj"', lambda m: '<ProjectReference Include="%s.csproj"' % os.path.join(OUT, os.path.basename(m.group(1))), s)
     open(os.path.join(OUT, name + '.csproj'), 'w', encoding='utf-8').write(s)
 
-target = sys.argv[1] if len(sys.argv) > 1 else 'WaW.Presentation'
+target = sys.argv[1] if len(sys.argv) > 1 else 'Runity.Presentation'
 r = subprocess.run(['dotnet', 'build', os.path.join(OUT, target + '.csproj'), '-v', 'q', '-nologo', '-clp:NoSummary'],
                    capture_output=True, text=True)
 lines = [l for l in (r.stdout + r.stderr).splitlines() if ' error ' in l or 'warning CS0' in l and 'Assets' in l]

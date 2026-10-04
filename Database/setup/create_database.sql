@@ -1,17 +1,14 @@
--- One-time local setup for the NEW stack (run by the project owner as the PostgreSQL superuser).
--- It creates a dedicated login role and two databases. The reference's own database ("alloy") is not touched.
+-- One-time local setup, run as the PostgreSQL superuser (it asks for the password chosen when PostgreSQL was installed):
 --
---   "C:\Program Files\PostgreSQL\17\bin\psql.exe" -h localhost -U postgres -d postgres ^
---       -v waw_password="'choose-a-password'" -f Database\setup\create_database.sql
+--   "C:\Program Files\PostgreSQL\17\bin\psql.exe" -h localhost -U postgres -d postgres -v runity_password="'runitypass'" -f Database\setup\create_database.sql
 --
--- Then create Runity\.env.local (git-ignored) with:
---   WAW_PG_CONNINFO=host=localhost port=5432 dbname=waw user=waw password=<the password>
---   WAW_PG_TEST_CONNINFO=host=localhost port=5432 dbname=waw_test user=waw password=<the password>
---   WAW_REDIS_URL=redis://127.0.0.1:6379
--- and apply the schema:  dotnet run --project AccountService/src/WaW.AccountService -- migrate
+-- It creates the login runity and the databases runity and runity_test (the tests use runity_test). runitypass is the
+-- local development password both services are configured with (AccountService appsettings.json PgConnInfo, Server
+-- config/gameserver.json pgConnInfo); a server others can reach uses its own password there. The Account/API service creates
+-- the tables when it starts. The reference's own database ("alloy") is not touched.
 
 \set ON_ERROR_STOP on
 
-CREATE ROLE waw LOGIN PASSWORD :waw_password;
-CREATE DATABASE waw OWNER waw;
-CREATE DATABASE waw_test OWNER waw;   -- integration tests create and drop their own tables here
+CREATE ROLE runity LOGIN PASSWORD :runity_password;
+CREATE DATABASE runity OWNER runity;
+CREATE DATABASE runity_test OWNER runity;   -- integration tests create and drop their own tables here

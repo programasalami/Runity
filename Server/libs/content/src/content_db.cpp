@@ -1,6 +1,6 @@
-#include "waw/content/content_db.hpp"
+#include "runity/content/content_db.hpp"
 
-#include "waw/content/conditions.hpp"
+#include "runity/content/conditions.hpp"
 
 #include <algorithm>
 #include <charconv>
@@ -11,7 +11,7 @@
 #include <pugixml.hpp>
 #include <zlib.h>
 
-namespace waw::content {
+namespace runity::content {
 
 namespace {
 
@@ -744,4 +744,4 @@ const WorldConfig* ContentDb::world(std::string_view name) const {
     return it == worlds_.end() ? nullptr : &it->second;
 }
 
-}  // namespace waw::content
+}  // namespace runity::content

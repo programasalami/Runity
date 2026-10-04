@@ -1,7 +1,7 @@
 # AI: monster behaviours, realm spawning and loot
 
 Re-baselined on 2026-10-03 on the ORIGINAL open-source Alloy server (`zolmex/alloy-server`, modern `GameServer/`; `GameServerOld/` is
-quoted as LEGACY only where the modern server has no code). The earlier Warriors & Wizards (W&W) bestiary (styles, zones, healing
+quoted as LEGACY only where the modern server has no code). The earlier W&W bestiary (styles, zones, healing
 object, cats) is gone. Spec: `scratchpad/specs/content-and-rules.md` sections 2 and 5.
 
 ## 1. Where things are
@@ -10,7 +10,7 @@ object, cats) is gone. Spec: `scratchpad/specs/content-and-rules.md` sections 2 
 |---|---|
 | Behaviour data | `Content/Behaviors/<Area>.json`, one file per original `BehaviorLib.<Area>.cs` (Lowland, Midland, Highland, Mountain, Shore, GhostShip, Hermit, Sphinx, LotLL): 142 monsters |
 | Transpiler (run once, kept for re-runs) | `Tools/behaviors/transpile_behaviorlib.py <alloy-server root>` |
-| Descriptors + JSON loader | `Server/libs/content/include/waw/content/behavior.hpp`, `src/behavior_loader.cpp` |
+| Descriptors + JSON loader | `Server/libs/content/include/runity/content/behavior.hpp`, `src/behavior_loader.cpp` |
 | Engine | `Server/libs/sim/src/behavior/engine.cpp` (World members), state in `EnemyState` / `ScriptState` (`world.hpp`) |
 | Realm spawner | `World::populate_terrain` / `spawn_terrain_group` (`Server/libs/sim/src/world.cpp`) |
 | Tests | `Server/tests/test_behavior.cpp`, `test_realm.cpp`, `test_content.cpp` |

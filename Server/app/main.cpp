@@ -5,6 +5,7 @@
 #include <csignal>
 #include <cstdlib>
 #include <filesystem>
+#include <memory>
 #include <optional>
 #include <print>
 #include <string_view>
@@ -14,23 +15,24 @@
 
 #include "config.hpp"
 #include "server_app.hpp"
-#include "waw/content/content_db.hpp"
-#include "waw/core/clock.hpp"
-#include "waw/core/env.hpp"
-#include "waw/core/log.hpp"
-#include "waw/core/task_queue.hpp"
-#include "waw/game/game_service.hpp"
-#include "waw/net/net_server.hpp"
-#include "waw/persistence/account_sessions.hpp"
-#include "waw/persistence/characters.hpp"
-#include "waw/protocol/generated/messages.hpp"
-#include "waw/session/session_manager.hpp"
+#include "runity/content/content_db.hpp"
+#include "runity/core/clock.hpp"
+#include "runity/core/env.hpp"
+#include "runity/core/log.hpp"
+#include "runity/core/task_queue.hpp"
+#include "runity/game/game_service.hpp"
+#include "runity/net/net_server.hpp"
+#include "runity/persistence/account_sessions.hpp"
+#include "runity/persistence/characters.hpp"
+#include "runity/persistence/postgres_characters.hpp"
+#include "runity/protocol/generated/messages.hpp"
+#include "runity/session/session_manager.hpp"
 
 namespace {
 
 struct Args {
-    std::filesystem::path config = "config/gameserver.json";
-    std::optional<waw::core::Millis> run_for;
+    std::filesystem::path config = RUNITY_DEFAULT_CONFIG;
+    std::optional<runity::core::Millis> run_for;
     std::optional<std::uint16_t> port;
 };
 
@@ -48,7 +50,7 @@ std::optional<Args> parse_args(int argc, char** argv) {
         } else if (a == "--run-for-ms" && i + 1 < argc) {
             const auto n = number(argv[++i]);
             if (!n) return std::nullopt;
-            args.run_for = waw::core::Millis(*n);
+            args.run_for = runity::core::Millis(*n);
         } else if (a == "--port" && i + 1 < argc) {
             const auto n = number(argv[++i]);
             if (!n || *n > 65535) return std::nullopt;
@@ -61,14 +63,14 @@ std::optional<Args> parse_args(int argc, char** argv) {
 }
 
 /// Sessions send through the network layer.
-class NetLink final : public waw::session::IClientLink {
+class NetLink final : public runity::session::IClientLink {
 public:
-    explicit NetLink(waw::net::NetServer& net) : net_(net) {}
-    void send(waw::net::ConnectionId id, std::vector<std::uint8_t> frame) override { net_.send(id, std::move(frame)); }
-    void close(waw::net::ConnectionId id, bool flush) override { net_.close(id, flush); }
+    explicit NetLink(runity::net::NetServer& net) : net_(net) {}
+    void send(runity::net::ConnectionId id, std::vector<std::uint8_t> frame) override { net_.send(id, std::move(frame)); }
+    void close(runity::net::ConnectionId id, bool flush) override { net_.close(id, flush); }
 
 private:
-    waw::net::NetServer& net_;
+    runity::net::NetServer& net_;
 };
 
 }  // namespace
@@ -76,24 +78,24 @@ private:
 int main(int argc, char** argv) {
     const auto args = parse_args(argc, argv);
     if (!args) {
-        std::println(stderr, "usage: waw_gameserver [--config <file>] [--port <port>] [--run-for-ms <ms>]");
+        std::println(stderr, "usage: runity_gameserver [--config <file>] [--port <port>] [--run-for-ms <ms>]");
         return 2;
     }
 
-    waw::core::ConsoleLogSink sink;
-    waw::core::Logger log(sink, "main");
+    runity::core::ConsoleLogSink sink;
+    runity::core::Logger log(sink, "main");
 
-    auto config = waw::app::load_config(args->config);
+    auto config = runity::app::load_config(args->config);
     if (!config) {
         log.error("{}", config.error());
         return 1;
     }
     if (args->port) config->game_port = *args->port;
-    const auto level = config->debug_log ? waw::core::LogLevel::Debug : waw::core::LogLevel::Info;
-    log.info("Runity game server {} (protocol {}), server id {}", config->build_version, waw::protocol::kProtocolVersion,
+    const auto level = config->debug_log ? runity::core::LogLevel::Debug : runity::core::LogLevel::Info;
+    log.info("Runity game server {} (protocol {}), server id {}", config->build_version, runity::protocol::kProtocolVersion,
              config->server_id);
 
-    auto content = waw::content::ContentDb::load(config->content_root);
+    auto content = runity::content::ContentDb::load(config->content_root);
     if (!content) {
         log.error("content: {}", content.error());
         return 1;
@@ -101,41 +103,53 @@ int main(int argc, char** argv) {
     log.info("content: {} grounds, {} objects, {} items, {} classes, {} maps, {} worlds, {} behaviours ({} warnings)",
              content->ground_count(), content->object_count(), content->item_count(), content->player_classes().size(),
              content->maps().size(), content->worlds().size(), content->behavior_count(), content->warnings().size());
-    waw::core::Logger content_log(sink, "content", level);
+    runity::core::Logger content_log(sink, "content", level);
     for (const auto& w : content->warnings()) content_log.debug("{}", w);
 
-    auto redis_endpoint = waw::persistence::RedisEndpoint::parse(waw::core::env("WAW_REDIS_URL").value_or("redis://127.0.0.1:6379"));
+    auto redis_endpoint = runity::persistence::RedisEndpoint::parse(runity::core::env("RUNITY_REDIS_URL").value_or("redis://127.0.0.1:6379"));
     if (!redis_endpoint) {
-        log.error("WAW_REDIS_URL: {}", redis_endpoint.error());
+        log.error("RUNITY_REDIS_URL: {}", redis_endpoint.error());
         return 1;
     }
-    waw::persistence::RedisAccountSessions account_sessions(std::make_unique<waw::persistence::RedisClient>(*redis_endpoint),
+    runity::persistence::RedisAccountSessions account_sessions(std::make_unique<runity::persistence::RedisClient>(*redis_endpoint),
                                                             config->redis_prefix);
-    waw::persistence::InMemoryCharacterRepository characters;
-    log.warn("characters are kept in memory only (characterStore InMemory): they are lost when the server stops");
+    std::unique_ptr<runity::persistence::ICharacterRepository> characters;
+    if (config->character_store == "Postgres") {
+        auto pg = std::make_unique<runity::persistence::PostgresCharacterRepository>(config->pg_conninfo,
+                                                                                    runity::core::Logger(sink, "postgres", level));
+        if (auto ready = pg->connect(); !ready) {
+            log.error("PostgreSQL: {}", ready.error());
+            return 1;
+        }
+        log.info("characters are stored in PostgreSQL");
+        characters = std::move(pg);
+    } else {
+        characters = std::make_unique<runity::persistence::InMemoryCharacterRepository>();
+        log.warn("characters are kept in memory only (characterStore InMemory): they are lost when the server stops");
+    }
 
-    waw::core::SteadyClock clock;
-    waw::core::TaskQueue completions;
-    waw::core::Worker persistence_worker;
+    runity::core::SteadyClock clock;
+    runity::core::TaskQueue completions;
+    runity::core::Worker persistence_worker;
 
-    waw::net::NetEventQueue net_events;
-    waw::net::NetServer net({.bind_address = config->bind_address,
+    runity::net::NetEventQueue net_events;
+    runity::net::NetServer net({.bind_address = config->bind_address,
                              .port = config->game_port,
                              .max_connections = config->max_connections,
                              .max_connections_per_address = config->max_connections_per_address,
                              .idle_timeout = std::chrono::milliseconds(config->idle_timeout_ms)},
-                            net_events, waw::core::Logger(sink, "net", level));
+                            net_events, runity::core::Logger(sink, "net", level));
     NetLink link(net);
 
-    waw::session::SessionManager sessions({.server_id = config->server_id,
+    runity::session::SessionManager sessions({.server_id = config->server_id,
                                            .build_version = config->build_version,
                                            .require_matching_build = config->require_matching_build,
                                            .hello_timeout = std::chrono::milliseconds(config->hello_timeout_ms)},
                                           link, account_sessions, persistence_worker, completions, clock,
-                                          waw::core::Logger(sink, "session", level));
-    waw::game::GameRules game_rules;
+                                          runity::core::Logger(sink, "session", level));
+    runity::game::GameRules game_rules;
     game_rules.entry_world = config->entry_world;
-    waw::game::GameService game(*content, sessions, characters, persistence_worker, completions, waw::core::Logger(sink, "game", level),
+    runity::game::GameService game(*content, sessions, *characters, persistence_worker, completions, runity::core::Logger(sink, "game", level),
                                 game_rules);
     if (auto ready = game.init(); !ready) {
         log.error("{}", ready.error());
@@ -145,9 +159,9 @@ int main(int argc, char** argv) {
 
     if (!net.start()) return 1;
 
-    waw::app::ServerApp app(*config, sink, clock);
+    runity::app::ServerApp app(*config, sink, clock);
     const float tick_ms = static_cast<float>(config->tick_interval().count());
-    std::vector<waw::net::NetEvent> events;
+    std::vector<runity::net::NetEvent> events;
     app.set_tick_handler([&](std::uint64_t) {
         events.clear();
         net_events.drain(events);

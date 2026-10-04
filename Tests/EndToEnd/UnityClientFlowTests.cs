@@ -1,8 +1,8 @@
-using WaW.Client;
-using WaW.Domain.Content;
-using WaW.Protocol;
+using Runity.Client;
+using Runity.Domain.Content;
+using Runity.Protocol;
 
-namespace WaW.EndToEnd.Tests;
+namespace Runity.EndToEnd.Tests;
 
 /// The Unity client's own engine-free code (ApiClient, GameSession, ClientWorld, prediction) against the real C++ server.
 [Collection("e2e")]
@@ -114,7 +114,7 @@ public class UnityClientCombatTests
         while (DateTime.UtcNow < deadline && session.Phase == SessionPhase.InWorld && (session.World.Stats.Xp == 0 && session.World.Stats.Level == 1))
         {
             var me = session.World.Predictor.Position;
-            var target = session.World.Entities.Values.Where(e => e.Kind == WaW.Protocol.EntityKind.Enemy)
+            var target = session.World.Entities.Values.Where(e => e.Kind == Runity.Protocol.EntityKind.Enemy)
                 .OrderBy(e => Dist(e.RenderPosition, me)).FirstOrDefault();
             sbyte dx = 0, dy = 0;
             var fire = false;
@@ -137,7 +137,7 @@ public class UnityClientCombatTests
         }
         Assert.True(enemyHurt, "no enemy was ever damaged");
         Assert.True(session.World.Stats.Xp > 0 || session.World.Stats.Level > 1,
-            $"no XP after 90 s (phase {session.Phase}, {session.EndReason}); enemies seen: {session.World.Entities.Values.Count(e => e.Kind == WaW.Protocol.EntityKind.Enemy)}");
+            $"no XP after 90 s (phase {session.Phase}, {session.EndReason}); enemies seen: {session.World.Entities.Values.Count(e => e.Kind == Runity.Protocol.EntityKind.Enemy)}");
     }
 
     [Fact]
@@ -172,5 +172,5 @@ public class UnityClientCombatTests
         Assert.Null(session.NearestBag());  // the emptied bag is gone
     }
 
-    private static float Dist(WaW.Domain.World.Vec2 a, WaW.Domain.World.Vec2 b) => MathF.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));
+    private static float Dist(Runity.Domain.World.Vec2 a, Runity.Domain.World.Vec2 b) => MathF.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));
 }

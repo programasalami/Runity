@@ -1,8 +1,8 @@
-#include "waw/game/game_service.hpp"
+#include "runity/game/game_service.hpp"
 
 #include <algorithm>
 
-namespace waw::game {
+namespace runity::game {
 
 using protocol::FailureCode;
 using session::SessionState;
@@ -559,4 +559,4 @@ void GameService::send_view(const sim::ViewUpdate& v) {
     sessions_.send(*s, snap);
 }
 
-}  // namespace waw::game
+}  // namespace runity::game

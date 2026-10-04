@@ -1,9 +1,9 @@
-#include "waw/sim/rules.hpp"
+#include "runity/sim/rules.hpp"
 
 #include <algorithm>
 #include <cmath>
 
-namespace waw::sim::rules {
+namespace runity::sim::rules {
 
 BaseStats starting_stats(const content::PlayerClassDesc& cls) noexcept {
     BaseStats out{};
@@ -90,4 +90,4 @@ bool FireRateBucket::try_attack(double now_ms, float period_ms) noexcept {
     return true;
 }
 
-}  // namespace waw::sim::rules
+}  // namespace runity::sim::rules

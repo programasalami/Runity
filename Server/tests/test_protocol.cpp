@@ -4,10 +4,10 @@
 #include <string>
 
 #include "generated/golden_samples.hpp"
-#include "waw/protocol/framing.hpp"
-#include "waw/protocol/generated/messages.hpp"
+#include "runity/protocol/framing.hpp"
+#include "runity/protocol/generated/messages.hpp"
 
-using namespace waw::protocol;
+using namespace runity::protocol;
 
 namespace {
 

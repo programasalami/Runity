@@ -7,9 +7,9 @@
 
 #include "real_fixtures.hpp"
 
-using namespace waw;
-using namespace waw::sim;
-using namespace waw::test;
+using namespace runity;
+using namespace runity::sim;
+using namespace runity::test;
 
 TEST_CASE("the realm: terrain spawner, repopulation, activity culling and tile replication near players") {
     const auto& db = real();

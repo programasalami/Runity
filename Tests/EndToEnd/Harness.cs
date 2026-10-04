@@ -6,10 +6,10 @@ using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using StackExchange.Redis;
-using WaW.AccountService.Api;
-using WaW.Protocol;
+using Runity.AccountService.Api;
+using Runity.Protocol;
 
-namespace WaW.EndToEnd.Tests;
+namespace Runity.EndToEnd.Tests;
 
 public static class Paths
 {
@@ -21,19 +21,30 @@ public static class Paths
     }
 
     public static string ServerExe() =>
-        Environment.GetEnvironmentVariable("WAW_GAMESERVER_EXE")
-        ?? Path.Combine(RepoRoot(), "Server", "build", "debug", "app", OperatingSystem.IsWindows() ? "waw_gameserver.exe" : "waw_gameserver");
+        Environment.GetEnvironmentVariable("RUNITY_GAMESERVER_EXE")
+        ?? Path.Combine(RepoRoot(), "Server", "build", "debug", "app", OperatingSystem.IsWindows() ? "runity_gameserver.exe" : "runity_gameserver");
 }
 
-/// The Account/API service in-process: accounts in memory, sessions and join tickets in the real Redis under a test prefix.
+/// The Account/API service in-process: accounts in memory (or in PostgreSQL when a connection is given), sessions and join tickets
+/// in the real Redis under a test prefix.
 public sealed class ApiHost : WebApplicationFactory<Program>
 {
     private readonly string _prefix;
-    public ApiHost(string prefix) => _prefix = prefix;
+    private readonly string _pgConnInfo;
+    public ApiHost(string prefix, string pgConnInfo = null)
+    {
+        _prefix = prefix;
+        _pgConnInfo = pgConnInfo;
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseSetting("Service:AccountStore", "InMemory");
+        builder.UseSetting("Service:AccountStore", _pgConnInfo is null ? "InMemory" : "Postgres");
+        if (_pgConnInfo is not null)
+        {
+            builder.UseSetting("Service:PgConnInfo", _pgConnInfo);
+            builder.UseSetting("Service:MigrationsDirectory", Path.Combine(Paths.RepoRoot(), "Database", "migrations"));
+        }
         builder.UseSetting("Service:SessionStore", "Redis");
         builder.UseSetting("Service:RedisPrefix", _prefix);
         builder.UseSetting("Service:PasswordIterations", "1000");
@@ -41,7 +52,7 @@ public sealed class ApiHost : WebApplicationFactory<Program>
     }
 }
 
-/// The C++ game server as a child process with its own config (port, Redis prefix).
+/// The C++ game server as a child process with its own config (port, Redis prefix, characters in memory or PostgreSQL).
 public sealed class ServerProcess : IDisposable
 {
     private readonly Process _process;
@@ -49,17 +60,18 @@ public sealed class ServerProcess : IDisposable
     private readonly string _configPath;
     public int Port { get; }
 
-    public ServerProcess(string redisPrefix, int? runForMs = null, string entryWorld = null)
+    public ServerProcess(string redisPrefix, int? runForMs = null, string entryWorld = null, string pgConnInfo = null)
     {
         var exe = Paths.ServerExe();
         if (!File.Exists(exe)) throw new InvalidOperationException($"game server not built: {exe} (run Server\\build.cmd)");
         Port = FreePort();
-        _configPath = Path.Combine(Path.GetTempPath(), $"waw-e2e-{Guid.NewGuid():N}.json");
+        _configPath = Path.Combine(Path.GetTempPath(), $"runity-e2e-{Guid.NewGuid():N}.json");
         var content = Path.Combine(Paths.RepoRoot(), "Content").Replace("\\", "/");
+        var store = pgConnInfo is null ? "" : $$""", "characterStore": "Postgres", "pgConnInfo": "{{pgConnInfo}}" """;
         File.WriteAllText(_configPath, $$"""
             { "bindAddress": "127.0.0.1", "gamePort": {{Port}}, "buildVersion": "e2e", "contentRoot": "{{content}}",
               "serverId": "e2e", "redisPrefix": "{{redisPrefix}}", "helloTimeoutMs": 3000, "statsIntervalMs": 60000,
-              "entryWorld": "{{entryWorld ?? ""}}" }
+              "entryWorld": "{{entryWorld ?? ""}}"{{store}} }
             """);
         var args = $"--config \"{_configPath}\"" + (runForMs is { } ms ? $" --run-for-ms {ms}" : "");
         _process = new Process
@@ -198,20 +210,29 @@ public sealed class GameClient : IDisposable
     public void Dispose() => _tcp.Dispose();
 }
 
-/// One test's world: an isolated Redis prefix, the API service and the game server.
+/// One test's world: an isolated Redis prefix, the API service and the game server (sharing a PostgreSQL database when given one).
 public sealed class Stack : IDisposable
 {
-    public string Prefix { get; } = $"waw:e2e:{Guid.NewGuid():N}:";
+    private readonly string _pgConnInfo;
+    public string Prefix { get; } = $"runity:e2e:{Guid.NewGuid():N}:";
     public ApiHost Api { get; }
     public HttpClient Http { get; }
-    public ServerProcess Server { get; }
+    public ServerProcess Server { get; private set; }
     public ConnectionMultiplexer Redis { get; } = ConnectionMultiplexer.Connect("127.0.0.1:6379");
 
-    public Stack(int? serverRunForMs = null, string entryWorld = null)
+    public Stack(int? serverRunForMs = null, string entryWorld = null, string pgConnInfo = null)
     {
-        Api = new ApiHost(Prefix);
+        _pgConnInfo = pgConnInfo;
+        Api = new ApiHost(Prefix, pgConnInfo);
         Http = Api.CreateClient();
-        Server = new ServerProcess(Prefix, serverRunForMs, entryWorld);
+        Server = new ServerProcess(Prefix, serverRunForMs, entryWorld, pgConnInfo);
+    }
+
+    /// Stops the game server process and starts a new one with the same settings.
+    public void RestartServer()
+    {
+        Server.Dispose();
+        Server = new ServerProcess(Prefix, pgConnInfo: _pgConnInfo);
     }
 
     public async Task<string> RegisterAndLoginAsync(string name, string password = "password123")

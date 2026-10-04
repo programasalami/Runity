@@ -1,6 +1,6 @@
-#include "waw/core/tick_scheduler.hpp"
+#include "runity/core/tick_scheduler.hpp"
 
-namespace waw::core {
+namespace runity::core {
 
 TickScheduler::TickScheduler(Millis interval, TimePoint start, std::uint32_t max_catch_up) noexcept
     : interval_(interval), next_(start + interval), max_catch_up_(max_catch_up) {}
@@ -18,4 +18,4 @@ std::uint32_t TickScheduler::due(TimePoint now) noexcept {
     return static_cast<std::uint32_t>(run);
 }
 
-}  // namespace waw::core
+}  // namespace runity::core

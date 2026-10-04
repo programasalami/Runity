@@ -1,4 +1,4 @@
-#include "waw/net/net_server.hpp"
+#include "runity/net/net_server.hpp"
 
 #include <array>
 #include <atomic>
@@ -8,9 +8,9 @@
 
 #include <asio.hpp>
 
-#include "waw/protocol/framing.hpp"
+#include "runity/protocol/framing.hpp"
 
-namespace waw::net {
+namespace runity::net {
 
 using asio::ip::tcp;
 
@@ -299,4 +299,4 @@ void NetServer::close(ConnectionId id, bool flush) {
     });
 }
 
-}  // namespace waw::net
+}  // namespace runity::net

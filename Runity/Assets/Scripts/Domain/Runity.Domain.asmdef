@@ -1,0 +1,16 @@
+{
+    "name": "Runity.Domain",
+    "rootNamespace": "Runity.Domain",
+    "references": [
+        "Runity.Protocol"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

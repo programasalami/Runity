@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Runity.AccountService/Runity.AccountService.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Runity.AccountService.Tests/Runity.AccountService.Tests.csproj" />
+  </Folder>
+</Solution>

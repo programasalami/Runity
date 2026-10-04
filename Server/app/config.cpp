@@ -6,7 +6,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace waw::app {
+namespace runity::app {
 
 namespace {
 
@@ -29,7 +29,7 @@ std::expected<Config, std::string> parse_config(const std::string& json_text) {
     static const std::set<std::string> known = {"bindAddress", "gamePort", "tickRate", "maxConnections",
                                                 "maxConnectionsPerAddress", "helloTimeoutMs", "idleTimeoutMs",
                                                 "statsIntervalMs", "buildVersion", "contentRoot", "debugLog",
-                                                "serverId", "redisPrefix", "requireMatchingBuild", "characterStore", "entryWorld"};
+                                                "serverId", "redisPrefix", "requireMatchingBuild", "characterStore", "pgConnInfo", "entryWorld"};
     for (const auto& [key, _] : j.items()) {
         if (!known.contains(key)) return std::unexpected("unknown config key: " + key);
     }
@@ -53,6 +53,7 @@ std::expected<Config, std::string> parse_config(const std::string& json_text) {
         read_field(j, "redisPrefix", c.redis_prefix);
         read_field(j, "requireMatchingBuild", c.require_matching_build);
         read_field(j, "characterStore", c.character_store);
+        read_field(j, "pgConnInfo", c.pg_conninfo);
         read_field(j, "entryWorld", c.entry_world);
     } catch (const nlohmann::json::exception& e) {
         return std::unexpected(std::string("config value has the wrong type: ") + e.what());
@@ -60,7 +61,8 @@ std::expected<Config, std::string> parse_config(const std::string& json_text) {
     if (c.tick_rate == 0 || c.tick_rate > 1000) return std::unexpected("tickRate must be 1..1000");
     if (c.game_port == 0) return std::unexpected("gamePort must not be 0");
     if (c.server_id.empty() || c.server_id.find('/') != std::string::npos) return std::unexpected("serverId must be non-empty, without '/'");
-    if (c.character_store != "InMemory") return std::unexpected("characterStore must be InMemory (PostgreSQL is not migrated yet)");
+    if (c.character_store != "InMemory" && c.character_store != "Postgres") return std::unexpected("characterStore must be Postgres or InMemory");
+    if (c.character_store == "Postgres" && c.pg_conninfo.empty()) return std::unexpected("characterStore Postgres needs pgConnInfo");
     return c;
 }
 
@@ -77,4 +79,4 @@ std::expected<Config, std::string> load_config(const std::filesystem::path& path
     return config;
 }
 
-}  // namespace waw::app
+}  // namespace runity::app

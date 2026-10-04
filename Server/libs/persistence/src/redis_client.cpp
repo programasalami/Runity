@@ -1,10 +1,10 @@
-#include "waw/persistence/redis_client.hpp"
+#include "runity/persistence/redis_client.hpp"
 
 #include <charconv>
 
 #include <asio.hpp>
 
-namespace waw::persistence {
+namespace runity::persistence {
 
 namespace {
 
@@ -237,4 +237,4 @@ std::expected<RedisReply, std::string> RedisClient::command(const std::vector<st
     return std::unexpected(last_error);
 }
 
-}  // namespace waw::persistence
+}  // namespace runity::persistence

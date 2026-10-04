@@ -1,0 +1,19 @@
+{
+    "name": "Runity.EditorTools",
+    "rootNamespace": "Runity.EditorTools",
+    "references": [
+        "Runity.Presentation",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,9 +1,9 @@
 #include <doctest/doctest.h>
 
 #include "real_fixtures.hpp"
-#include "waw/game/game_service.hpp"
+#include "runity/game/game_service.hpp"
 
-using namespace waw;
+using namespace runity;
 using namespace std::chrono_literals;
 using protocol::FailureCode;
 

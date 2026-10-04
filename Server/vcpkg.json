@@ -1,10 +1,11 @@
 {
-  "name": "waw-gameserver",
+  "name": "runity-gameserver",
   "version-string": "0.1.0",
   "builtin-baseline": "c748cb44f2a435fcf015c35225c9d5545fe0021c",
   "dependencies": [
     "asio",
     "doctest",
+    "libpq",
     "nlohmann-json",
     "pugixml",
     "zlib"

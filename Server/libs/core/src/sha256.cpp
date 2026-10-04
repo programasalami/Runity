@@ -1,9 +1,9 @@
-#include "waw/core/sha256.hpp"
+#include "runity/core/sha256.hpp"
 
 #include <bit>
 #include <cstring>
 
-namespace waw::core {
+namespace runity::core {
 
 namespace {
 
@@ -105,4 +105,4 @@ std::string Sha256::hex(std::string_view text) {
     return out;
 }
 
-}  // namespace waw::core
+}  // namespace runity::core

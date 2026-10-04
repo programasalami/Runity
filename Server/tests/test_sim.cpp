@@ -3,10 +3,10 @@
 #include <algorithm>
 
 #include "sim_fixtures.hpp"
-#include "waw/sim/world.hpp"
+#include "runity/sim/world.hpp"
 
-using namespace waw;
-using namespace waw::sim;
+using namespace runity;
+using namespace runity::sim;
 
 namespace {
 

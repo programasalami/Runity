@@ -9,9 +9,9 @@
 
 #include <doctest/doctest.h>
 
-#include "waw/content/content_db.hpp"
+#include "runity/content/content_db.hpp"
 
-namespace waw::test {
+namespace runity::test {
 
 inline content::ContentDb fixture_content() {
     content::ContentDb db;
@@ -69,4 +69,4 @@ inline content::WorldConfig fixture_world_config() {
     return c;
 }
 
-}  // namespace waw::test
+}  // namespace runity::test

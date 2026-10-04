@@ -6,7 +6,10 @@ setlocal
 set PRESET=%1
 if "%PRESET%"=="" set PRESET=debug
 
-set VSDIR=C:\Program Files\Microsoft Visual Studio\18\Community
+rem Any Visual Studio 2026 edition with the C++ tools (Community, Build Tools, ...), found by vswhere.
+set VSDIR=
+for /f "usebackq delims=" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSDIR=%%i"
+if not defined VSDIR (echo Visual Studio C++ tools not found: install Visual Studio 2026 Build Tools with "Desktop development with C++" & exit /b 1)
 if not defined VCPKG_ROOT set VCPKG_ROOT=%VSDIR%\VC\vcpkg
 call "%VSDIR%\VC\Auxiliary\Build\vcvars64.bat" >nul || exit /b 1
 

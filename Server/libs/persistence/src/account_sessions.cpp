@@ -1,10 +1,10 @@
-#include "waw/persistence/account_sessions.hpp"
+#include "runity/persistence/account_sessions.hpp"
 
 #include <nlohmann/json.hpp>
 
-#include "waw/core/sha256.hpp"
+#include "runity/core/sha256.hpp"
 
-namespace waw::persistence {
+namespace runity::persistence {
 
 namespace {
 
@@ -122,4 +122,4 @@ std::expected<void, SessionError> InMemoryAccountSessions::release_lock(std::int
     return {};
 }
 
-}  // namespace waw::persistence
+}  // namespace runity::persistence

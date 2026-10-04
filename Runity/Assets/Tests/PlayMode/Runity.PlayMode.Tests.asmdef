@@ -1,0 +1,27 @@
+{
+    "name": "Runity.PlayMode.Tests",
+    "rootNamespace": "Runity.PlayMode.Tests",
+    "references": [
+        "Runity.Protocol",
+        "Runity.Net",
+        "Runity.Domain",
+        "Runity.Client",
+        "Runity.Presentation",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

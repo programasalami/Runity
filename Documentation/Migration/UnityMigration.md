@@ -1,14 +1,13 @@
 # Unity Migration Plan - Client
 
-Companion to `ClientArchitecture.md` (same folder), which holds the reference behaviour with file/line citations. Paths starting with
-`WaW-Client/`, `WebClient/`, `Shared/` are relative to the reference source; `Assets/...` paths are in the Unity project
-`C:\Users\cbart\Desktop\Runity\WaW`.
+Paths starting with `Runity-Client/`, `WebClient/`, `Shared/` refer to the original reference source (not in this repository);
+`Assets/...` paths are in the Unity project `Runity/`.
 
 Target: Unity **6000.6.4f1**, URP **17.6.0**, Input System **1.20.0** (active input handler = Input System only,
 `ProjectSettings.asset` `activeInputHandler: 1`), uGUI **2.6.0** (includes TextMeshPro), UI Toolkit (module `uielements`), Test Framework
 **1.8.0**, Timeline 6.6.0. Transitively present (`Packages/packages-lock.json`): Shader Graph, 2D Sprite (`com.unity.2d.sprite`),
 Burst, Collections, Mathematics, Newtonsoft JSON. **Not installed**: Addressables, VFX Graph, 2D Tilemap Editor, any networking package.
-The project is still the URP template (`Assets/Scenes/SampleScene.unity`, `Assets/Settings/PC_RPAsset.asset`, `Mobile_RPAsset.asset`).
+The project started from the URP template (`Assets/Settings/PC_RPAsset.asset`, `Mobile_RPAsset.asset`).
 
 Every subsystem below is **Implementation status: NOT STARTED**.
 
@@ -18,17 +17,17 @@ Every subsystem below is **Implementation status: NOT STARTED**.
 
 | Old (reference) | New (Unity) |
 |---|---|
-| `WaW.Engine/GameWindow.cs` loop, `GameTime` ms, frame cap, timer resolution, GPU timer | Unity player loop (`Update`/`LateUpdate`), `Time.deltaTime` (keep game logic in ms or convert once at the boundary), `Application.targetFrameRate` + `QualitySettings.vSyncCount`, Unity Profiler / `FrameTimingManager` |
+| `Runity.Engine/GameWindow.cs` loop, `GameTime` ms, frame cap, timer resolution, GPU timer | Unity player loop (`Update`/`LateUpdate`), `Time.deltaTime` (keep game logic in ms or convert once at the boundary), `Application.targetFrameRate` + `QualitySettings.vSyncCount`, Unity Profiler / `FrameTimingManager` |
 | `Main.Initialize/LoadContent`, `LoadPlan` | A bootstrap scene + `Bootstrap` MonoBehaviour running async load steps (Awaitable / coroutines); loading screen in UI |
 | `Display/ScreenManager` + `Screen` subclasses | Scene/state machine: a persistent `AppRoot` with screen states (Title, Book, Creation, Portal, Loading, Game, Death); UI Toolkit documents per screen; one additive Game scene for the world |
 | `OverlayManager`, `DialogManager`, `TooltipManager` | UI Toolkit layers (sort order) with a modal stack service |
-| `WaW.UiLib` (Stage/Sprite tree, events, GTween, Signals, SpriteRender, MSDF text) | **UI Toolkit** (UXML/USS, `PanelSettings` scale-with-screen-size, reference 1280x720) for menus, HUD and windows; C# events instead of `Signal`; USS transitions or a small tween helper instead of GTween; TextMeshPro/UI Toolkit text with SDF fonts instead of the MSDF builder. uGUI only where UI Toolkit lacks something (UNVERIFIED need) |
+| `Runity.UiLib` (Stage/Sprite tree, events, GTween, Signals, SpriteRender, MSDF text) | **UI Toolkit** (UXML/USS, `PanelSettings` scale-with-screen-size, reference 1280x720) for menus, HUD and windows; C# events instead of `Signal`; USS transitions or a small tween helper instead of GTween; TextMeshPro/UI Toolkit text with SDF fonts instead of the MSDF builder. uGUI only where UI Toolkit lacks something (UNVERIFIED need) |
 | World-space UI (names, HP bars, speech bubbles, damage text) | Pooled world-space sprite/TMP objects or a screen-space UI Toolkit overlay positioned via `Camera.WorldToScreenPoint` |
 | `Game.atlas` / `Ui.atlas` binary atlases, `ContentBuilder`, `ContentReader` | Imported PNG sheets sliced as Sprites (2D Sprite package present), packed by **Sprite Atlas v2**; lookup by art key through a catalog ScriptableObject. Addressables optional later (not installed) |
 | Content XML parsed at runtime (`AssetParser`) | Definitions imported at edit time into ScriptableObject/`DefinitionCatalog` (or a compact JSON/binary blob) generated from the shared definition source; long term the C++ server owns definitions and may send a version hash (see section 6) |
-| `WaW.Audio` OpenAL thread | `AudioSource` + `AudioMixer` (Master/Music/SFX groups exposed params for the three volume sliders), music crossfade with two sources |
+| `Runity.Audio` OpenAL thread | `AudioSource` + `AudioMixer` (Master/Music/SFX groups exposed params for the three volume sliders), music crossfade with two sources |
 | `ParticleEffects/*`, rain, splashes, fireflies, fire glow | **Shuriken `ParticleSystem`** (module installed; VFX Graph not installed and not WebGL-capable); pooled systems |
-| GLSL shaders (Ground/Object/Model/Shadow/Particle/Fog/Bloom/Ui) | URP Shader Graph or hand-written URP HLSL: `WaW/Ground` (tile + blend masks + water), `WaW/Sprite` (billboard, grade), `WaW/Wall`; URP Volume **Bloom** instead of `Bloom.frag`; fog as a URP Full Screen Pass Renderer Feature; colour grade as global shader properties (or Volume Color Adjustments / custom LUT) |
+| GLSL shaders (Ground/Object/Model/Shadow/Particle/Fog/Bloom/Ui) | URP Shader Graph or hand-written URP HLSL: `Runity/Ground` (tile + blend masks + water), `Runity/Sprite` (billboard, grade), `Runity/Wall`; URP Volume **Bloom** instead of `Bloom.frag`; fog as a URP Full Screen Pass Renderer Feature; colour grade as global shader properties (or Volume Color Adjustments / custom LUT) |
 | Shadows (silhouette + contact spot into a MIN-blended target) | Phase 1: contact-spot quads only (cheap, ordered under sprites); Phase 2: silhouette quads with a custom shader, or a dedicated renderer feature rendering a shade texture. Not URP shadow maps (sprites are billboards) |
 | `Lights.cs` 12 nearest lights, `SightMap` | Global shader arrays set from C# each frame (keeps parity), or URP Forward+ additional lights (UNVERIFIED cost on low-end); sight map as a small `Texture2D` updated from C# |
 | `DayNight.cs`, `Weather.cs` | Ported **verbatim as pure C#** (no UnityEngine) in Domain; Presentation reads them |
@@ -42,18 +41,18 @@ Every subsystem below is **Implementation status: NOT STARTED**.
 | `Projectile` + paths | `ProjectileModel` + `ProjectilePathMath` (Domain, deterministic) + pooled `ProjectileView` |
 | `MinimapTexture` 4096x4096 | `Texture2D` sized to the map (`MapInfo` width x height), `SetPixels32` dirty rect, RawImage/UI Toolkit `Image` |
 | Debug/perf (DebugStats, PerfSections, PacketLogger, DevPerfTest) | Unity Profiler markers (`ProfilerMarker`), a toggleable debug overlay, `Debug.Log` with a log-level filter; packet logger kept in Net |
-| `Tests/WaWClient.Tests` (xUnit) | Unity Test Framework EditMode (NUnit) for Domain/Protocol/Net; PlayMode for views/UI smoke |
+| `Tests/RunityClient.Tests` (xUnit) | Unity Test Framework EditMode (NUnit) for Domain/Protocol/Net; PlayMode for views/UI smoke |
 
 ---
 
 ## 2. What NOT to port
 
 - **Intel HD 4400 / GL driver workarounds**: buffer orphaning (`InstanceAttributeBuffer`), the 32-set UI buffer ring (`SpriteRender.cs:23`), "no instancing", `textureLod` vs derivative rules, flattened struct varyings, `GraphicsProfile` Compatible/Fast and `Settings.RendererMode`, the fixed texture-unit table, `GpuFrameTimer`, `ScreenPixels` Retina handling, Windows `timeBeginPeriod`, OpenGL 3.3 constraints, `StorageBuffer` data-texture emulation of SSBOs, 64 KB shadow UBO layout.
-- **Engine plumbing**: `WaW.Engine` GL wrappers, `WaW.ShaderSourceGen`, `WaW.ContentBuilder`/`WaW.ContentReader` and the binary `.atlas` format, MSDF font builder, `StaticProps` CPU baking (use static batching / SRP Batcher / GPU instancing), `TileChunkMesh` graveyard thread hack, `FixedStepper` (use Unity's own `FixedUpdate` or a domain stepper only if needed).
+- **Engine plumbing**: `Runity.Engine` GL wrappers, `Runity.ShaderSourceGen`, `Runity.ContentBuilder`/`Runity.ContentReader` and the binary `.atlas` format, MSDF font builder, `StaticProps` CPU baking (use static batching / SRP Batcher / GPU instancing), `TileChunkMesh` graveyard thread hack, `FixedStepper` (use Unity's own `FixedUpdate` or a domain stepper only if needed).
 - **UiLib**: Stage/Sprite tree, EventManager, GTween, Timer, Signals (weak refs), SpriteRender, `Overlay.FixedSize` maths - replaced by UI Toolkit.
 - **Web patching**: everything in `WebClient/` (shims, `patched/`, `port_shaders.py`, `patch_sources.py`, `patch_rules_more.py`, `enumgen`, `shadercheck.py`, `build_web.py`, `serve.py`, `webtest.py`, `acts_*.json`, `ws_bridge.py`, `vps/*`).
 - **Dead code**: crossed cards / flat stack / 3D model enum (`Render.Draw.cs:330, 369`, `Render.Baked.cs`, `ModelData.cs`), `ShoreCoverage`, non-interpolated remote path (`Entity.cs:204-220`), empty packet handlers unless the feature is wanted.
-- **Developer conveniences tied to the old PC**: `WAW_NO_STATIC_BAKE`, `WAW_PERFTEST*` harness (rebuild later as a Unity test scene if needed).
+- **Developer conveniences tied to the old PC**: `RUNITY_NO_STATIC_BAKE`, `RUNITY_PERFTEST*` harness (rebuild later as a Unity test scene if needed).
 - **Not to port as-is (security)**: Base64 password in `account.xml`, password on every HTTP call and in `Hello`.
 
 ---
@@ -73,20 +72,20 @@ Every subsystem below is **Implementation status: NOT STARTED**.
 Assets/
   _Project/
     Scripts/
-      Protocol/        WaW.Protocol.asmdef      noEngineReferences: true   packet ids, readers/writers, DTOs (generated or hand-written to match the C++ server)
-      Net/             WaW.Net.asmdef           noEngineReferences: true   ITransport, TcpTransport, (later) WebSocketTransport, framing, packet queues, AccountApi (HttpClient)
-      Domain/          WaW.Domain.asmdef        noEngineReferences: true   WorldState, TileMap, EntityModel, PlayerController (movement/collision rules),
+      Protocol/        Runity.Protocol.asmdef      noEngineReferences: true   packet ids, readers/writers, DTOs (generated or hand-written to match the C++ server)
+      Net/             Runity.Net.asmdef           noEngineReferences: true   ITransport, TcpTransport, (later) WebSocketTransport, framing, packet queues, AccountApi (HttpClient)
+      Domain/          Runity.Domain.asmdef        noEngineReferences: true   WorldState, TileMap, EntityModel, PlayerController (movement/collision rules),
                                                                             ProjectileModel + paths, ConditionEffects, InventoryLayout use, DayNight, Weather,
                                                                             SettingsModel, definitions (ObjectDef/GroundDef/ItemDef) as plain C#
-      Content/         WaW.Content.asmdef       UnityEngine                 DefinitionCatalog (ScriptableObject), ArtCatalog (key -> Sprite/AnimationSet), AudioCatalog
-      Presentation/    WaW.Presentation.asmdef  UnityEngine, URP             GameSession MonoBehaviour, EntityViewRegistry, pooled views, TileChunkRenderer,
+      Content/         Runity.Content.asmdef       UnityEngine                 DefinitionCatalog (ScriptableObject), ArtCatalog (key -> Sprite/AnimationSet), AudioCatalog
+      Presentation/    Runity.Presentation.asmdef  UnityEngine, URP             GameSession MonoBehaviour, EntityViewRegistry, pooled views, TileChunkRenderer,
                                                                             CameraRig, InputBridge, Lighting/Weather/Particles, Minimap texture, Audio
-      UI/              WaW.UI.asmdef            UnityEngine, UIElements      screens, HUD, windows, options, book, creation, portal, death
-      App/             WaW.App.asmdef                                       bootstrap, screen state machine, service wiring
-    Editor/            WaW.Editor.asmdef        Editor only                  definition importer (XML -> catalog), sprite sheet slicer, validators
+      UI/              Runity.UI.asmdef            UnityEngine, UIElements      screens, HUD, windows, options, book, creation, portal, death
+      App/             Runity.App.asmdef                                       bootstrap, screen state machine, service wiring
+    Editor/            Runity.Editor.asmdef        Editor only                  definition importer (XML -> catalog), sprite sheet slicer, validators
     Tests/
-      EditMode/        WaW.Tests.EditMode.asmdef  -> Protocol, Net, Domain, Content
-      PlayMode/        WaW.Tests.PlayMode.asmdef  -> Presentation, UI, App
+      EditMode/        Runity.Tests.EditMode.asmdef  -> Protocol, Net, Domain, Content
+      PlayMode/        Runity.Tests.PlayMode.asmdef  -> Presentation, UI, App
     Art/ Sheets/ UI/ Fonts/ Audio/ Shaders/ Materials/ Prefabs/ Scenes/ Settings/
 ```
 
@@ -126,7 +125,7 @@ Rules: views never mutate models; models never reference views; registry keyed b
 - Definitions reference art **by key** (today `<Texture><File>sheet</File><Index>n</Index>`, `<AnimatedTexture>`; `AssetParser.cs:96-147`). Keep that idea: an art key such as `oryxFantasy16World1:12` or a stable name.
 - `ArtCatalog` ScriptableObject: key -> `Sprite` (static) or `SpriteAnimationSet` (FaceRight/FaceDown/FaceUp arrays, the 7-cell hero layout: idle, walk1, walk2, idle2, attack1, attack2 double width). A missing key resolves to THE placeholder sprite (reference behaviour: unknown objects draw the placeholder, `Update.cs:76-79`).
 - Sheets imported as Sprite (Multiple) with grid slicing by an editor importer reading the same recipe data as `Content/Game.atlas` / `Ui.atlas` (name, cell w/h, Image vs Animated); packed with Sprite Atlas v2. Swapping art = replacing a PNG or re-pointing keys, no code change.
-- Definitions: today the client folder `WaW-Client/WaWClient/Content/Xmls/*.xml` is the single source for client AND server (`WaW-Server/Common/Common.csproj:143-160` links them). With a C++ server, keep **one** definition source (recommend: keep the XML, or convert once to JSON) that both the C++ build and the Unity importer read; the importer produces `DefinitionCatalog` assets. Add a content hash to `Hello`/`MapInfo` so mismatches are detected (protocol decision - UNVERIFIED with the protocol agent).
+- Definitions: today the client folder `Runity-Client/RunityClient/Content/Xmls/*.xml` is the single source for client AND server (`Runity-Server/Common/Common.csproj:143-160` links them). With a C++ server, keep **one** definition source (recommend: keep the XML, or convert once to JSON) that both the C++ build and the Unity importer read; the importer produces `DefinitionCatalog` assets. Add a content hash to `Hello`/`MapInfo` so mismatches are detected (protocol decision - UNVERIFIED with the protocol agent).
 - Addressables: not needed for phase 1 (catalog with direct references); add `com.unity.addressables` later if download size or live updates matter.
 
 ---
@@ -146,7 +145,7 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 
 ### 8.1 Bootstrap and main loop
 - **Reference behavior**: GL 3.3 window, settings load, startup plan (atlases, fonts, XML, account check, renderer), menus capped 60 fps, game uncapped/VSync/FpsCap.
-- **Current implementation**: `Program.cs`, `Main.cs:47-239`, `WaW.Engine/GameWindow.cs:90-163`, `Loading/LoadPlan.cs`.
+- **Current implementation**: `Program.cs`, `Main.cs:47-239`, `Runity.Engine/GameWindow.cs:90-163`, `Loading/LoadPlan.cs`.
 - **New architecture**: `Bootstrap` scene -> `AppRoot` (DontDestroyOnLoad) creates services (Settings, Net, AccountApi, Catalogs, Audio), runs async load steps with a progress bar, then the Title screen. Frame cap via `Application.targetFrameRate`/`vSyncCount` from settings.
 - **Implementation status**: NOT STARTED
 - **Differences**: no manual loop, no GPU timer, no renderer profile choice.
@@ -167,7 +166,7 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 ### 8.3 Networking transport
 - **Reference behavior**: TCP, little-endian length-prefixed frames, receive on thread pool, main-thread handling, 64 KB send buffer flushed per frame, 10 connect retries, disconnect -> map reset + version re-check + book.
 - **Current implementation**: `Networking/Client.cs`, `SocketSendState.cs`, `SocketReceiveState.cs`, `SpanReader/Writer.cs`, `Packets/**`.
-- **New architecture**: `ITransport` (Connect, Send(ReadOnlySpan<byte>), events), `TcpTransport` (background receive thread, `ConcurrentQueue<Packet>`), `PacketRouter` on main thread; protocol classes in `WaW.Protocol` matching the C++ server (owned by the protocol agent).
+- **New architecture**: `ITransport` (Connect, Send(ReadOnlySpan<byte>), events), `TcpTransport` (background receive thread, `ConcurrentQueue<Packet>`), `PacketRouter` on main thread; protocol classes in `Runity.Protocol` matching the C++ server (owned by the protocol agent).
 - **Implementation status**: NOT STARTED
 - **Differences**: packet `Handle()` logic moves out of packet classes into the router/systems; no static `Client`.
 - **Reason**: testability, WebGL transport swap, separation of wire format from gameplay.
@@ -185,7 +184,7 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 - **Known issues**: reference `TileMap.Clear` on network thread - not applicable when everything is applied on the main thread.
 
 ### 8.5 Local player movement and collision
-- **Reference behavior**: rules R1-R6 in `ClientArchitecture.md` section 21 (speed formula, sinking, sliding, half-tile collision, Confused, camera-relative input), position sent once per `NewTick`.
+- **Reference behavior**: speed formula, sinking, sliding, half-tile collision, Confused, camera-relative input; position sent once per `NewTick`.
 - **Current implementation**: `Game/Objects/Player.cs:207-258, 508-767`; `Incoming/NewTick.cs:40-50`.
 - **New architecture**: `PlayerController` (Domain) `Step(input, cameraAngle, dtMs)` with the same rules; `InputBridge` (Presentation) feeds it; send cadence decided with the server (per tick as today, or input commands).
 - **Implementation status**: NOT STARTED
@@ -230,7 +229,7 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 ### 8.10 Tile/world rendering
 - **Reference behavior**: chunked tiles, random/mosaic variants, priority blending with 8x8 masks, edges/corners, animated water (Flow/Wave), water noise, lights, grade.
 - **Current implementation**: `Map.cs:22-170, 316-334`, `MapTile.cs`, `TileBuilder.cs`, `Ground.vert/.frag`.
-- **New architecture**: `TileChunkRenderer` per 16x16 chunk: one mesh with base quads + overlay quads (UV2 = mask), material `WaW/Ground` (Shader Graph or HLSL) sampling the game sprite atlas; rebuild on `TilesChanged`. Unity Tilemap not used (blending + rotation needs custom meshes).
+- **New architecture**: `TileChunkRenderer` per 16x16 chunk: one mesh with base quads + overlay quads (UV2 = mask), material `Runity/Ground` (Shader Graph or HLSL) sampling the game sprite atlas; rebuild on `TilesChanged`. Unity Tilemap not used (blending + rotation needs custom meshes).
 - **Implementation status**: NOT STARTED
 - **Differences**: water noise/reflections are phase 2.
 - **Reason**: parity of look with lower complexity.
@@ -240,7 +239,7 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 ### 8.11 Entity sprites and animation
 - **Reference behavior**: billboarded sprites, 8-sector facing relative to camera, Stand/Walk/Attack cells, idle flick, side view, size from `RealSize`/`Size` stat, name + HP bars, sorting by screen Y.
 - **Current implementation**: `Rendering/Types/*`, `Utils/Texture.cs:58-96`, `Entity.cs:433-497`, `Player.cs:398-418`.
-- **New architecture**: `SpriteEntityView` (SpriteRenderer or quad with `WaW/Sprite` material) rotated to camera yaw; `SpriteAnimator` (plain C# frame picker ported from `TextureFromFacing`); sorting via camera-space Y (transparency sort mode custom axis) or explicit `sortingOrder` from the reference formula.
+- **New architecture**: `SpriteEntityView` (SpriteRenderer or quad with `Runity/Sprite` material) rotated to camera yaw; `SpriteAnimator` (plain C# frame picker ported from `TextureFromFacing`); sorting via camera-space Y (transparency sort mode custom axis) or explicit `sortingOrder` from the reference formula.
 - **Implementation status**: NOT STARTED
 - **Differences**: no Animator Controllers (frame picking is data-driven).
 - **Reason**: hundreds of entities, simple frame math.
@@ -308,7 +307,7 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 - **Known issues**: slot-fit rules must come from the shared `InventoryLayout` equivalent.
 
 ### 8.18 Menus: title, character book, creation, portal, death
-- **Reference behavior**: see `ClientArchitecture.md` section 3.
+- **Reference behavior**: title screen, character book, character creation, portal and death screens of the original client.
 - **Current implementation**: `Screens/**` (CharacterBook 1626+152+792 lines, ClassContainer 1183, PortalView 608+466+354, TitleBattle 1183).
 - **New architecture**: UI Toolkit screens; HTTP via `AccountApi`; creation flow as a 3-step wizard; Portal as a later item.
 - **Implementation status**: NOT STARTED
@@ -329,7 +328,7 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 
 ### 8.20 Audio and music
 - **Reference behavior**: music channel with crossfades, menu track choice, per-world libraries, Nexus jukebox from server HTTP, weather loops; SFX mostly unused.
-- **Current implementation**: `WaW.Audio/*`, `Core/Audio.cs`, `Game/Music/*`, `Game/WeatherSound.cs`.
+- **Current implementation**: `Runity.Audio/*`, `Core/Audio.cs`, `Game/Music/*`, `Game/WeatherSound.cs`.
 - **New architecture**: `AudioService` with AudioMixer groups, two music `AudioSource`s for crossfade, pooled SFX sources; `MusicPlan` logic ported to Domain.
 - **Implementation status**: NOT STARTED
 - **Differences**: `PlaySound` packet can finally be honoured if the server sends it.
@@ -382,14 +381,14 @@ Each subsection: Reference behavior / Current implementation / New architecture 
 
 ## Implementation (2026-10-02)
 
-| Assembly | Folder (WaW/Assets/Scripts) | Engine-free | Contents |
+| Assembly | Folder (Runity/Assets/Scripts) | Engine-free | Contents |
 |---|---|---|---|
-| WaW.Protocol | Protocol/ | yes | generated messages + byte I/O + framing |
-| WaW.Net | Net/ | yes | `GameConnection` (TCP, reader/writer threads, main-thread `Poll`) |
-| WaW.Domain | Domain/ | yes | `ContentCatalog` (reads Content/Definitions), `ClientTileMap`, `MovementRules` (bit-identical to the server), `LocalPlayerPredictor`, `PositionBuffer` / `ServerClock`, `ClientWorld` |
-| WaW.Client | Client/ | yes | `ApiClient` (Account/API, bearer token), `GameSession` (connect, Hello, load/create, per-frame update, ping), `InputMapping` |
-| WaW.Presentation | Presentation/ | no | `GameBootstrap` (flow), `WorldView` / `TileLayerView` (Tilemaps) / `EntityViewRegistry` (pooled views) / `CameraRig`, `PlayerControls` (Input System), uGUI screens built in code, `ArtCatalog` + placeholders |
-| WaW.EditorTools | Editor/ | editor | `SceneBuilder` (WaW > Build Game Scene), `ContentBuildStep` (copies Content/Definitions into StreamingAssets for builds) |
+| Runity.Protocol | Protocol/ | yes | generated messages + byte I/O + framing |
+| Runity.Net | Net/ | yes | `GameConnection` (TCP, reader/writer threads, main-thread `Poll`) |
+| Runity.Domain | Domain/ | yes | `ContentCatalog` (reads Content/Definitions), `ClientTileMap`, `MovementRules` (bit-identical to the server), `LocalPlayerPredictor`, `PositionBuffer` / `ServerClock`, `ClientWorld` |
+| Runity.Client | Client/ | yes | `ApiClient` (Account/API, bearer token), `GameSession` (connect, Hello, load/create, per-frame update, ping), `InputMapping` |
+| Runity.Presentation | Presentation/ | no | `GameBootstrap` (flow), `WorldView` / `TileLayerView` (Tilemaps) / `EntityViewRegistry` (pooled views) / `CameraRig`, `PlayerControls` (Input System), uGUI screens built in code, `ArtCatalog` + placeholders |
+| Runity.EditorTools | Editor/ | editor | `SceneBuilder` (Runity > Build Game Scene), `ContentBuildStep` (copies Content/Definitions into StreamingAssets for builds) |
 
 Tests: EditMode (`Tests/EditMode`, 82, also run under .NET by `Tests/ClientCore`), PlayMode (`Tests/PlayMode`: the Game scene against real
 API + C++ server processes, screenshot `TestResults/playmode-world.png`; async/HTTP runtime diagnostics).

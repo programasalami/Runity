@@ -9,15 +9,15 @@
 #include <string>
 #include <vector>
 
-#include "waw/sim/world.hpp"
+#include "runity/sim/world.hpp"
 
-namespace waw::test {
+namespace runity::test {
 
-using namespace waw::sim;
+using namespace runity::sim;
 
 inline const content::ContentDb& real() {
     static const content::ContentDb db = [] {
-        auto loaded = content::ContentDb::load(WAW_CONTENT_ROOT);
+        auto loaded = content::ContentDb::load(RUNITY_CONTENT_ROOT);
         if (!loaded) FAIL("content failed to load: " << loaded.error());
         return std::move(*loaded);
     }();
@@ -99,4 +99,4 @@ struct Arena {
     }
 };
 
-}  // namespace waw::test
+}  // namespace runity::test

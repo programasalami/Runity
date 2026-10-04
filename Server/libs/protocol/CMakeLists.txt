@@ -1,4 +1,4 @@
-add_library(waw_protocol STATIC src/generated/messages.cpp)
-target_include_directories(waw_protocol PUBLIC include)
-target_link_libraries(waw_protocol PUBLIC waw_core)
-waw_set_warnings(waw_protocol)
+add_library(runity_protocol STATIC src/generated/messages.cpp)
+target_include_directories(runity_protocol PUBLIC include)
+target_link_libraries(runity_protocol PUBLIC runity_core)
+runity_set_warnings(runity_protocol)

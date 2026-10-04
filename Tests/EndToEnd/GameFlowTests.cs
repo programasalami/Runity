@@ -1,10 +1,12 @@
-using WaW.Protocol;
+using System.Net.Http.Json;
+using Runity.Protocol;
 
-namespace WaW.EndToEnd.Tests;
+namespace Runity.EndToEnd.Tests;
 
 /// The migration's end-to-end flow (Your Task: "Connect, Authenticate, Select character, Enter world, Spawn player, Spawn entity,
-/// Move, Attack, Receive state, Interact, Save, Disconnect, Reconnect, Reload character"). Steps whose systems are not migrated yet
-/// (Attack, Interact, Save to PostgreSQL) are listed in MigrationStatus.md and are not faked here.
+/// Move, Attack, Receive state, Interact, Save, Disconnect, Reconnect, Reload character"). Attack and Interact are covered by
+/// UnityClientFlowTests; Save to PostgreSQL by ACharacterIsSavedInPostgresAndSurvivesAServerRestart (needs the local runity_test
+/// database, Database/setup/create_database.sql).
 [Collection("e2e")]
 public class GameFlowTests
 {
@@ -83,6 +85,73 @@ public class GameFlowTests
             client.Send(new LoadCharacter { CharacterId = characterId });
             var spawned = client.Expect<PlayerSpawned>();
             Assert.Equal(characterId, spawned.CharacterId);
+        }
+    }
+
+    [Fact]
+    public async Task ACharacterIsSavedInPostgresAndSurvivesAServerRestart()
+    {
+        const string conninfo = "host=localhost port=5432 dbname=runity_test user=runity password=runitypass";
+        var name = "Pg" + new string(Guid.NewGuid().ToString("N").Where(char.IsLetter).Take(8).ToArray()).PadRight(8, 'x');
+        await using var db = Npgsql.NpgsqlDataSource.Create(Runity.AccountService.Database.ConnInfo.ToNpgsql(conninfo));
+        using var stack = new Stack(pgConnInfo: conninfo);  // the account service creates the tables as it starts
+        try
+        {
+            var session = await stack.RegisterAndLoginAsync(name);
+
+            // Create a character and change what it carries: the weapon moves from its equipment slot into the backpack.
+            int characterId;
+            List<int> carried;
+            using (var client = stack.Connect())
+            {
+                client.Send(Stack.Hello(await stack.JoinTicketAsync(session)));
+                client.Expect<HelloAck>();
+                client.Send(new CreateCharacter { ClassType = Wizard, SkinType = 0 });
+                var spawned = client.Expect<PlayerSpawned>();
+                characterId = spawned.CharacterId;
+                var start = client.Expect<Inventory>();
+                Assert.NotEqual(-1, start.Items[0]);
+                var free = start.Items.FindIndex(4, item => item == -1);
+                Assert.True(free >= 4, "no free backpack slot");
+                client.Send(new InvSwap { FromEntity = spawned.EntityId, FromSlot = 0, ToEntity = spawned.EntityId, ToSlot = (byte)free });
+                carried = client.Expect<Inventory>(match: i => i.Items[free] == start.Items[0]).Items.ToList();
+                Assert.Equal(-1, carried[0]);
+            }
+
+            // Leaving saves the character; the row is in PostgreSQL once the save has run.
+            var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(10);
+            long saveVersion = 0;
+            while (saveVersion == 0 && DateTime.UtcNow < deadline)
+            {
+                await using var cmd = db.CreateCommand(
+                    "SELECT c.save_version FROM characters c JOIN accounts a ON a.id = c.account_id WHERE a.name = $1 AND c.character_id = $2");
+                cmd.Parameters.AddWithValue(name);
+                cmd.Parameters.AddWithValue(characterId);
+                saveVersion = await cmd.ExecuteScalarAsync() is long v ? v : 0;
+                if (saveVersion == 0) await Task.Delay(50);
+            }
+            Assert.True(saveVersion > 0, "the character was not saved");
+
+            // A new game server process loads it back exactly as it was left, and the account service lists it.
+            stack.RestartServer();
+            using (var client = stack.Connect())
+            {
+                client.Send(Stack.Hello(await stack.JoinTicketAsync(session)));
+                client.Expect<HelloAck>();
+                client.Send(new LoadCharacter { CharacterId = characterId });
+                Assert.Equal(characterId, client.Expect<PlayerSpawned>().CharacterId);
+                Assert.Equal(carried, client.Expect<Inventory>().Items);
+            }
+            var request = new HttpRequestMessage(HttpMethod.Get, "/api/v1/account");
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", session);
+            var account = await (await stack.Http.SendAsync(request)).Content.ReadFromJsonAsync<Runity.AccountService.Api.AccountResponse>();
+            Assert.Equal(characterId, Assert.Single(account!.Characters).CharacterId);
+        }
+        finally
+        {
+            await using var cleanup = db.CreateCommand("DELETE FROM accounts WHERE name = $1");
+            cleanup.Parameters.AddWithValue(name);
+            await cleanup.ExecuteNonQueryAsync();
         }
     }
 
